@@ -33,6 +33,70 @@ MAX_ALERTS_PER_RUN = 12
 ADVERT_BASE = "https://www.jobs.nhs.uk/candidate/jobadvert/"
 
 
+# Agenda for Change annual pay ranges, England, effective 1 April 2026.
+# Source: NHS Employers "Pay scales for 2026/27".
+AFC_BANDS = {
+    "2": (25272, 25272),
+    "3": (25760, 27476),
+    "4": (28392, 31157),
+    "5": (32073, 39043),
+    "6": (39959, 48117),
+    "7": (49387, 56515),
+    "8a": (57528, 64750),
+    "8b": (66582, 77368),
+    "8c": (79504, 91609),
+}
+
+
+def detect_bands(title, salary):
+    """Best-effort band detection. Returns a set of band labels, or an
+    empty set when the advert gives no usable signal (hourly rate,
+    'depends on experience', non-AfC employer)."""
+    found = set()
+
+    # 1. Band stated in the title, e.g. "Band 4", "Band 7/8a Psychologist".
+    for m in re.finditer(r"band\s*([2-9])\s*([a-d])?", title, re.I):
+        found.add(m.group(1) + (m.group(2).lower() if m.group(2) else ""))
+    for m in re.finditer(r"band\s*[2-9][a-d]?\s*/\s*([2-9])\s*([a-d])?", title, re.I):
+        found.add(m.group(1) + (m.group(2).lower() if m.group(2) else ""))
+    if found:
+        return found
+
+    # 2. Otherwise infer from an annual salary range.
+    pay = annual_salary_range(salary)
+    if not pay:
+        return found
+    lo, hi = pay
+    for label in AFC_BANDS:
+        bmin, bmax = AFC_BANDS[label]
+        if bmin <= lo <= bmax or lo <= bmin <= hi:
+            found.add(label)
+    return found
+
+
+def band_number(label):
+    m = re.match(r"([2-9])", label)
+    return m.group(1) if m else label
+
+
+def salary_window(labels):
+    """Annual pay window spanned by a set of band labels."""
+    rng = [AFC_BANDS[l] for l in AFC_BANDS if band_number(l) in labels]
+    if not rng:
+        return None
+    return min(r[0] for r in rng), max(r[1] for r in rng)
+
+
+def annual_salary_range(salary):
+    """(lo, hi) annual figures from a salary string, or None if not annual."""
+    if not salary or "hour" in salary.lower():
+        return None
+    amounts = [int(a.replace(",", "")) for a in re.findall(r"£\s*([\d,]{4,})", salary)]
+    if not amounts:
+        return None
+    return min(amounts), max(amounts)
+
+
 def fetch(url):
     req = urllib.request.Request(
         url,
@@ -110,6 +174,7 @@ def parse_cards(page):
             "posted": _field(card, "search-result-publicationDate").replace("Date posted:", "").strip(),
             "closing": _field(card, "search-result-closingDate").replace("Closing date:", "").replace("Closing", "").strip(),
         })
+        cards[-1]["bands"] = detect_bands(cards[-1]["title"], cards[-1]["salary"])
     return cards
 
 
@@ -118,6 +183,8 @@ def format_alert(monitor_name, c):
     if c["employer_location"]:
         bits.append(html.escape(c["employer_location"]))
     meta = []
+    if c.get("bands"):
+        meta.append("Band " + "/".join(sorted(c["bands"])))
     if c["miles"] is not None:
         meta.append("%.1f miles" % c["miles"])
     if c["salary"]:
@@ -198,9 +265,11 @@ def main():
 
         title_filter = mon.get("title_filter", "")
         max_miles = mon.get("max_miles")
+        want_bands = set(str(b) for b in mon.get("bands", []))
+        allow_unknown = mon.get("allow_unknown_band", True)
 
         fresh = [c for c in cards if c["ref"] not in seen]
-        kept, dropped_title, dropped_dist, dropped_dupe = [], 0, 0, 0
+        kept, dropped_title, dropped_dist, dropped_dupe, dropped_band = [], 0, 0, 0, 0
         for c in fresh:
             if title_filter and not re.search(title_filter, c["title"], re.I):
                 dropped_title += 1
@@ -208,6 +277,26 @@ def main():
             if max_miles is not None and c["miles"] is not None and c["miles"] > max_miles:
                 dropped_dist += 1
                 continue
+            if want_bands:
+                got = set(band_number(b) for b in c["bands"])
+                if got and not (got & want_bands):
+                    dropped_band += 1
+                    continue
+                if not got:
+                    # No band matched. If the advert still quotes an annual
+                    # salary, judge it against the pay window for the wanted
+                    # bands (covers non-AfC employers and off-scale pay).
+                    pay = annual_salary_range(c["salary"])
+                    win = salary_window(want_bands)
+                    if pay and win:
+                        lo, hi = pay
+                        wlo, whi = win[0] * 0.9, win[1] * 1.1
+                        if hi < wlo or lo > whi:
+                            dropped_band += 1
+                            continue
+                    elif not allow_unknown:
+                        dropped_band += 1
+                        continue
             if c["ref"] in alerted:
                 dropped_dupe += 1
                 continue
@@ -217,6 +306,8 @@ def main():
             print("   %s new but filtered out by title_filter" % dropped_title)
         if dropped_dist:
             print("   %s new but beyond %s miles" % (dropped_dist, max_miles))
+        if dropped_band:
+            print("   %s new but outside band %s" % (dropped_band, "/".join(sorted(want_bands))))
         if dropped_dupe:
             print("   %s already alerted under another search" % dropped_dupe)
 
@@ -226,7 +317,8 @@ def main():
         elif kept:
             print("   %s NEW" % len(kept))
             for c in kept[:MAX_ALERTS_PER_RUN]:
-                print("      %s (%s mi)" % (c["title"], c["miles"]))
+                print("      %s (%s mi, band %s)"
+                      % (c["title"], c["miles"], "/".join(sorted(c["bands"])) or "?"))
                 alerts.append(format_alert(name, c))
                 alerted.add(c["ref"])
             if len(kept) > MAX_ALERTS_PER_RUN:
