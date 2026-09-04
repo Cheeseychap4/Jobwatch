@@ -5,6 +5,71 @@ on:
     # Every 15 min, 06:00-21:45 UTC = 07:00-22:45 BST. Adjust for GMT in winter.
     - cron: "*/15 6-21 * * *"
   workflow_dispatch:
+    inputs:
+      test_ping:
+        description: "Also send a test Telegram message"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: jobwatch
+  cancel-in-progress: false
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Telegram test ping
+        if: ${{ inputs.test_ping }}
+        env:
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: |
+          echo "token length: ${#TELEGRAM_TOKEN}"
+          echo "chat_id length: ${#TELEGRAM_CHAT_ID}"
+          if [ -z "$TELEGRAM_TOKEN" ] || [ -z "$TELEGRAM_CHAT_ID" ]; then
+            echo "A secret is empty - check Settings > Secrets and variables > Actions"
+            exit 1
+          fi
+          curl -sS -w "\nHTTP %{http_code}\n" \
+            "https://api.telegram.org/bot$TELEGRAM_TOKEN/sendMessage" \
+            --data-urlencode chat_id="$TELEGRAM_CHAT_ID" \
+            --data-urlencode text="jobwatch test ping - if you can read this, alerts work"
+
+      - name: Run monitor
+        env:
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python watch.py
+
+      - name: Save state
+        run: |
+          git config user.name "jobwatch"
+          git config user.email "actions@users.noreply.github.com"
+          git add state.json
+          if git diff --staged --quiet; then
+            echo "no state change"
+          else
+            git commit -m "state: $(date -u +'%Y-%m-%d %H:%M UTC')"
+            git pull --rebase --autostash
+            git push
+          fi
+name: jobwatch
+
+on:
+  schedule:
+    # Every 15 min, 06:00-21:45 UTC = 07:00-22:45 BST. Adjust for GMT in winter.
+    - cron: "*/15 6-21 * * *"
+  workflow_dispatch:
 
 permissions:
   contents: write
