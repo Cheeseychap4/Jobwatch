@@ -1,10 +1,13 @@
 #!/usr/bin/env python3
 """
-jobwatch - polls saved job-search URLs and pushes new adverts to Telegram.
+jobwatch - polls NHS Jobs search pages and pushes new adverts to Telegram.
 Standard library only. No pip installs needed.
+
+Parses each search-result card (title, employer, location, distance, salary,
+closing date) rather than just the link, so adverts can be filtered on
+distance and alerts carry useful detail.
 """
 
-import hashlib
 import html
 import json
 import os
@@ -27,6 +30,7 @@ UA = (
 )
 
 MAX_ALERTS_PER_RUN = 12
+ADVERT_BASE = "https://www.jobs.nhs.uk/candidate/jobadvert/"
 
 
 def fetch(url):
@@ -51,37 +55,93 @@ def strip_tags(fragment):
     return html.unescape(" ".join(text.split()))
 
 
-def extract_links(page, pattern, base_url):
-    """Return {absolute_url: link_text} for anchors whose href matches pattern."""
-    found = {}
-    for m in re.finditer(
-        r'<a\b[^>]*?href=["\']([^"\']+)["\'][^>]*?>(.*?)</a>', page, re.S | re.I
-    ):
-        href, inner = m.group(1), m.group(2)
-        if not re.search(pattern, href, re.I):
+def _field(card, test_name):
+    """Text of the element carrying data-test=<test_name>."""
+    m = re.search(
+        r'data-test="%s"[^>]*>(.*?)</(?:li|div|h3)>' % re.escape(test_name),
+        card, re.S | re.I,
+    )
+    return strip_tags(m.group(1)) if m else ""
+
+
+def parse_cards(page):
+    """Return a list of dicts, one per search-result card on the page."""
+    marks = [m.start() for m in
+             re.finditer(r'class="nhsuk-list-panel search-result', page)]
+    cards = []
+    for i, start in enumerate(marks):
+        end = marks[i + 1] if i + 1 < len(marks) else len(page)
+        card = page[start:end]
+
+        m = re.search(
+            r'data-test="search-result-job-title"[^>]*>(.*?)</a>', card, re.S | re.I)
+        if not m:
+            m = re.search(
+                r'href="(/candidate/jobadvert/[^"]+)"[^>]*>(.*?)</a>', card, re.S | re.I)
+            if not m:
+                continue
+            title = strip_tags(m.group(2))
+            href = html.unescape(m.group(1))
+        else:
+            title = strip_tags(m.group(1))
+            h = re.search(r'href="(/candidate/jobadvert/[^"]+)"', card, re.I)
+            href = html.unescape(h.group(1)) if h else ""
+
+        ref = ""
+        r = re.search(r"/candidate/jobadvert/([^?/#\s]+)", href)
+        if r:
+            ref = r.group(1)
+        if not ref or not title:
             continue
-        text = strip_tags(inner)
-        if not text or len(text) < 3:
-            continue
-        absolute = urllib.parse.urljoin(base_url, href)
-        absolute = absolute.split("#")[0]
-        found.setdefault(absolute, text)
-    return found
+
+        dist_text = _field(card, "search-result-distance")
+        d = re.search(r"([\d.]+)\s*mile", dist_text, re.I)
+        miles = float(d.group(1)) if d else None
+
+        loc = _field(card, "search-result-location")
+
+        cards.append({
+            "ref": ref,
+            "title": title,
+            "url": ADVERT_BASE + ref,
+            "employer_location": loc,
+            "salary": _field(card, "search-result-salary").replace("Salary:", "").strip(),
+            "miles": miles,
+            "posted": _field(card, "search-result-publicationDate").replace("Date posted:", "").strip(),
+            "closing": _field(card, "search-result-closingDate").replace("Closing date:", "").replace("Closing", "").strip(),
+        })
+    return cards
+
+
+def format_alert(monitor_name, c):
+    bits = ["<b>%s</b>" % html.escape(c["title"])]
+    if c["employer_location"]:
+        bits.append(html.escape(c["employer_location"]))
+    meta = []
+    if c["miles"] is not None:
+        meta.append("%.1f miles" % c["miles"])
+    if c["salary"]:
+        meta.append(c["salary"])
+    if meta:
+        bits.append(html.escape(" | ".join(meta)))
+    if c["closing"]:
+        bits.append("Closes: " + html.escape(c["closing"]))
+    bits.append(c["url"])
+    bits.append("<i>%s</i>" % html.escape(monitor_name))
+    return "\n".join(bits)
 
 
 def telegram(message):
     if not TOKEN or not CHAT_ID:
         print("!! Telegram secrets missing - printing instead:\n" + message)
         return
-    payload = urllib.parse.urlencode(
-        {
-            "chat_id": CHAT_ID,
-            "text": message,
-            "parse_mode": "HTML",
-            "disable_web_page_preview": "true",
-        }
-    ).encode()
-    url = f"https://api.telegram.org/bot{TOKEN}/sendMessage"
+    payload = urllib.parse.urlencode({
+        "chat_id": CHAT_ID,
+        "text": message,
+        "parse_mode": "HTML",
+        "disable_web_page_preview": "true",
+    }).encode()
+    url = "https://api.telegram.org/bot%s/sendMessage" % TOKEN
     for attempt in range(3):
         try:
             with urllib.request.urlopen(
@@ -90,10 +150,10 @@ def telegram(message):
                 r.read()
             return
         except urllib.error.HTTPError as e:
-            print(f"   telegram HTTP {e.code}: {e.read()[:300]}")
+            print("   telegram HTTP %s: %s" % (e.code, e.read()[:300]))
             return
         except Exception as e:
-            print(f"   telegram retry {attempt + 1}: {e}")
+            print("   telegram retry %s: %s" % (attempt + 1, e))
             time.sleep(3)
 
 
@@ -108,92 +168,88 @@ def load(path, default):
 def main():
     monitors = load(CONFIG_FILE, [])
     if not monitors:
-        sys.exit(f"No monitors defined in {CONFIG_FILE}")
+        sys.exit("No monitors defined in %s" % CONFIG_FILE)
 
     state = load(STATE_FILE, {})
+    # Global set of advert references already alerted on, from any monitor.
+    # Stops the same job pinging once per search that surfaces it.
+    alerted = set(state.get("_alerted", []))
     alerts = []
 
     for mon in monitors:
         name = mon["name"]
-        url = mon["url"]
-        pattern = mon.get("link_pattern", "")
-        print(f"== {name}")
+        print("== %s" % name)
 
         try:
-            page = fetch(url)
+            page = fetch(mon["url"])
         except Exception as e:
-            print(f"   FETCH FAILED: {e}")
+            print("   FETCH FAILED: %s" % e)
             continue
 
-        if pattern:
-            items = extract_links(page, pattern, url)
-            mode = "links"
-        else:
-            items = {}
-            mode = "hash"
-
-        if pattern and not items:
-            print(f"   WARNING: pattern '{pattern}' matched nothing. "
-                  f"Page may be JavaScript-rendered, or the pattern needs fixing.")
-            mode = "hash"
-
-        if mode == "hash":
-            body = strip_tags(page)
-            body = re.sub(r"\d{1,2}:\d{2}(:\d{2})?", "", body)
-            digest = hashlib.md5(body.encode("utf-8")).hexdigest()
-            items = {digest: "page content changed"}
+        cards = parse_cards(page)
+        if not cards:
+            print("   WARNING: no result cards parsed. Page layout may have "
+                  "changed, or the search returned nothing.")
+            continue
 
         prev = state.get(name, {})
         seen = set(prev.get("seen", []))
         seeded = prev.get("seeded", False)
 
         title_filter = mon.get("title_filter", "")
-        all_new = [k for k in items if k not in seen]
-        if title_filter:
-            new_keys = [k for k in all_new if re.search(title_filter, items[k], re.I)]
-            skipped = len(all_new) - len(new_keys)
-            if skipped:
-                print(f"   {skipped} new but filtered out by title_filter")
-        else:
-            new_keys = all_new
+        max_miles = mon.get("max_miles")
+
+        fresh = [c for c in cards if c["ref"] not in seen]
+        kept, dropped_title, dropped_dist, dropped_dupe = [], 0, 0, 0
+        for c in fresh:
+            if title_filter and not re.search(title_filter, c["title"], re.I):
+                dropped_title += 1
+                continue
+            if max_miles is not None and c["miles"] is not None and c["miles"] > max_miles:
+                dropped_dist += 1
+                continue
+            if c["ref"] in alerted:
+                dropped_dupe += 1
+                continue
+            kept.append(c)
+
+        if dropped_title:
+            print("   %s new but filtered out by title_filter" % dropped_title)
+        if dropped_dist:
+            print("   %s new but beyond %s miles" % (dropped_dist, max_miles))
+        if dropped_dupe:
+            print("   %s already alerted under another search" % dropped_dupe)
 
         if not seeded:
-            print(f"   seeding baseline with {len(items)} item(s) - no alerts sent")
-        elif new_keys:
-            print(f"   {len(new_keys)} NEW")
-            for k in new_keys[:MAX_ALERTS_PER_RUN]:
-                if mode == "links":
-                    alerts.append(
-                        f"<b>{html.escape(name)}</b>\n"
-                        f"{html.escape(items[k])}\n{html.escape(k)}"
-                    )
-                else:
-                    alerts.append(
-                        f"<b>{html.escape(name)}</b>\n"
-                        f"Page content changed - open and check.\n{html.escape(url)}"
-                    )
-            if len(new_keys) > MAX_ALERTS_PER_RUN:
+            print("   seeding baseline with %s item(s) - no alerts sent" % len(cards))
+            alerted.update(c["ref"] for c in cards)
+        elif kept:
+            print("   %s NEW" % len(kept))
+            for c in kept[:MAX_ALERTS_PER_RUN]:
+                print("      %s (%s mi)" % (c["title"], c["miles"]))
+                alerts.append(format_alert(name, c))
+                alerted.add(c["ref"])
+            if len(kept) > MAX_ALERTS_PER_RUN:
                 alerts.append(
-                    f"<b>{html.escape(name)}</b>\n"
-                    f"...and {len(new_keys) - MAX_ALERTS_PER_RUN} more. Open the search page."
-                )
+                    "<b>%s</b>\n...and %s more. Open the search page."
+                    % (html.escape(name), len(kept) - MAX_ALERTS_PER_RUN))
         else:
             print("   no change")
 
-        # For hash mode keep only the newest digest; for links keep a rolling window.
-        if mode == "hash":
-            state[name] = {"seen": list(items.keys()), "seeded": True}
-        else:
-            merged = list(items.keys()) + [k for k in prev.get("seen", []) if k not in items]
-            state[name] = {"seen": merged[:400], "seeded": True}
+        current = {c["ref"] for c in cards}
+        merged = [c["ref"] for c in cards] + \
+                 [r for r in prev.get("seen", []) if r not in current]
+        state[name] = {"seen": merged[:400], "seeded": True}
 
     for msg in alerts:
         telegram(msg)
 
+    state["_alerted"] = sorted(alerted)[:2000]
+
     with open(STATE_FILE, "w", encoding="utf-8") as f:
         json.dump(state, f, indent=1, sort_keys=True)
 
-    print(f"\nDone. {len(alerts)} alert(s) sent.")
+    print("\nDone. %s alert(s) sent." % len(alerts))
 
 
 if __name__ == "__main__":
