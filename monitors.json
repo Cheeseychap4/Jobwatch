@@ -8,7 +8,8 @@
       4,
       5
     ],
-    "allow_unknown_band": true
+    "allow_unknown_band": true,
+    "pages": 3
   },
   {
     "name": "Psychology wide 30mi",
@@ -19,7 +20,8 @@
       4,
       5
     ],
-    "allow_unknown_band": true
+    "allow_unknown_band": true,
+    "pages": 3
   },
   {
     "name": "Forensic 30mi",
@@ -30,7 +32,8 @@
       4,
       5
     ],
-    "allow_unknown_band": true
+    "allow_unknown_band": true,
+    "pages": 3
   },
   {
     "name": "Support worker / HCA 20mi",
@@ -41,6 +44,7 @@
       4,
       5
     ],
-    "allow_unknown_band": false
+    "allow_unknown_band": false,
+    "pages": 3
   }
 ]
