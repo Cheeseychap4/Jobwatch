@@ -242,6 +242,7 @@ def main():
     # Stops the same job pinging once per search that surfaces it.
     alerted = set(state.get("_alerted", []))
     alerts = []
+    scanned = {}
 
     for mon in monitors:
         name = mon["name"]
@@ -251,9 +252,11 @@ def main():
             page = fetch(mon["url"])
         except Exception as e:
             print("   FETCH FAILED: %s" % e)
+            scanned[name] = 0
             continue
 
         cards = parse_cards(page)
+        scanned[name] = len(cards)
         if not cards:
             print("   WARNING: no result cards parsed. Page layout may have "
                   "changed, or the search returned nothing.")
@@ -332,6 +335,18 @@ def main():
         merged = [c["ref"] for c in cards] + \
                  [r for r in prev.get("seen", []) if r not in current]
         state[name] = {"seen": merged[:400], "seeded": True}
+
+    if os.environ.get("JOBWATCH_HEARTBEAT"):
+        lines = ["<b>Stayin' alive</b>", "jobwatch is running."]
+        for mon in monitors:
+            lines.append("%s: %s adverts scanned"
+                         % (mon["name"], scanned.get(mon["name"], 0)))
+        broken = [n for n in scanned if scanned[n] == 0]
+        if broken:
+            lines.append("")
+            lines.append("PROBLEM: %s returned nothing. The NHS Jobs page "
+                         "layout may have changed." % ", ".join(broken))
+        alerts.append("\n".join(lines))
 
     for msg in alerts:
         telegram(msg)
