@@ -2,12 +2,18 @@ name: jobwatch
 
 on:
   schedule:
-    # Every 15 min, 06:00-21:45 UTC = 07:00-22:45 BST. Adjust for GMT in winter.
-    - cron: "*/15 6-21 * * *"
+    # Every 15 minutes, round the clock (UTC).
+    - cron: "*/15 * * * *"
+    # Weekly heartbeat: Mondays 08:00 UTC (09:00 BST / 08:00 GMT).
+    - cron: "0 8 * * 1"
   workflow_dispatch:
     inputs:
       test_ping:
         description: "Also send a test Telegram message"
+        type: boolean
+        default: false
+      heartbeat:
+        description: "Also send the Stayin alive summary"
         type: boolean
         default: false
 
@@ -49,6 +55,7 @@ jobs:
         env:
           TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          JOBWATCH_HEARTBEAT: ${{ (github.event.schedule == '0 8 * * 1' || inputs.heartbeat) && '1' || '' }}
         run: python watch.py
 
       - name: Save state
