@@ -1,0 +1,26 @@
+[
+  {
+    "name": "AP / psychology 40mi",
+    "url": "https://www.jobs.nhs.uk/candidate/search/results?keyword=assistant+psychologist&location=Leamington+Spa&distance=40&sort=publicationDateDesc&language=en",
+    "link_pattern": "/candidate/jobadvert/",
+    "title_filter": "psycholog|psychological|wellbeing practitioner"
+  },
+  {
+    "name": "Psychology wide 40mi",
+    "url": "https://www.jobs.nhs.uk/candidate/search/results?keyword=psychology&location=Leamington+Spa&distance=40&sort=publicationDateDesc&language=en",
+    "link_pattern": "/candidate/jobadvert/",
+    "title_filter": "psycholog|psychological|wellbeing practitioner"
+  },
+  {
+    "name": "Forensic 40mi",
+    "url": "https://www.jobs.nhs.uk/candidate/search/results?keyword=forensic&location=Leamington+Spa&distance=40&sort=publicationDateDesc&language=en",
+    "link_pattern": "/candidate/jobadvert/",
+    "title_filter": "forensic|secure|psycholog"
+  },
+  {
+    "name": "Support worker / HCA 30mi",
+    "url": "https://www.jobs.nhs.uk/candidate/search/results?keyword=mental+health+support+worker&location=Leamington+Spa&distance=30&sort=publicationDateDesc&language=en",
+    "link_pattern": "/candidate/jobadvert/",
+    "title_filter": "support worker|healthcare assistant|health care assistant|recovery|rehabilitation"
+  }
+]
