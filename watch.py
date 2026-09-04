@@ -196,19 +196,9 @@ def format_alert(monitor_name, c):
     bits = ["<b>%s</b>" % html.escape(c["title"])]
     if c["employer_location"]:
         bits.append(html.escape(c["employer_location"]))
-    meta = []
     if c.get("bands"):
-        meta.append("Band " + "/".join(sorted(c["bands"])))
-    if c["miles"] is not None:
-        meta.append("%.1f miles" % c["miles"])
-    if c["salary"]:
-        meta.append(c["salary"])
-    if meta:
-        bits.append(html.escape(" | ".join(meta)))
-    if c["closing"]:
-        bits.append("Closes: " + html.escape(c["closing"]))
+        bits.append("Band " + "/".join(sorted(c["bands"])))
     bits.append(c["url"])
-    bits.append("<i>%s</i>" % html.escape(monitor_name))
     return "\n".join(bits)
 
 
@@ -281,14 +271,19 @@ def main():
 
         title_filter = mon.get("title_filter", "")
         max_miles = mon.get("max_miles")
+        exclude_title = mon.get("exclude_title", "")
         want_bands = set(str(b) for b in mon.get("bands", []))
         allow_unknown = mon.get("allow_unknown_band", True)
 
         fresh = [c for c in cards if c["ref"] not in seen]
         kept, dropped_title, dropped_dist, dropped_dupe, dropped_band = [], 0, 0, 0, 0
+        dropped_senior = 0
         for c in fresh:
             if title_filter and not re.search(title_filter, c["title"], re.I):
                 dropped_title += 1
+                continue
+            if exclude_title and re.search(exclude_title, c["title"], re.I):
+                dropped_senior += 1
                 continue
             if max_miles is not None and c["miles"] is not None and c["miles"] > max_miles:
                 dropped_dist += 1
@@ -320,6 +315,8 @@ def main():
 
         if dropped_title:
             print("   %s new but filtered out by title_filter" % dropped_title)
+        if dropped_senior:
+            print("   %s new but too senior" % dropped_senior)
         if dropped_dist:
             print("   %s new but beyond %s miles" % (dropped_dist, max_miles))
         if dropped_band:
