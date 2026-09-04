@@ -2,25 +2,45 @@
   {
     "name": "AP / psychology 30mi",
     "url": "https://www.jobs.nhs.uk/candidate/search/results?keyword=assistant+psychologist&location=Leamington+Spa&distance=30&sort=publicationDateDesc&language=en",
-    "title_filter": "psycholog|psychological|wellbeing practitioner",
-    "max_miles": 30
+    "title_filter": "psycholog|psychological|wellbeing practitioner|mental health practitioner|EMHP|CWP|PWP",
+    "max_miles": 30,
+    "bands": [
+      4,
+      5
+    ],
+    "allow_unknown_band": true
   },
   {
     "name": "Psychology wide 30mi",
     "url": "https://www.jobs.nhs.uk/candidate/search/results?keyword=psychology&location=Leamington+Spa&distance=30&sort=publicationDateDesc&language=en",
-    "title_filter": "psycholog|psychological|wellbeing practitioner",
-    "max_miles": 30
+    "title_filter": "psycholog|psychological|wellbeing practitioner|mental health practitioner|EMHP|CWP|PWP",
+    "max_miles": 30,
+    "bands": [
+      4,
+      5
+    ],
+    "allow_unknown_band": true
   },
   {
     "name": "Forensic 30mi",
     "url": "https://www.jobs.nhs.uk/candidate/search/results?keyword=forensic&location=Leamington+Spa&distance=30&sort=publicationDateDesc&language=en",
     "title_filter": "forensic|secure|psycholog",
-    "max_miles": 30
+    "max_miles": 30,
+    "bands": [
+      4,
+      5
+    ],
+    "allow_unknown_band": true
   },
   {
     "name": "Support worker / HCA 20mi",
     "url": "https://www.jobs.nhs.uk/candidate/search/results?keyword=mental+health+support+worker&location=Leamington+Spa&distance=20&sort=publicationDateDesc&language=en",
-    "title_filter": "support worker|care assistant|healthcare assistant|health care assistant|hca|recovery|rehabilitation|assistant practitioner",
-    "max_miles": 20
+    "title_filter": "support worker|assistant psychologist|psycholog|recovery|rehabilitation|assistant practitioner",
+    "max_miles": 20,
+    "bands": [
+      4,
+      5
+    ],
+    "allow_unknown_band": false
   }
 ]
