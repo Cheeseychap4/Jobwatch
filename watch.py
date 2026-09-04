@@ -55,9 +55,9 @@ def detect_bands(title, salary):
     found = set()
 
     # 1. Band stated in the title, e.g. "Band 4", "Band 7/8a Psychologist".
-    for m in re.finditer(r"band\s*([2-9])\s*([a-d])?", title, re.I):
+    for m in re.finditer(r"band\s*([2-9])([a-d])?\b", title, re.I):
         found.add(m.group(1) + (m.group(2).lower() if m.group(2) else ""))
-    for m in re.finditer(r"band\s*[2-9][a-d]?\s*/\s*([2-9])\s*([a-d])?", title, re.I):
+    for m in re.finditer(r"band\s*[2-9][a-d]?\s*/\s*([2-9])([a-d])?\b", title, re.I):
         found.add(m.group(1) + (m.group(2).lower() if m.group(2) else ""))
     if found:
         return found
@@ -178,6 +178,20 @@ def parse_cards(page):
     return cards
 
 
+def fetch_cards(url, pages):
+    """Cards across the first `pages` result pages, de-duplicated in order."""
+    seen_refs, out = set(), []
+    for p in range(1, max(1, pages) + 1):
+        u = url if p == 1 else url + "&page=%d" % p
+        cards = parse_cards(fetch(u))
+        fresh = [c for c in cards if c["ref"] not in seen_refs]
+        if not fresh:
+            break
+        seen_refs.update(c["ref"] for c in fresh)
+        out.extend(fresh)
+    return out
+
+
 def format_alert(monitor_name, c):
     bits = ["<b>%s</b>" % html.escape(c["title"])]
     if c["employer_location"]:
@@ -249,13 +263,12 @@ def main():
         print("== %s" % name)
 
         try:
-            page = fetch(mon["url"])
+            cards = fetch_cards(mon["url"], mon.get("pages", 3))
         except Exception as e:
             print("   FETCH FAILED: %s" % e)
             scanned[name] = 0
             continue
 
-        cards = parse_cards(page)
         scanned[name] = len(cards)
         if not cards:
             print("   WARNING: no result cards parsed. Page layout may have "
