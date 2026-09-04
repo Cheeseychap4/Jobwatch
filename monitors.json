@@ -9,7 +9,8 @@
       5
     ],
     "allow_unknown_band": true,
-    "pages": 3
+    "pages": 3,
+    "exclude_title": "\\\\bsenior\\\\b|\\\\bconsultant\\\\b|\\\\bprincipal\\\\b|\\\\blead\\\\b|\\\\bhead of\\\\b|highly specialist|\\\\bdirector\\\\b|\\\\bmanager\\\\b|\\\\bband [6-9]\\\\b|\\\\bband 8[a-d]?\\\\b"
   },
   {
     "name": "Psychology wide 30mi",
@@ -21,7 +22,8 @@
       5
     ],
     "allow_unknown_band": true,
-    "pages": 3
+    "pages": 3,
+    "exclude_title": "\\\\bsenior\\\\b|\\\\bconsultant\\\\b|\\\\bprincipal\\\\b|\\\\blead\\\\b|\\\\bhead of\\\\b|highly specialist|\\\\bdirector\\\\b|\\\\bmanager\\\\b|\\\\bband [6-9]\\\\b|\\\\bband 8[a-d]?\\\\b"
   },
   {
     "name": "Forensic 30mi",
@@ -33,7 +35,8 @@
       5
     ],
     "allow_unknown_band": true,
-    "pages": 3
+    "pages": 3,
+    "exclude_title": "\\\\bsenior\\\\b|\\\\bconsultant\\\\b|\\\\bprincipal\\\\b|\\\\blead\\\\b|\\\\bhead of\\\\b|highly specialist|\\\\bdirector\\\\b|\\\\bmanager\\\\b|\\\\bband [6-9]\\\\b|\\\\bband 8[a-d]?\\\\b"
   },
   {
     "name": "Support worker / HCA 20mi",
@@ -45,6 +48,7 @@
       5
     ],
     "allow_unknown_band": false,
-    "pages": 3
+    "pages": 3,
+    "exclude_title": "\\\\bsenior\\\\b|\\\\bconsultant\\\\b|\\\\bprincipal\\\\b|\\\\blead\\\\b|\\\\bhead of\\\\b|highly specialist|\\\\bdirector\\\\b|\\\\bmanager\\\\b|\\\\bband [6-9]\\\\b|\\\\bband 8[a-d]?\\\\b"
   }
 ]
