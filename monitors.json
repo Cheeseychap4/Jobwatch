@@ -1,0 +1,37 @@
+[
+  {
+    "name": "NHS Jobs - AP, 40mi CV31",
+    "url": "PASTE_YOUR_NHS_JOBS_RESULTS_URL_HERE",
+    "link_pattern": "/candidate/jobadvert/"
+  },
+  {
+    "name": "NHS Jobs - Band 4/5 Psychology, 40mi CV31",
+    "url": "PASTE_YOUR_NHS_JOBS_RESULTS_URL_HERE",
+    "link_pattern": "/candidate/jobadvert/"
+  },
+  {
+    "name": "healthjobsuk - Assistant Psychologist West Midlands",
+    "url": "PASTE_YOUR_HEALTHJOBSUK_RESULTS_URL_HERE",
+    "link_pattern": "/job/"
+  },
+  {
+    "name": "nhsjobs.com - Forensic / Psychology",
+    "url": "PASTE_YOUR_NHSJOBS_COM_RESULTS_URL_HERE",
+    "link_pattern": "/job/"
+  },
+  {
+    "name": "Cygnet careers",
+    "url": "PASTE_CYGNET_SEARCH_URL_HERE",
+    "link_pattern": ""
+  },
+  {
+    "name": "Elysium careers",
+    "url": "PASTE_ELYSIUM_SEARCH_URL_HERE",
+    "link_pattern": ""
+  },
+  {
+    "name": "HMPPS - Trainee Forensic Psychologist",
+    "url": "PASTE_JUSTICEJOBS_SEARCH_URL_HERE",
+    "link_pattern": ""
+  }
+]
