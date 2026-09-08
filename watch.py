@@ -121,7 +121,7 @@ _OPENER = urllib.request.build_opener(urllib.request.HTTPCookieProcessor(_COOKIE
 # length of a pass and the cache is cleared between passes. Same coverage, half
 # the requests, and kinder to the job boards.
 _CACHE = {}
-_STATS = {"fetched": 0, "cached": 0}
+_STATS = {"fetched": 0, "cached": 0, "retried": 0}
 
 
 def fetch(url, session=False):
@@ -137,8 +137,21 @@ def fetch(url, session=False):
         },
     )
     opener = _OPENER.open if session else urllib.request.urlopen
-    with opener(req, timeout=60) as resp:
-        raw = resp.read()
+    # A dropped connection must never quietly cost a whole employer or keyword,
+    # so a transient failure is retried before it is allowed to become an error.
+    for attempt in range(3):
+        try:
+            with opener(req, timeout=60) as resp:
+                raw = resp.read()
+            break
+        except urllib.error.HTTPError:
+            raise
+        except Exception as e:
+            if attempt == 2:
+                raise
+            _STATS["retried"] += 1
+            print("   retry %s for %s (%s)" % (attempt + 1, url.split("?")[0], e))
+            time.sleep(2 + 3 * attempt)
     try:
         page = raw.decode("utf-8")
     except UnicodeDecodeError:
@@ -440,6 +453,79 @@ def fetch_feed_cards(mon):
     return out
 
 
+MOJ_BASE = "https://jobs.justice.gov.uk"
+
+
+def parse_moj_cards(page):
+    """Cards from an MoJ / HMPPS jobs board search page.
+
+    The board publishes a salary BAND rather than a grade and a Business Unit
+    rather than a town, so grade is judged on the salary ceiling (Pool 4.3) and
+    geography on the establishment name."""
+    cards = []
+    for a in re.split(r'<article class="article article--result', page)[1:]:
+        h = re.search(r'href="(%s/careers/JobDetail/[^"]+)"' % re.escape(MOJ_BASE), a)
+        if not h:
+            continue
+        url = html.unescape(h.group(1))
+        text = strip_tags(a)
+        # The title is the anchor's own text; the article tag is split open by
+        # the delimiter above, so the flattened text starts with tag leftovers.
+        t = re.search(r'href="%s/careers/JobDetail/[^"]+"[^>]*>(.*?)</a>'
+                      % re.escape(MOJ_BASE), a, re.S)
+        title = strip_tags(t.group(1)) if t else ""
+        title = re.sub(r"^\d+\s*[-:]\s*", "", title).strip()
+        if not title:
+            continue
+
+        def field(name, nxt):
+            m = re.search(r"%s:\s*(.*?)\s*(?:%s:|$)" % (name, nxt), text)
+            return m.group(1).strip() if m else ""
+
+        salary = field("Salary", "Business Unit")
+        unit = field("Business Unit", "Closing Date")
+        closing = field("Closing Date", "Working Pattern")
+        ref = re.search(r"/JobDetail/[^/]*/(\d+)", url)
+        cards.append({
+            "source": "moj",
+            "ref": "moj:" + (ref.group(1) if ref else url),
+            "title": title,
+            "url": url,
+            "employer": "HMPPS / Ministry of Justice",
+            "employer_id": "",
+            "town": unit,
+            "county": "",
+            "employer_location": "HMPPS / MoJ, " + unit if unit else "HMPPS / MoJ",
+            "geo_extra": title,
+            "salary": salary,
+            "grade": "",
+            "miles": None,
+            "posted": "",
+            "closing": closing,
+            "bands": set(),
+        })
+    return cards
+
+
+def fetch_moj_cards(mon):
+    """One search per keyword on the MoJ board. Keywords are the house terms -
+    the same job is a Group Worker at one prison and a Facilitator at the next,
+    so one term is never a sweep."""
+    out, seen = [], set()
+    for kw in mon.get("keywords", []):
+        url = "%s/careers/SearchJobs/%s/" % (MOJ_BASE, urllib.parse.quote(kw))
+        try:
+            cards = parse_moj_cards(fetch(url))
+        except Exception as e:
+            print("   moj '%s' failed: %s" % (kw, e))
+            continue
+        for c in cards:
+            if c["ref"] not in seen:
+                seen.add(c["ref"])
+                out.append(c)
+    return out
+
+
 def trac_geo(card, towns, counties, employers, exclude_towns, exclude_counties=()):
     """TRAC carries a town, not a distance, so geography is judged by name.
 
@@ -454,7 +540,10 @@ def trac_geo(card, towns, counties, employers, exclude_towns, exclude_counties=(
     the other end of the country.
 
     Returns "in", "out" or "unknown"."""
-    town = norm(card.get("town"))
+    # Some boards name a service rather than a place ("Psychology Services",
+    # "NPS Wales UM Transition"), and put the establishment in the title
+    # instead - so both are read.
+    town = norm((card.get("town") or "") + " " + (card.get("geo_extra") or ""))
     generic = ("", "trustwide", "trust wide", "various", "various sites",
                "cross site", "multiple", "multiple sites", "countywide",
                "county wide", "agile", "hybrid", "home based")
@@ -503,6 +592,8 @@ def format_alert(monitor_name, c):
         bits.append("TRAC - may not be on NHS Jobs yet")
     if c.get("source") == "feed":
         bits.append("Provider's own site - may not be on NHS Jobs at all")
+    if c.get("source") == "moj":
+        bits.append("HMPPS / MoJ board")
     if c.get("note"):
         bits.append(c["note"])
     bits.append(c["url"])
@@ -546,7 +637,7 @@ def load(path, default):
 def sweep(monitors, state, first_pass=True):
     """One pass over every monitor. Returns the alerts to send."""
     _CACHE.clear()
-    _STATS.update(fetched=0, cached=0)
+    _STATS.update(fetched=0, cached=0, retried=0)
     # Advert references already alerted on, from any monitor.
     alerted = set(state.get("_alerted", []))
     # Employer+title keys already alerted on, so a job seen first on TRAC does
@@ -563,7 +654,9 @@ def sweep(monitors, state, first_pass=True):
         print("== %s [%s]" % (name, source))
 
         try:
-            if source == "feed":
+            if source == "moj":
+                cards = fetch_moj_cards(mon)
+            elif source == "feed":
                 cards = fetch_feed_cards(mon)
             elif source == "trac_employers":
                 cards = fetch_trac_employer_cards(mon.get("employer_ids", []),
@@ -628,7 +721,7 @@ def sweep(monitors, state, first_pass=True):
                 if closed:
                     dropped_dist += 1
                     continue
-            if source.startswith("trac") or source == "feed":
+            if source.startswith("trac") or source in ("feed", "moj"):
                 geo = trac_geo(c, towns, counties, employers, exclude_towns,
                                exclude_counties)
                 if geo == "out":
@@ -643,6 +736,12 @@ def sweep(monitors, state, first_pass=True):
             elif max_miles is not None and c["miles"] is not None and c["miles"] > max_miles:
                 dropped_dist += 1
                 continue
+            max_salary = mon.get("max_salary")
+            if max_salary:
+                pay = annual_salary_range(c["salary"])
+                if pay and pay[0] > max_salary:
+                    dropped_band += 1
+                    continue
             if want_bands:
                 got = set(band_number(b) for b in c["bands"])
                 if got and not (got & want_bands):
@@ -724,8 +823,8 @@ def sweep(monitors, state, first_pass=True):
                          "have changed." % ", ".join(broken))
         alerts.append("\n".join(lines))
 
-    print("\n%s page(s) fetched, %s served from this pass's cache"
-          % (_STATS["fetched"], _STATS["cached"]))
+    print("\n%s page(s) fetched, %s served from this pass's cache, %s retried"
+          % (_STATS["fetched"], _STATS["cached"], _STATS["retried"]))
 
     state["_alerted"] = sorted(alerted)[:4000]
     state["_alerted_keys"] = sorted(alerted_keys)[:4000]

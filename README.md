@@ -43,15 +43,21 @@ Each entry in `monitors.json` has a `source`:
   Group Health in Justice, St Andrew's). Private hospitals are not on TRAC and
   do not post everything to NHS Jobs, so each is read from its own feed. Same
   principle as TRAC: go to the system the employer actually recruits on.
+- `"moj"` — the HMPPS / Ministry of Justice board, `jobs.justice.gov.uk`. Prison
+  psychology-adjacent posts are never on NHS Jobs or TRAC at all, so without
+  this source the whole justice side was only ever found by hand. One search per
+  keyword in `keywords`, because the same job is a Group Worker at one prison
+  and a Facilitator at the next.
 
 There are two TRAC employer pollers, one for psychology and practitioner titles
 and one for the support, HCA, recovery and peer-support tier, so the Reaside and
 Ardenleigh Band 3 campaigns are covered as well as the Band 4/5 psychology ones.
 
 Filters available on every monitor: `title_filter`, `exclude_title`, `bands`,
-`allow_unknown_band`. NHS monitors also take `max_miles`; TRAC monitors take
-`towns`, `counties`, `employers` and `exclude_towns` instead, because TRAC
-publishes a town, not a distance.
+`allow_unknown_band`, `exclude_discipline`, `protect_title`, `max_salary`. NHS
+monitors also take `max_miles`; TRAC, feed and MoJ monitors take `towns`,
+`counties`, `employers` and `exclude_towns` instead, because those boards
+publish a place, not a distance.
 
 ## Geography fails open, on purpose
 
@@ -124,6 +130,34 @@ employer missing from the id list, which cannot meaningfully change inside one
 
 Measured over a run of nine passes: **882 requests before, 494 after.**
 
+## The justice board publishes a salary, not a band
+
+HMPPS advertises a salary band (`£30,001 to £40,000`), no AfC band and no grade,
+so band filtering cannot apply there. `max_salary` does the equivalent job: it
+drops anything advertised above the Band 5 ceiling and keeps the rest, so a
+Band 5-equivalent post is never lost for want of a band field.
+
+Its location field is a Business Unit, which is often a service name
+("Psychology Services") rather than a town, so the geography check reads the
+**title** as well — prison names live in the title. A post whose location cannot
+be resolved is kept and flagged `unknown` rather than dropped, on the same
+fail-open principle as the TRAC employer poller.
+
+Two monitors run against it: one on the house terms (`group worker`,
+`offending behaviour`, `facilitator`, `psycholog`, `interventions`,
+`programmes`, `case administrator`) and one on the in-radius establishments by
+name (Onley, Rye Hill, Hewell, Birmingham, Featherstone, Brinsford, Oakwood,
+Swinfen Hall).
+
+The East Midlands cluster — Stocken, Whatton, Ranby, Gartree, and the Leicester
+and Nottingham sites — is deliberately **not** in the exclusion list. Whether it
+is commutable is an open question, so those posts alert as `unknown` rather than
+disappearing. A geography-only cut is a near-miss, never a silent one.
+
+The same house terms were added to the NHS and TRAC psychology searches at the
+same time. `group worker` and `facilitator` are the best-paying seam and until
+now the searches did not look for them at all.
+
 ## Other clinical disciplines
 
 "Assistant" is also the word in Assistant Psychologist, so the grade can't be
@@ -143,6 +177,8 @@ exclusion.
 
 - The national TRAC list cannot be sorted or deep-paged reliably. Coverage comes
   from the employer-id poller, never from that list.
+- Every fetch is retried twice before it is allowed to fail. A dropped
+  connection used to cost a whole employer or keyword for that pass, silently.
 - A new monitor name seeds silently on its first run — no flood of old adverts.
 - The same job found on TRAC and later on NHS Jobs only alerts once.
 - This is an **alerter, not a filter**. It deliberately over-includes; the job
