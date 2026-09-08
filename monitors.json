@@ -115,7 +115,7 @@
       "priory",
       "vertis"
     ],
-    "exclude_title": "\\bsenior\\b|\\bconsultant\\b|\\bprincipal\\b|\\blead\\b|\\bhead of\\b|highly specialist|\\bdirector\\b|\\bmanager\\b|\\bband [6-9]\\b|\\bband 8[a-d]?\\b|\\bmatron\\b|\\bpsychiatrist\\b|\\bnurse\\b|\\bmidwif|\\bqualified\\b",
+    "exclude_title": "\\bsenior\\b|\\bconsultant\\b|\\bprincipal\\b|\\blead\\b|\\bhead of\\b|highly specialist|\\bdirector\\b|\\bmanager\\b|\\bband [6-9]\\b|\\bband 8[a-d]?\\b|\\bmatron\\b|\\bpsychiatrist\\b|\\bnurse\\b|\\bmidwif|\\bqualified\\b|\\bteacher\\b|\\bteaching\\b|\\btutor\\b|\\blecturer\\b|learning support assistant|\\bLSA\\b|cover supervisor|\\bSENDCo\\b|\\bSENCO\\b|\\bHLTA\\b|nursery|early years|classroom|invigilator|examinations officer|headteacher|school business|pastoral support|school (nurse|cleaner|catering|admin)",
     "exclude_towns": [
       "abingdon",
       "aldershot",
@@ -291,7 +291,7 @@
       "priory",
       "vertis"
     ],
-    "exclude_title": "\\bsenior\\b|\\bconsultant\\b|\\bprincipal\\b|\\blead\\b|\\bhead of\\b|highly specialist|\\bdirector\\b|\\bmanager\\b|\\bband [6-9]\\b|\\bband 8[a-d]?\\b|\\bmatron\\b|\\bpsychiatrist\\b|\\bnurse\\b|\\bmidwif|\\bqualified\\b",
+    "exclude_title": "\\bsenior\\b|\\bconsultant\\b|\\bprincipal\\b|\\blead\\b|\\bhead of\\b|highly specialist|\\bdirector\\b|\\bmanager\\b|\\bband [6-9]\\b|\\bband 8[a-d]?\\b|\\bmatron\\b|\\bpsychiatrist\\b|\\bnurse\\b|\\bmidwif|\\bqualified\\b|\\bteacher\\b|\\bteaching\\b|\\btutor\\b|\\blecturer\\b|learning support assistant|\\bLSA\\b|cover supervisor|\\bSENDCo\\b|\\bSENCO\\b|\\bHLTA\\b|nursery|early years|classroom|invigilator|examinations officer|headteacher|school business|pastoral support|school (nurse|cleaner|catering|admin)",
     "exclude_towns": [
       "abingdon",
       "aldershot",
@@ -462,7 +462,7 @@
       "432",
       "1758"
     ],
-    "exclude_title": "\\bsenior\\b|\\bconsultant\\b|\\bprincipal\\b|\\blead\\b|\\bhead of\\b|highly specialist|\\bdirector\\b|\\bmanager\\b|\\bband [6-9]\\b|\\bband 8[a-d]?\\b|\\bmatron\\b|\\bpsychiatrist\\b|\\bnurse\\b|\\bmidwif|\\bqualified\\b",
+    "exclude_title": "\\bsenior\\b|\\bconsultant\\b|\\bprincipal\\b|\\blead\\b|\\bhead of\\b|highly specialist|\\bdirector\\b|\\bmanager\\b|\\bband [6-9]\\b|\\bband 8[a-d]?\\b|\\bmatron\\b|\\bpsychiatrist\\b|\\bnurse\\b|\\bmidwif|\\bqualified\\b|\\bteacher\\b|\\bteaching\\b|\\btutor\\b|\\blecturer\\b|learning support assistant|\\bLSA\\b|cover supervisor|\\bSENDCo\\b|\\bSENCO\\b|\\bHLTA\\b|nursery|early years|classroom|invigilator|examinations officer|headteacher|school business|pastoral support|school (nurse|cleaner|catering|admin)",
     "exclude_towns": [
       "abingdon",
       "aylesbury",
@@ -696,7 +696,7 @@
     ],
     "allow_unknown_band": true,
     "pages": 3,
-    "exclude_title": "\\bsenior\\b|\\bconsultant\\b|\\bprincipal\\b|\\blead\\b|\\bhead of\\b|highly specialist|\\bdirector\\b|\\bmanager\\b|\\bband [6-9]\\b|\\bband 8[a-d]?\\b"
+    "exclude_title": "\\bsenior\\b|\\bconsultant\\b|\\bprincipal\\b|\\blead\\b|\\bhead of\\b|highly specialist|\\bdirector\\b|\\bmanager\\b|\\bband [6-9]\\b|\\bband 8[a-d]?\\b|\\bteacher\\b|\\bteaching\\b|\\btutor\\b|\\blecturer\\b|learning support assistant|\\bLSA\\b|cover supervisor|\\bSENDCo\\b|\\bSENCO\\b|\\bHLTA\\b|nursery|early years|classroom|invigilator|examinations officer|headteacher|school business|pastoral support|school (nurse|cleaner|catering|admin)"
   },
   {
     "name": "Psychology wide 40mi",
@@ -710,7 +710,7 @@
     ],
     "allow_unknown_band": true,
     "pages": 3,
-    "exclude_title": "\\bsenior\\b|\\bconsultant\\b|\\bprincipal\\b|\\blead\\b|\\bhead of\\b|highly specialist|\\bdirector\\b|\\bmanager\\b|\\bband [6-9]\\b|\\bband 8[a-d]?\\b"
+    "exclude_title": "\\bsenior\\b|\\bconsultant\\b|\\bprincipal\\b|\\blead\\b|\\bhead of\\b|highly specialist|\\bdirector\\b|\\bmanager\\b|\\bband [6-9]\\b|\\bband 8[a-d]?\\b|\\bteacher\\b|\\bteaching\\b|\\btutor\\b|\\blecturer\\b|learning support assistant|\\bLSA\\b|cover supervisor|\\bSENDCo\\b|\\bSENCO\\b|\\bHLTA\\b|nursery|early years|classroom|invigilator|examinations officer|headteacher|school business|pastoral support|school (nurse|cleaner|catering|admin)"
   },
   {
     "name": "Wellbeing practitioner 40mi",
@@ -724,7 +724,7 @@
     ],
     "allow_unknown_band": true,
     "pages": 3,
-    "exclude_title": "\\bsenior\\b|\\bconsultant\\b|\\bprincipal\\b|\\blead\\b|\\bhead of\\b|highly specialist|\\bdirector\\b|\\bmanager\\b|\\bband [6-9]\\b|\\bband 8[a-d]?\\b|qualified"
+    "exclude_title": "\\bsenior\\b|\\bconsultant\\b|\\bprincipal\\b|\\blead\\b|\\bhead of\\b|highly specialist|\\bdirector\\b|\\bmanager\\b|\\bband [6-9]\\b|\\bband 8[a-d]?\\b|qualified|\\bteacher\\b|\\bteaching\\b|\\btutor\\b|\\blecturer\\b|learning support assistant|\\bLSA\\b|cover supervisor|\\bSENDCo\\b|\\bSENCO\\b|\\bHLTA\\b|nursery|early years|classroom|invigilator|examinations officer|headteacher|school business|pastoral support|school (nurse|cleaner|catering|admin)"
   },
   {
     "name": "Forensic 40mi",
@@ -738,7 +738,7 @@
     ],
     "allow_unknown_band": true,
     "pages": 3,
-    "exclude_title": "\\bsenior\\b|\\bconsultant\\b|\\bprincipal\\b|\\blead\\b|\\bhead of\\b|highly specialist|\\bdirector\\b|\\bmanager\\b|\\bband [6-9]\\b|\\bband 8[a-d]?\\b"
+    "exclude_title": "\\bsenior\\b|\\bconsultant\\b|\\bprincipal\\b|\\blead\\b|\\bhead of\\b|highly specialist|\\bdirector\\b|\\bmanager\\b|\\bband [6-9]\\b|\\bband 8[a-d]?\\b|\\bteacher\\b|\\bteaching\\b|\\btutor\\b|\\blecturer\\b|learning support assistant|\\bLSA\\b|cover supervisor|\\bSENDCo\\b|\\bSENCO\\b|\\bHLTA\\b|nursery|early years|classroom|invigilator|examinations officer|headteacher|school business|pastoral support|school (nurse|cleaner|catering|admin)"
   },
   {
     "name": "Support worker / HCA 20mi",
@@ -752,6 +752,6 @@
     ],
     "allow_unknown_band": false,
     "pages": 3,
-    "exclude_title": "\\bsenior\\b|\\bconsultant\\b|\\bprincipal\\b|\\blead\\b|\\bhead of\\b|highly specialist|\\bdirector\\b|\\bmanager\\b|\\bband [6-9]\\b|\\bband 8[a-d]?\\b"
+    "exclude_title": "\\bsenior\\b|\\bconsultant\\b|\\bprincipal\\b|\\blead\\b|\\bhead of\\b|highly specialist|\\bdirector\\b|\\bmanager\\b|\\bband [6-9]\\b|\\bband 8[a-d]?\\b|\\bteacher\\b|\\bteaching\\b|\\btutor\\b|\\blecturer\\b|learning support assistant|\\bLSA\\b|cover supervisor|\\bSENDCo\\b|\\bSENCO\\b|\\bHLTA\\b|nursery|early years|classroom|invigilator|examinations officer|headteacher|school business|pastoral support|school (nurse|cleaner|catering|admin)"
   }
 ]
