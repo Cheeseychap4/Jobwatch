@@ -10,7 +10,7 @@ on TRAC first and is copied to **jobs.nhs.uk** afterwards — sometimes hours
 later, sometimes days, and sometimes not until after the advert has already
 closed on an application cap.
 
-A Band 5 psychologist post was lost exactly that way: it opened on TRAC,
+An Assistant Psychologist post was lost exactly that way: it opened on TRAC,
 filled, and closed before any record of it reached NHS Jobs, so a monitor
 watching NHS Jobs alone could never have seen it.
 
