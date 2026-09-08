@@ -344,23 +344,43 @@ def fetch_trac_employer_cards(ids, pages=2):
     return out
 
 
-def trac_in_area(card, towns, counties, employers):
-    """TRAC has no distance field, so geography is an allowlist.
-    A trust-wide or unstated town is kept when the employer is in radius."""
+def trac_geo(card, towns, counties, employers, exclude_towns):
+    """TRAC carries a town, not a distance, so geography is judged by name.
+
+    Deliberately fails OPEN. A recognised in-radius town is kept, a recognised
+    out-of-area town is dropped, and anything unrecognised is KEPT and flagged.
+    An advert must never be lost because nobody had heard of the town yet —
+    that is the failure mode this whole monitor exists to prevent.
+
+    Whether "unknown" is kept or dropped is the monitor's call: keep it on the
+    employer poller, where every employer is already in radius, and drop it on
+    the national discovery list, where an unrecognised town is almost certainly
+    the other end of the country.
+
+    Returns "in", "out" or "unknown"."""
     town = norm(card.get("town"))
-    if towns and town and any(town == t or town.startswith(t + " ") or t in town
-                              for t in towns):
-        return True
-    if counties and norm(card.get("county")) in counties:
-        return True
     generic = ("", "trustwide", "trust wide", "various", "various sites",
                "cross site", "multiple", "multiple sites", "countywide",
                "county wide", "agile", "hybrid", "home based")
-    if employers and town in generic:
+
+    def hit(names):
+        # Whole-word match, so "northampton" does not match "corby
+        # northamptonshire" and "warwick" does not match "warwickshire".
+        return any(t and re.search(r"\b%s\b" % re.escape(t), town)
+                   for t in names)
+
+    if towns and hit(towns):
+        return "in"
+    if counties and norm(card.get("county")) in counties:
+        return "in"
+    if town in generic:
         emp = norm(card.get("employer"))
-        if any(e in emp for e in employers):
-            return True
-    return False
+        if not employers or any(e in emp for e in employers):
+            return "in"
+        return "unknown"
+    if exclude_towns and hit(exclude_towns):
+        return "out"
+    return "unknown"
 
 
 # --------------------------------------------------------------------------
@@ -462,6 +482,7 @@ def main():
         towns = [norm(t) for t in mon.get("towns", [])]
         counties = set(norm(t) for t in mon.get("counties", []))
         employers = [norm(e) for e in mon.get("employers", [])]
+        exclude_towns = [norm(t) for t in mon.get("exclude_towns", [])]
 
         fresh = [c for c in cards if c["ref"] not in seen]
         kept, dropped_title, dropped_dist, dropped_dupe, dropped_band = [], 0, 0, 0, 0
@@ -474,9 +495,16 @@ def main():
                 dropped_senior += 1
                 continue
             if source.startswith("trac"):
-                if not trac_in_area(c, towns, counties, employers):
+                geo = trac_geo(c, towns, counties, employers, exclude_towns)
+                if geo == "out":
                     dropped_dist += 1
                     continue
+                if geo == "unknown":
+                    if mon.get("unknown_location", "keep") == "drop":
+                        dropped_dist += 1
+                        continue
+                    c["note"] = ("Location not in the known list (%s) - check the "
+                                 "distance yourself" % (c.get("town") or "not stated"))
             elif max_miles is not None and c["miles"] is not None and c["miles"] > max_miles:
                 dropped_dist += 1
                 continue
@@ -505,9 +533,10 @@ def main():
                 continue
             known = set(str(i) for i in mon.get("known_employer_ids", []))
             if known and c.get("employer_id") and c["employer_id"] not in known:
-                c["note"] = ("New TRAC employer %s (id %s) - add the id to the "
-                             "employer poller" % (c.get("employer", "?"),
-                                                  c["employer_id"]))
+                extra = ("New TRAC employer %s (id %s) - add the id to the "
+                         "employer poller" % (c.get("employer", "?"),
+                                              c["employer_id"]))
+                c["note"] = (c["note"] + "\n" + extra) if c.get("note") else extra
             kept.append(c)
 
         if dropped_title:

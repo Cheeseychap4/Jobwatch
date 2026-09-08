@@ -42,7 +42,22 @@ Each entry in `monitors.json` has a `source`:
 
 Filters available on every monitor: `title_filter`, `exclude_title`, `bands`,
 `allow_unknown_band`. NHS monitors also take `max_miles`; TRAC monitors take
-`towns`, `counties` and `employers` instead, because TRAC has no distance field.
+`towns`, `counties`, `employers` and `exclude_towns` instead, because TRAC
+publishes a town, not a distance.
+
+## Geography fails open, on purpose
+
+On the employer poller every employer is already in radius, so an unrecognised
+town is **kept and flagged** rather than dropped (`"unknown_location": "keep"`).
+A post must never be lost because nobody had added the town to a list yet —
+that is the exact failure this monitor exists to prevent. `exclude_towns` drops
+the known out-of-area sites those trusts also run.
+
+The national discovery monitor sets `"unknown_location": "drop"`, because there
+an unrecognised town is almost certainly the other end of the country.
+
+Town matching is whole-word, so "northampton" does not match "corby,
+northamptonshire".
 
 ## Adding a TRAC employer
 
