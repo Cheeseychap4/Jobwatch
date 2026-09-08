@@ -1,14 +1,21 @@
 #!/usr/bin/env python3
 """
-jobwatch - polls NHS Jobs search pages and pushes new adverts to Telegram.
-Standard library only. No pip installs needed.
+jobwatch - polls NHS Jobs AND TRAC (healthjobsuk.com) and pushes newly
+posted adverts to Telegram. Standard library only. No pip installs needed.
 
-Parses each search-result card (title, employer, location, distance, salary,
-closing date) rather than just the link, so adverts can be filtered on
-distance and alerts carry useful detail.
+WHY TWO SOURCES
+    Most NHS trusts recruit through TRAC. The advert opens on TRAC first and
+    is copied across to jobs.nhs.uk afterwards - sometimes hours later,
+    sometimes days, and sometimes not until after the advert has already
+    closed on an application cap. Watching jobs.nhs.uk alone therefore misses
+    exactly the fast-filling posts this monitor exists to catch.
+    TRAC is the source. NHS Jobs is the mirror. Watch the source.
+
+Each monitor declares "source": "nhs" (default) or "trac".
 """
 
 import html
+import http.cookiejar
 import json
 import os
 import re
@@ -31,6 +38,7 @@ UA = (
 
 MAX_ALERTS_PER_RUN = 12
 ADVERT_BASE = "https://www.jobs.nhs.uk/candidate/jobadvert/"
+TRAC_BASE = "https://www.healthjobsuk.com"
 
 
 # Agenda for Change annual pay ranges, England, effective 1 April 2026.
@@ -48,21 +56,27 @@ AFC_BANDS = {
 }
 
 
-def detect_bands(title, salary):
+def detect_bands(title, salary, grade=""):
     """Best-effort band detection. Returns a set of band labels, or an
-    empty set when the advert gives no usable signal (hourly rate,
-    'depends on experience', non-AfC employer)."""
+    empty set when the advert gives no usable signal.
+
+    `grade` is TRAC's own band field ("NHS AfC: Band 5"). When present it is
+    authoritative - NHS Jobs search cards carry no band field at all, which
+    is why the NHS-side detection has to guess from salary."""
     found = set()
 
-    # 1. Band stated in the title, e.g. "Band 4", "Band 7/8a Psychologist".
-    for m in re.finditer(r"band\s*([2-9])([a-d])?\b", title, re.I):
-        found.add(m.group(1) + (m.group(2).lower() if m.group(2) else ""))
-    for m in re.finditer(r"band\s*[2-9][a-d]?\s*/\s*([2-9])([a-d])?\b", title, re.I):
-        found.add(m.group(1) + (m.group(2).lower() if m.group(2) else ""))
-    if found:
-        return found
+    for source in (grade, title):
+        if not source:
+            continue
+        for m in re.finditer(r"band\s*([2-9])([a-d])?\b", source, re.I):
+            found.add(m.group(1) + (m.group(2).lower() if m.group(2) else ""))
+        for m in re.finditer(r"band\s*[2-9][a-d]?\s*/\s*([2-9])([a-d])?\b",
+                             source, re.I):
+            found.add(m.group(1) + (m.group(2).lower() if m.group(2) else ""))
+        if found:
+            return found
 
-    # 2. Otherwise infer from an annual salary range.
+    # Otherwise infer from an annual salary range.
     pay = annual_salary_range(salary)
     if not pay:
         return found
@@ -97,7 +111,12 @@ def annual_salary_range(salary):
     return min(amounts), max(amounts)
 
 
-def fetch(url):
+# TRAC paginates against a server-side session, so paging needs cookies.
+_COOKIES = http.cookiejar.CookieJar()
+_OPENER = urllib.request.build_opener(urllib.request.HTTPCookieProcessor(_COOKIES))
+
+
+def fetch(url, session=False):
     req = urllib.request.Request(
         url,
         headers={
@@ -106,7 +125,8 @@ def fetch(url):
             "Accept-Language": "en-GB,en;q=0.9",
         },
     )
-    with urllib.request.urlopen(req, timeout=60) as resp:
+    opener = _OPENER.open if session else urllib.request.urlopen
+    with opener(req, timeout=60) as resp:
         raw = resp.read()
     try:
         return raw.decode("utf-8")
@@ -119,6 +139,27 @@ def strip_tags(fragment):
     return html.unescape(" ".join(text.split()))
 
 
+def norm(text):
+    """Loose key for matching the same advert across the two sources."""
+    return re.sub(r"[^a-z0-9]+", " ", (text or "").lower()).strip()
+
+
+def job_key(card):
+    """Cross-source identity: employer + title, band and punctuation ignored.
+    Stops a TRAC alert repeating when the job later reaches NHS Jobs.
+
+    Employer strings differ between the two sources ("Oxford Health NHS
+    Foundation Trust" vs "Oxford Health NHS Trust Bicester OX25 1PZ"), so
+    only the first two words of the employer name are used."""
+    title = re.sub(r"\bband\s*[2-9][a-d]?\b", " ", card["title"], flags=re.I)
+    emp = card.get("employer") or card.get("employer_location", "")
+    return norm(title) + "|" + " ".join(norm(emp).split()[:2])
+
+
+# --------------------------------------------------------------------------
+# NHS Jobs
+# --------------------------------------------------------------------------
+
 def _field(card, test_name):
     """Text of the element carrying data-test=<test_name>."""
     m = re.search(
@@ -129,7 +170,7 @@ def _field(card, test_name):
 
 
 def parse_cards(page):
-    """Return a list of dicts, one per search-result card on the page."""
+    """Return a list of dicts, one per NHS Jobs search-result card."""
     marks = [m.start() for m in
              re.finditer(r'class="nhsuk-list-panel search-result', page)]
     cards = []
@@ -165,10 +206,13 @@ def parse_cards(page):
         loc = _field(card, "search-result-location")
 
         cards.append({
+            "source": "nhs",
             "ref": ref,
             "title": title,
             "url": ADVERT_BASE + ref,
             "employer_location": loc,
+            "employer": loc,
+            "town": "",
             "salary": _field(card, "search-result-salary").replace("Salary:", "").strip(),
             "miles": miles,
             "posted": _field(card, "search-result-publicationDate").replace("Date posted:", "").strip(),
@@ -179,7 +223,7 @@ def parse_cards(page):
 
 
 def fetch_cards(url, pages):
-    """Cards across the first `pages` result pages, de-duplicated in order."""
+    """Cards across the first `pages` NHS Jobs result pages, de-duplicated."""
     seen_refs, out = set(), []
     for p in range(1, max(1, pages) + 1):
         u = url if p == 1 else url + "&page=%d" % p
@@ -192,12 +236,145 @@ def fetch_cards(url, pages):
     return out
 
 
+# --------------------------------------------------------------------------
+# TRAC / healthjobsuk
+# --------------------------------------------------------------------------
+
+def _trac_field(card, cls):
+    m = re.search(r'class="hj-%s hj-job-detail"[^>]*>(.*?)</div>' % cls, card, re.S)
+    return strip_tags(m.group(1)) if m else ""
+
+
+def parse_trac_cards(page):
+    """Return a list of dicts, one per TRAC job-list card.
+
+    TRAC publishes an explicit band ('NHS AfC: Band 5') and the county in the
+    advert path, so band and geography are read rather than inferred."""
+    cards = []
+    for c in re.split(r'<li class="hj-job ', page)[1:]:
+        h = re.search(r'href="([^"]+)"', c)
+        if not h:
+            continue
+        href = html.unescape(h.group(1))
+        title = _trac_field(c, "jobtitle")
+        if not title:
+            continue
+        v = re.search(r"-(v\d+)", href)
+        ref = "trac:" + (v.group(1) if v else norm(title)[:40].replace(" ", "-"))
+
+        county = ""
+        parts = [p for p in href.split("/") if p]
+        if len(parts) > 2 and parts[0] == "job" and parts[1] == "UK":
+            county = parts[2].replace("_", " ")
+
+        salary = _trac_field(c, "salary").replace("Salary:", "").strip()
+        grade = _trac_field(c, "grade")
+        eid = re.search(r"employer-logos/(\d+)\.png", c)
+        card = {
+            "source": "trac",
+            "ref": ref,
+            "title": title,
+            "url": TRAC_BASE + href,
+            "employer": _trac_field(c, "employername"),
+            "employer_id": eid.group(1) if eid else "",
+            "town": _trac_field(c, "locationtown"),
+            "county": county,
+            "employer_location": ", ".join(
+                x for x in (_trac_field(c, "employername"),
+                            _trac_field(c, "locationtown")) if x),
+            "salary": salary,
+            "grade": grade,
+            "miles": None,
+            "posted": "",
+            "closing": "",
+        }
+        card["bands"] = detect_bands(title, salary, grade)
+        cards.append(card)
+    return cards
+
+
+def fetch_trac_cards(url, pages):
+    """Newest-first TRAC cards across `pages` pages. Paging is session-based,
+    so the first request must establish the sort before paging."""
+    out, seen = [], set()
+    page1 = fetch(url, session=True)
+    for c in parse_trac_cards(page1):
+        if c["ref"] not in seen:
+            seen.add(c["ref"])
+            out.append(c)
+    base = url.split("?")[0]
+    qs = urllib.parse.parse_qs(url.split("?", 1)[1]) if "?" in url else {}
+    keep = {k: v[0] for k, v in qs.items() if k in ("JobSearch_re", "_ts")}
+    for p in range(2, max(1, pages) + 1):
+        q = dict(keep)
+        q["_pg"] = str(p)
+        q["_pgid"] = ""
+        try:
+            cards = parse_trac_cards(
+                fetch(base + "?" + urllib.parse.urlencode(q), session=True))
+        except Exception as e:
+            print("   trac page %s failed: %s" % (p, e))
+            break
+        fresh = [c for c in cards if c["ref"] not in seen]
+        if not fresh:
+            break
+        seen.update(c["ref"] for c in fresh)
+        out.extend(fresh)
+    return out
+
+
+def fetch_trac_employer_cards(ids, pages=2):
+    """Every live vacancy for each TRAC employer id.
+
+    One short request per employer, complete for that employer, and free of
+    the national list's unreliable ordering and session-bound paging."""
+    out, seen = [], set()
+    for eid in ids:
+        url = ("https://www.healthjobsuk.com/job_list?JobSearch_re=&_ts=1"
+               "&employerid=%s" % eid)
+        try:
+            cards = parse_trac_cards(fetch(url))
+        except Exception as e:
+            print("   trac employer %s failed: %s" % (eid, e))
+            continue
+        for c in cards:
+            if c["ref"] not in seen:
+                seen.add(c["ref"])
+                out.append(c)
+    return out
+
+
+def trac_in_area(card, towns, counties, employers):
+    """TRAC has no distance field, so geography is an allowlist.
+    A trust-wide or unstated town is kept when the employer is in radius."""
+    town = norm(card.get("town"))
+    if towns and town and any(town == t or town.startswith(t + " ") or t in town
+                              for t in towns):
+        return True
+    if counties and norm(card.get("county")) in counties:
+        return True
+    generic = ("", "trustwide", "trust wide", "various", "various sites",
+               "cross site", "multiple", "multiple sites", "countywide",
+               "county wide", "agile", "hybrid", "home based")
+    if employers and town in generic:
+        emp = norm(card.get("employer"))
+        if any(e in emp for e in employers):
+            return True
+    return False
+
+
+# --------------------------------------------------------------------------
+
 def format_alert(monitor_name, c):
     bits = ["<b>%s</b>" % html.escape(c["title"])]
     if c["employer_location"]:
         bits.append(html.escape(c["employer_location"]))
     if c.get("bands"):
         bits.append("Band " + "/".join(sorted(c["bands"])))
+    if c.get("source", "").startswith("trac"):
+        bits.append("TRAC - may not be on NHS Jobs yet")
+    if c.get("note"):
+        bits.append(c["note"])
     bits.append(c["url"])
     return "\n".join(bits)
 
@@ -242,18 +419,26 @@ def main():
         sys.exit("No monitors defined in %s" % CONFIG_FILE)
 
     state = load(STATE_FILE, {})
-    # Global set of advert references already alerted on, from any monitor.
-    # Stops the same job pinging once per search that surfaces it.
+    # Advert references already alerted on, from any monitor.
     alerted = set(state.get("_alerted", []))
+    # Employer+title keys already alerted on, so a job seen first on TRAC does
+    # not ping again days later when the NHS Jobs mirror appears.
+    alerted_keys = set(state.get("_alerted_keys", []))
     alerts = []
     scanned = {}
 
     for mon in monitors:
         name = mon["name"]
-        print("== %s" % name)
+        source = mon.get("source", "nhs")
+        print("== %s [%s]" % (name, source))
 
         try:
-            cards = fetch_cards(mon["url"], mon.get("pages", 3))
+            if source == "trac_employers":
+                cards = fetch_trac_employer_cards(mon.get("employer_ids", []))
+            elif source == "trac":
+                cards = fetch_trac_cards(mon["url"], mon.get("pages", 4))
+            else:
+                cards = fetch_cards(mon["url"], mon.get("pages", 3))
         except Exception as e:
             print("   FETCH FAILED: %s" % e)
             scanned[name] = 0
@@ -274,6 +459,9 @@ def main():
         exclude_title = mon.get("exclude_title", "")
         want_bands = set(str(b) for b in mon.get("bands", []))
         allow_unknown = mon.get("allow_unknown_band", True)
+        towns = [norm(t) for t in mon.get("towns", [])]
+        counties = set(norm(t) for t in mon.get("counties", []))
+        employers = [norm(e) for e in mon.get("employers", [])]
 
         fresh = [c for c in cards if c["ref"] not in seen]
         kept, dropped_title, dropped_dist, dropped_dupe, dropped_band = [], 0, 0, 0, 0
@@ -285,7 +473,11 @@ def main():
             if exclude_title and re.search(exclude_title, c["title"], re.I):
                 dropped_senior += 1
                 continue
-            if max_miles is not None and c["miles"] is not None and c["miles"] > max_miles:
+            if source.startswith("trac"):
+                if not trac_in_area(c, towns, counties, employers):
+                    dropped_dist += 1
+                    continue
+            elif max_miles is not None and c["miles"] is not None and c["miles"] > max_miles:
                 dropped_dist += 1
                 continue
             if want_bands:
@@ -308,9 +500,14 @@ def main():
                     elif not allow_unknown:
                         dropped_band += 1
                         continue
-            if c["ref"] in alerted:
+            if c["ref"] in alerted or job_key(c) in alerted_keys:
                 dropped_dupe += 1
                 continue
+            known = set(str(i) for i in mon.get("known_employer_ids", []))
+            if known and c.get("employer_id") and c["employer_id"] not in known:
+                c["note"] = ("New TRAC employer %s (id %s) - add the id to the "
+                             "employer poller" % (c.get("employer", "?"),
+                                                  c["employer_id"]))
             kept.append(c)
 
         if dropped_title:
@@ -318,22 +515,25 @@ def main():
         if dropped_senior:
             print("   %s new but too senior" % dropped_senior)
         if dropped_dist:
-            print("   %s new but beyond %s miles" % (dropped_dist, max_miles))
+            print("   %s new but out of area" % dropped_dist)
         if dropped_band:
             print("   %s new but outside band %s" % (dropped_band, "/".join(sorted(want_bands))))
         if dropped_dupe:
-            print("   %s already alerted under another search" % dropped_dupe)
+            print("   %s already alerted under another search or source" % dropped_dupe)
 
         if not seeded:
             print("   seeding baseline with %s item(s) - no alerts sent" % len(cards))
             alerted.update(c["ref"] for c in cards)
+            alerted_keys.update(job_key(c) for c in cards)
         elif kept:
             print("   %s NEW" % len(kept))
             for c in kept[:MAX_ALERTS_PER_RUN]:
-                print("      %s (%s mi, band %s)"
-                      % (c["title"], c["miles"], "/".join(sorted(c["bands"])) or "?"))
+                print("      %s (%s, band %s)"
+                      % (c["title"], c.get("town") or c["miles"],
+                         "/".join(sorted(c["bands"])) or "?"))
                 alerts.append(format_alert(name, c))
                 alerted.add(c["ref"])
+                alerted_keys.add(job_key(c))
             if len(kept) > MAX_ALERTS_PER_RUN:
                 alerts.append(
                     "<b>%s</b>\n...and %s more. Open the search page."
@@ -344,7 +544,7 @@ def main():
         current = {c["ref"] for c in cards}
         merged = [c["ref"] for c in cards] + \
                  [r for r in prev.get("seen", []) if r not in current]
-        state[name] = {"seen": merged[:400], "seeded": True}
+        state[name] = {"seen": merged[:600], "seeded": True}
 
     if os.environ.get("JOBWATCH_HEARTBEAT"):
         lines = ["<b>Stayin' alive</b>", "jobwatch is running."]
@@ -354,14 +554,15 @@ def main():
         broken = [n for n in scanned if scanned[n] == 0]
         if broken:
             lines.append("")
-            lines.append("PROBLEM: %s returned nothing. The NHS Jobs page "
-                         "layout may have changed." % ", ".join(broken))
+            lines.append("PROBLEM: %s returned nothing. The page layout may "
+                         "have changed." % ", ".join(broken))
         alerts.append("\n".join(lines))
 
     for msg in alerts:
         telegram(msg)
 
-    state["_alerted"] = sorted(alerted)[:2000]
+    state["_alerted"] = sorted(alerted)[:4000]
+    state["_alerted_keys"] = sorted(alerted_keys)[:4000]
 
     with open(STATE_FILE, "w", encoding="utf-8") as f:
         json.dump(state, f, indent=1, sort_keys=True)
