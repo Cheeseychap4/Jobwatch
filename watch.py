@@ -590,6 +590,8 @@ def sweep(monitors, state, first_pass=True):
         title_filter = mon.get("title_filter", "")
         max_miles = mon.get("max_miles")
         exclude_title = mon.get("exclude_title", "")
+        exclude_discipline = mon.get("exclude_discipline", "")
+        protect_title = mon.get("protect_title", "psycholog")
         want_bands = set(str(b) for b in mon.get("bands", []))
         allow_unknown = mon.get("allow_unknown_band", True)
         towns = [norm(t) for t in mon.get("towns", [])]
@@ -601,12 +603,22 @@ def sweep(monitors, state, first_pass=True):
         fresh = [c for c in cards if c["ref"] not in seen]
         kept, dropped_title, dropped_dist, dropped_dupe, dropped_band = [], 0, 0, 0, 0
         dropped_senior = 0
+        dropped_discipline = 0
         for c in fresh:
             if title_filter and not re.search(title_filter, c["title"], re.I):
                 dropped_title += 1
                 continue
             if exclude_title and re.search(exclude_title, c["title"], re.I):
                 dropped_senior += 1
+                continue
+            # Other allied health professions. "Assistant" is the word that also
+            # spells Assistant Psychologist, so the discipline is excluded by
+            # name rather than the grade - and a title that says psychology is
+            # never dropped by this, so "Assistant Psychologist (maternity
+            # cover)" survives a maternity exclusion.
+            if exclude_discipline and re.search(exclude_discipline, c["title"], re.I) \
+                    and not (protect_title and re.search(protect_title, c["title"], re.I)):
+                dropped_discipline += 1
                 continue
             if source == "feed" and seeded and not c["town"] \
                     and (mon.get("location_pattern") or mon.get("closed_pattern")):
@@ -666,6 +678,8 @@ def sweep(monitors, state, first_pass=True):
             print("   %s new but filtered out by title_filter" % dropped_title)
         if dropped_senior:
             print("   %s new but too senior" % dropped_senior)
+        if dropped_discipline:
+            print("   %s new but another clinical discipline" % dropped_discipline)
         if dropped_dist:
             print("   %s new but out of area" % dropped_dist)
         if dropped_band:

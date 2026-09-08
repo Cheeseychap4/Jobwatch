@@ -124,6 +124,21 @@ employer missing from the id list, which cannot meaningfully change inside one
 
 Measured over a run of nine passes: **882 requests before, 494 after.**
 
+## Other clinical disciplines
+
+"Assistant" is also the word in Assistant Psychologist, so the grade can't be
+filtered on. Two terms in the title filter — `assistant practitioner` and
+`therapy assistant` — were dragging in every other profession's assistant grade:
+occupational therapy, speech and language, urology, maternity. Both are gone;
+anything psychology-related already matches `psycholog`.
+
+Behind that, `exclude_discipline` names the other professions directly — OT,
+SLT, physio, dietetics, podiatry, radiography, pharmacy, and the body-system
+specialties. `protect_title` overrides it, so a title that says psychology,
+forensic or mental health is never dropped by a discipline rule. That is what
+keeps "Assistant Psychologist (maternity cover)" alive against a maternity
+exclusion.
+
 ## Things worth knowing
 
 - The national TRAC list cannot be sorted or deep-paged reliably. Coverage comes

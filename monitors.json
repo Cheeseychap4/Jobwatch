@@ -35,7 +35,7 @@
       "432",
       "1758"
     ],
-    "title_filter": "psycholog|psychological|wellbeing practitioner|mental health practitioner|assistant practitioner|\\bEMHP\\b|\\bCWP\\b|\\bPWP\\b|graduate mental health|forensic|behaviour support|therapy assistant|technical instructor",
+    "title_filter": "psycholog|psychological|wellbeing practitioner|mental health practitioner|\\bEMHP\\b|\\bCWP\\b|\\bPWP\\b|graduate mental health|forensic|behaviour support|technical instructor",
     "bands": [
       3,
       4,
@@ -196,7 +196,9 @@
       "worcester",
       "york"
     ],
-    "unknown_location": "keep"
+    "unknown_location": "keep",
+    "exclude_discipline": "occupational therap|\\bOTA?\\b|speech (and|&) language|\\bSLT\\b|\\bSALT\\b|physiotherap|\\bphysio\\b|dietet|dietitian|\\bnutrition|podiatr|chiropod|radiograph|sonograph|\\bimaging\\b|orthopt|optometr|\\baudiolog|pharmac|phlebotom|\\bdental\\b|\\bdentist|\\bdenture|\\borthopaed|\\borthoped|\\bfracture\\b|\\btheatre\\b|endoscop|\\burolog|\\bcardiac\\b|\\bcardiolog|\\brespiratory\\b|\\boncolog|\\bcancer\\b|\\brenal\\b|\\bdialysis\\b|\\bstroke\\b|\\bdiabet|tissue viability|\\bwound\\b|\\bpalliative\\b|\\bdermatolog|\\bophthalm|\\bENT\\b|\\bneonat|health visit|district nurs|\\bsexual health\\b|\\bcontinence\\b|\\bbladder\\b|\\bmusculoskeletal\\b|\\bMSK\\b|maternity (link|support|assistant|ward|unit|care|services)|\\bmammograph|\\bcytolog|\\bhistolog|\\bbiomedical\\b|\\bmortuary\\b|\\bpodiatry\\b",
+    "protect_title": "psycholog|forensic|mental health|wellbeing practitioner|\\bEMHP\\b|\\bCWP\\b|\\bPWP\\b"
   },
   {
     "name": "TRAC support / HCA (source of truth)",
@@ -371,14 +373,16 @@
       "worcester",
       "york"
     ],
-    "unknown_location": "keep"
+    "unknown_location": "keep",
+    "exclude_discipline": "occupational therap|\\bOTA?\\b|speech (and|&) language|\\bSLT\\b|\\bSALT\\b|physiotherap|\\bphysio\\b|dietet|dietitian|\\bnutrition|podiatr|chiropod|radiograph|sonograph|\\bimaging\\b|orthopt|optometr|\\baudiolog|pharmac|phlebotom|\\bdental\\b|\\bdentist|\\bdenture|\\borthopaed|\\borthoped|\\bfracture\\b|\\btheatre\\b|endoscop|\\burolog|\\bcardiac\\b|\\bcardiolog|\\brespiratory\\b|\\boncolog|\\bcancer\\b|\\brenal\\b|\\bdialysis\\b|\\bstroke\\b|\\bdiabet|tissue viability|\\bwound\\b|\\bpalliative\\b|\\bdermatolog|\\bophthalm|\\bENT\\b|\\bneonat|health visit|district nurs|\\bsexual health\\b|\\bcontinence\\b|\\bbladder\\b|\\bmusculoskeletal\\b|\\bMSK\\b|maternity (link|support|assistant|ward|unit|care|services)|\\bmammograph|\\bcytolog|\\bhistolog|\\bbiomedical\\b|\\bmortuary\\b|\\bpodiatry\\b",
+    "protect_title": "psycholog|forensic|mental health|wellbeing practitioner|\\bEMHP\\b|\\bCWP\\b|\\bPWP\\b"
   },
   {
     "name": "TRAC discovery (all employers, newest pages)",
     "source": "trac",
     "url": "https://www.healthjobsuk.com/job_list?JobSearch_re=&_ts=1",
     "pages": 4,
-    "title_filter": "psycholog|psychological|wellbeing practitioner|mental health practitioner|assistant practitioner|\\bEMHP\\b|\\bCWP\\b|\\bPWP\\b|graduate mental health|forensic|behaviour support|therapy assistant|technical instructor",
+    "title_filter": "psycholog|psychological|wellbeing practitioner|mental health practitioner|\\bEMHP\\b|\\bCWP\\b|\\bPWP\\b|graduate mental health|forensic|behaviour support|technical instructor",
     "bands": [
       3,
       4,
@@ -534,7 +538,9 @@
       "york"
     ],
     "unknown_location": "drop",
-    "every_pass": false
+    "every_pass": false,
+    "exclude_discipline": "occupational therap|\\bOTA?\\b|speech (and|&) language|\\bSLT\\b|\\bSALT\\b|physiotherap|\\bphysio\\b|dietet|dietitian|\\bnutrition|podiatr|chiropod|radiograph|sonograph|\\bimaging\\b|orthopt|optometr|\\baudiolog|pharmac|phlebotom|\\bdental\\b|\\bdentist|\\bdenture|\\borthopaed|\\borthoped|\\bfracture\\b|\\btheatre\\b|endoscop|\\burolog|\\bcardiac\\b|\\bcardiolog|\\brespiratory\\b|\\boncolog|\\bcancer\\b|\\brenal\\b|\\bdialysis\\b|\\bstroke\\b|\\bdiabet|tissue viability|\\bwound\\b|\\bpalliative\\b|\\bdermatolog|\\bophthalm|\\bENT\\b|\\bneonat|health visit|district nurs|\\bsexual health\\b|\\bcontinence\\b|\\bbladder\\b|\\bmusculoskeletal\\b|\\bMSK\\b|maternity (link|support|assistant|ward|unit|care|services)|\\bmammograph|\\bcytolog|\\bhistolog|\\bbiomedical\\b|\\bmortuary\\b|\\bpodiatry\\b",
+    "protect_title": "psycholog|forensic|mental health|wellbeing practitioner|\\bEMHP\\b|\\bCWP\\b|\\bPWP\\b"
   },
   {
     "name": "Cygnet Health Care (own site)",
@@ -543,7 +549,7 @@
     "url": "https://careers.cygnetgroup.com/job_listing-sitemap.xml",
     "url_filter": "/job/",
     "employer": "Cygnet Health Care",
-    "title_filter": "psycholog|psychological|wellbeing practitioner|mental health practitioner|assistant practitioner|\\bEMHP\\b|\\bCWP\\b|\\bPWP\\b|graduate mental health|forensic|behaviour support|positive behaviour|therapy assistant|technical instructor|mental health act|group worker|facilitator|intervention|support worker|healthcare assistant|health care assistant|recovery|activities coordinator|activity coordinator",
+    "title_filter": "psycholog|psychological|wellbeing practitioner|mental health practitioner|\\bEMHP\\b|\\bCWP\\b|\\bPWP\\b|graduate mental health|forensic|behaviour support|positive behaviour|technical instructor|mental health act|group worker|facilitator|intervention|support worker|healthcare assistant|health care assistant|recovery|activities coordinator|activity coordinator",
     "exclude_title": "\\bsenior\\b|\\bconsultant\\b|\\bprincipal\\b|\\blead\\b|\\bhead of\\b|highly specialist|\\bdirector\\b|\\bmanager\\b|\\bband [6-9]\\b|\\bband 8[a-d]?\\b|\\bmatron\\b|\\bpsychiatrist\\b|\\bnurse\\b|\\bmidwif|\\bqualified\\b|housekeep|catering|cleaner|domestic|chef|\\bcook\\b|maintenance|security|estates|ward clerk|receptionist|\\bdriver\\b|\\bteacher\\b|\\bdoctor\\b|deputy",
     "bands": [],
     "allow_unknown_band": true,
@@ -563,7 +569,9 @@
       "redditch"
     ],
     "location_pattern": "\"jobLocation\"[^}]*?\"address\"\\s*:\\s*\"([^\"]+)\"",
-    "closed_pattern": "vacancy not found|this vacancy (has )?(is )?(now )?clos|no longer accepting|position (has been )?filled"
+    "closed_pattern": "vacancy not found|this vacancy (has )?(is )?(now )?clos|no longer accepting|position (has been )?filled",
+    "exclude_discipline": "occupational therap|\\bOTA?\\b|speech (and|&) language|\\bSLT\\b|\\bSALT\\b|physiotherap|\\bphysio\\b|dietet|dietitian|\\bnutrition|podiatr|chiropod|radiograph|sonograph|\\bimaging\\b|orthopt|optometr|\\baudiolog|pharmac|phlebotom|\\bdental\\b|\\bdentist|\\bdenture|\\borthopaed|\\borthoped|\\bfracture\\b|\\btheatre\\b|endoscop|\\burolog|\\bcardiac\\b|\\bcardiolog|\\brespiratory\\b|\\boncolog|\\bcancer\\b|\\brenal\\b|\\bdialysis\\b|\\bstroke\\b|\\bdiabet|tissue viability|\\bwound\\b|\\bpalliative\\b|\\bdermatolog|\\bophthalm|\\bENT\\b|\\bneonat|health visit|district nurs|\\bsexual health\\b|\\bcontinence\\b|\\bbladder\\b|\\bmusculoskeletal\\b|\\bMSK\\b|maternity (link|support|assistant|ward|unit|care|services)|\\bmammograph|\\bcytolog|\\bhistolog|\\bbiomedical\\b|\\bmortuary\\b|\\bpodiatry\\b",
+    "protect_title": "psycholog|forensic|mental health|wellbeing practitioner|\\bEMHP\\b|\\bCWP\\b|\\bPWP\\b"
   },
   {
     "name": "Practice Plus Group Health in Justice (own site)",
@@ -639,7 +647,9 @@
       "yorkshire"
     ],
     "location_pattern": "<title>\\s*[^<]*?\\sin\\s([^<]*?)\\s-\\sHealth In Justice",
-    "closed_pattern": "vacancy not found|this vacancy (has )?(is )?(now )?clos|no longer accepting|position (has been )?filled"
+    "closed_pattern": "vacancy not found|this vacancy (has )?(is )?(now )?clos|no longer accepting|position (has been )?filled",
+    "exclude_discipline": "occupational therap|\\bOTA?\\b|speech (and|&) language|\\bSLT\\b|\\bSALT\\b|physiotherap|\\bphysio\\b|dietet|dietitian|\\bnutrition|podiatr|chiropod|radiograph|sonograph|\\bimaging\\b|orthopt|optometr|\\baudiolog|pharmac|phlebotom|\\bdental\\b|\\bdentist|\\bdenture|\\borthopaed|\\borthoped|\\bfracture\\b|\\btheatre\\b|endoscop|\\burolog|\\bcardiac\\b|\\bcardiolog|\\brespiratory\\b|\\boncolog|\\bcancer\\b|\\brenal\\b|\\bdialysis\\b|\\bstroke\\b|\\bdiabet|tissue viability|\\bwound\\b|\\bpalliative\\b|\\bdermatolog|\\bophthalm|\\bENT\\b|\\bneonat|health visit|district nurs|\\bsexual health\\b|\\bcontinence\\b|\\bbladder\\b|\\bmusculoskeletal\\b|\\bMSK\\b|maternity (link|support|assistant|ward|unit|care|services)|\\bmammograph|\\bcytolog|\\bhistolog|\\bbiomedical\\b|\\bmortuary\\b|\\bpodiatry\\b",
+    "protect_title": "psycholog|forensic|mental health|wellbeing practitioner|\\bEMHP\\b|\\bCWP\\b|\\bPWP\\b"
   },
   {
     "name": "St Andrew's Healthcare (own site)",
@@ -649,7 +659,7 @@
     "base": "https://www.stah.org",
     "employer": "St Andrew's Healthcare",
     "card_pattern": "<div class=\"result\">\\s*<a href=\"(?P<url>[^\"]+)\"[^>]*>.*?<h3>(?P<title>.*?)</h3>.*?Salary:(?P<salary>[^<]*)<.*?Location:\\s*(?P<location>[^<]*)<",
-    "title_filter": "psycholog|psychological|wellbeing practitioner|mental health practitioner|assistant practitioner|\\bEMHP\\b|\\bCWP\\b|\\bPWP\\b|graduate mental health|forensic|behaviour support|positive behaviour|therapy assistant|technical instructor|mental health act|group worker|facilitator|intervention|support worker|healthcare assistant|health care assistant|recovery|activities coordinator|activity coordinator",
+    "title_filter": "psycholog|psychological|wellbeing practitioner|mental health practitioner|\\bEMHP\\b|\\bCWP\\b|\\bPWP\\b|graduate mental health|forensic|behaviour support|positive behaviour|technical instructor|mental health act|group worker|facilitator|intervention|support worker|healthcare assistant|health care assistant|recovery|activities coordinator|activity coordinator",
     "exclude_title": "\\bsenior\\b|\\bconsultant\\b|\\bprincipal\\b|\\blead\\b|\\bhead of\\b|highly specialist|\\bdirector\\b|\\bmanager\\b|\\bband [6-9]\\b|\\bband 8[a-d]?\\b|\\bmatron\\b|\\bpsychiatrist\\b|\\bnurse\\b|\\bmidwif|\\bqualified\\b|housekeep|catering|cleaner|domestic|chef|\\bcook\\b|maintenance|security|estates|ward clerk|receptionist|\\bdriver\\b|\\bteacher\\b|\\bdoctor\\b|deputy",
     "bands": [],
     "allow_unknown_band": true,
@@ -673,7 +683,9 @@
       "kent",
       "london"
     ],
-    "closed_pattern": "vacancy not found|this vacancy (has )?(is )?(now )?clos|no longer accepting|position (has been )?filled"
+    "closed_pattern": "vacancy not found|this vacancy (has )?(is )?(now )?clos|no longer accepting|position (has been )?filled",
+    "exclude_discipline": "occupational therap|\\bOTA?\\b|speech (and|&) language|\\bSLT\\b|\\bSALT\\b|physiotherap|\\bphysio\\b|dietet|dietitian|\\bnutrition|podiatr|chiropod|radiograph|sonograph|\\bimaging\\b|orthopt|optometr|\\baudiolog|pharmac|phlebotom|\\bdental\\b|\\bdentist|\\bdenture|\\borthopaed|\\borthoped|\\bfracture\\b|\\btheatre\\b|endoscop|\\burolog|\\bcardiac\\b|\\bcardiolog|\\brespiratory\\b|\\boncolog|\\bcancer\\b|\\brenal\\b|\\bdialysis\\b|\\bstroke\\b|\\bdiabet|tissue viability|\\bwound\\b|\\bpalliative\\b|\\bdermatolog|\\bophthalm|\\bENT\\b|\\bneonat|health visit|district nurs|\\bsexual health\\b|\\bcontinence\\b|\\bbladder\\b|\\bmusculoskeletal\\b|\\bMSK\\b|maternity (link|support|assistant|ward|unit|care|services)|\\bmammograph|\\bcytolog|\\bhistolog|\\bbiomedical\\b|\\bmortuary\\b|\\bpodiatry\\b",
+    "protect_title": "psycholog|forensic|mental health|wellbeing practitioner|\\bEMHP\\b|\\bCWP\\b|\\bPWP\\b"
   },
   {
     "name": "AP / psychology 40mi",
@@ -687,7 +699,9 @@
     ],
     "allow_unknown_band": true,
     "pages": 3,
-    "exclude_title": "\\bsenior\\b|\\bconsultant\\b|\\bprincipal\\b|\\blead\\b|\\bhead of\\b|highly specialist|\\bdirector\\b|\\bmanager\\b|\\bband [6-9]\\b|\\bband 8[a-d]?\\b|\\bteacher\\b|\\bteaching\\b|\\btutor\\b|\\blecturer\\b|learning support assistant|\\bLSA\\b|cover supervisor|\\bSENDCo\\b|\\bSENCO\\b|\\bHLTA\\b|nursery|early years|classroom|invigilator|examinations officer|headteacher|school business|pastoral support|school (nurse|cleaner|catering|admin)"
+    "exclude_title": "\\bsenior\\b|\\bconsultant\\b|\\bprincipal\\b|\\blead\\b|\\bhead of\\b|highly specialist|\\bdirector\\b|\\bmanager\\b|\\bband [6-9]\\b|\\bband 8[a-d]?\\b|\\bteacher\\b|\\bteaching\\b|\\btutor\\b|\\blecturer\\b|learning support assistant|\\bLSA\\b|cover supervisor|\\bSENDCo\\b|\\bSENCO\\b|\\bHLTA\\b|nursery|early years|classroom|invigilator|examinations officer|headteacher|school business|pastoral support|school (nurse|cleaner|catering|admin)",
+    "exclude_discipline": "occupational therap|\\bOTA?\\b|speech (and|&) language|\\bSLT\\b|\\bSALT\\b|physiotherap|\\bphysio\\b|dietet|dietitian|\\bnutrition|podiatr|chiropod|radiograph|sonograph|\\bimaging\\b|orthopt|optometr|\\baudiolog|pharmac|phlebotom|\\bdental\\b|\\bdentist|\\bdenture|\\borthopaed|\\borthoped|\\bfracture\\b|\\btheatre\\b|endoscop|\\burolog|\\bcardiac\\b|\\bcardiolog|\\brespiratory\\b|\\boncolog|\\bcancer\\b|\\brenal\\b|\\bdialysis\\b|\\bstroke\\b|\\bdiabet|tissue viability|\\bwound\\b|\\bpalliative\\b|\\bdermatolog|\\bophthalm|\\bENT\\b|\\bneonat|health visit|district nurs|\\bsexual health\\b|\\bcontinence\\b|\\bbladder\\b|\\bmusculoskeletal\\b|\\bMSK\\b|maternity (link|support|assistant|ward|unit|care|services)|\\bmammograph|\\bcytolog|\\bhistolog|\\bbiomedical\\b|\\bmortuary\\b|\\bpodiatry\\b",
+    "protect_title": "psycholog|forensic|mental health|wellbeing practitioner|\\bEMHP\\b|\\bCWP\\b|\\bPWP\\b"
   },
   {
     "name": "Psychology wide 40mi",
@@ -701,7 +715,9 @@
     ],
     "allow_unknown_band": true,
     "pages": 3,
-    "exclude_title": "\\bsenior\\b|\\bconsultant\\b|\\bprincipal\\b|\\blead\\b|\\bhead of\\b|highly specialist|\\bdirector\\b|\\bmanager\\b|\\bband [6-9]\\b|\\bband 8[a-d]?\\b|\\bteacher\\b|\\bteaching\\b|\\btutor\\b|\\blecturer\\b|learning support assistant|\\bLSA\\b|cover supervisor|\\bSENDCo\\b|\\bSENCO\\b|\\bHLTA\\b|nursery|early years|classroom|invigilator|examinations officer|headteacher|school business|pastoral support|school (nurse|cleaner|catering|admin)"
+    "exclude_title": "\\bsenior\\b|\\bconsultant\\b|\\bprincipal\\b|\\blead\\b|\\bhead of\\b|highly specialist|\\bdirector\\b|\\bmanager\\b|\\bband [6-9]\\b|\\bband 8[a-d]?\\b|\\bteacher\\b|\\bteaching\\b|\\btutor\\b|\\blecturer\\b|learning support assistant|\\bLSA\\b|cover supervisor|\\bSENDCo\\b|\\bSENCO\\b|\\bHLTA\\b|nursery|early years|classroom|invigilator|examinations officer|headteacher|school business|pastoral support|school (nurse|cleaner|catering|admin)",
+    "exclude_discipline": "occupational therap|\\bOTA?\\b|speech (and|&) language|\\bSLT\\b|\\bSALT\\b|physiotherap|\\bphysio\\b|dietet|dietitian|\\bnutrition|podiatr|chiropod|radiograph|sonograph|\\bimaging\\b|orthopt|optometr|\\baudiolog|pharmac|phlebotom|\\bdental\\b|\\bdentist|\\bdenture|\\borthopaed|\\borthoped|\\bfracture\\b|\\btheatre\\b|endoscop|\\burolog|\\bcardiac\\b|\\bcardiolog|\\brespiratory\\b|\\boncolog|\\bcancer\\b|\\brenal\\b|\\bdialysis\\b|\\bstroke\\b|\\bdiabet|tissue viability|\\bwound\\b|\\bpalliative\\b|\\bdermatolog|\\bophthalm|\\bENT\\b|\\bneonat|health visit|district nurs|\\bsexual health\\b|\\bcontinence\\b|\\bbladder\\b|\\bmusculoskeletal\\b|\\bMSK\\b|maternity (link|support|assistant|ward|unit|care|services)|\\bmammograph|\\bcytolog|\\bhistolog|\\bbiomedical\\b|\\bmortuary\\b|\\bpodiatry\\b",
+    "protect_title": "psycholog|forensic|mental health|wellbeing practitioner|\\bEMHP\\b|\\bCWP\\b|\\bPWP\\b"
   },
   {
     "name": "Wellbeing practitioner 40mi",
@@ -715,7 +731,9 @@
     ],
     "allow_unknown_band": true,
     "pages": 3,
-    "exclude_title": "\\bsenior\\b|\\bconsultant\\b|\\bprincipal\\b|\\blead\\b|\\bhead of\\b|highly specialist|\\bdirector\\b|\\bmanager\\b|\\bband [6-9]\\b|\\bband 8[a-d]?\\b|qualified|\\bteacher\\b|\\bteaching\\b|\\btutor\\b|\\blecturer\\b|learning support assistant|\\bLSA\\b|cover supervisor|\\bSENDCo\\b|\\bSENCO\\b|\\bHLTA\\b|nursery|early years|classroom|invigilator|examinations officer|headteacher|school business|pastoral support|school (nurse|cleaner|catering|admin)"
+    "exclude_title": "\\bsenior\\b|\\bconsultant\\b|\\bprincipal\\b|\\blead\\b|\\bhead of\\b|highly specialist|\\bdirector\\b|\\bmanager\\b|\\bband [6-9]\\b|\\bband 8[a-d]?\\b|qualified|\\bteacher\\b|\\bteaching\\b|\\btutor\\b|\\blecturer\\b|learning support assistant|\\bLSA\\b|cover supervisor|\\bSENDCo\\b|\\bSENCO\\b|\\bHLTA\\b|nursery|early years|classroom|invigilator|examinations officer|headteacher|school business|pastoral support|school (nurse|cleaner|catering|admin)",
+    "exclude_discipline": "occupational therap|\\bOTA?\\b|speech (and|&) language|\\bSLT\\b|\\bSALT\\b|physiotherap|\\bphysio\\b|dietet|dietitian|\\bnutrition|podiatr|chiropod|radiograph|sonograph|\\bimaging\\b|orthopt|optometr|\\baudiolog|pharmac|phlebotom|\\bdental\\b|\\bdentist|\\bdenture|\\borthopaed|\\borthoped|\\bfracture\\b|\\btheatre\\b|endoscop|\\burolog|\\bcardiac\\b|\\bcardiolog|\\brespiratory\\b|\\boncolog|\\bcancer\\b|\\brenal\\b|\\bdialysis\\b|\\bstroke\\b|\\bdiabet|tissue viability|\\bwound\\b|\\bpalliative\\b|\\bdermatolog|\\bophthalm|\\bENT\\b|\\bneonat|health visit|district nurs|\\bsexual health\\b|\\bcontinence\\b|\\bbladder\\b|\\bmusculoskeletal\\b|\\bMSK\\b|maternity (link|support|assistant|ward|unit|care|services)|\\bmammograph|\\bcytolog|\\bhistolog|\\bbiomedical\\b|\\bmortuary\\b|\\bpodiatry\\b",
+    "protect_title": "psycholog|forensic|mental health|wellbeing practitioner|\\bEMHP\\b|\\bCWP\\b|\\bPWP\\b"
   },
   {
     "name": "Forensic 40mi",
@@ -729,13 +747,15 @@
     ],
     "allow_unknown_band": true,
     "pages": 3,
-    "exclude_title": "\\bsenior\\b|\\bconsultant\\b|\\bprincipal\\b|\\blead\\b|\\bhead of\\b|highly specialist|\\bdirector\\b|\\bmanager\\b|\\bband [6-9]\\b|\\bband 8[a-d]?\\b|\\bteacher\\b|\\bteaching\\b|\\btutor\\b|\\blecturer\\b|learning support assistant|\\bLSA\\b|cover supervisor|\\bSENDCo\\b|\\bSENCO\\b|\\bHLTA\\b|nursery|early years|classroom|invigilator|examinations officer|headteacher|school business|pastoral support|school (nurse|cleaner|catering|admin)"
+    "exclude_title": "\\bsenior\\b|\\bconsultant\\b|\\bprincipal\\b|\\blead\\b|\\bhead of\\b|highly specialist|\\bdirector\\b|\\bmanager\\b|\\bband [6-9]\\b|\\bband 8[a-d]?\\b|\\bteacher\\b|\\bteaching\\b|\\btutor\\b|\\blecturer\\b|learning support assistant|\\bLSA\\b|cover supervisor|\\bSENDCo\\b|\\bSENCO\\b|\\bHLTA\\b|nursery|early years|classroom|invigilator|examinations officer|headteacher|school business|pastoral support|school (nurse|cleaner|catering|admin)",
+    "exclude_discipline": "occupational therap|\\bOTA?\\b|speech (and|&) language|\\bSLT\\b|\\bSALT\\b|physiotherap|\\bphysio\\b|dietet|dietitian|\\bnutrition|podiatr|chiropod|radiograph|sonograph|\\bimaging\\b|orthopt|optometr|\\baudiolog|pharmac|phlebotom|\\bdental\\b|\\bdentist|\\bdenture|\\borthopaed|\\borthoped|\\bfracture\\b|\\btheatre\\b|endoscop|\\burolog|\\bcardiac\\b|\\bcardiolog|\\brespiratory\\b|\\boncolog|\\bcancer\\b|\\brenal\\b|\\bdialysis\\b|\\bstroke\\b|\\bdiabet|tissue viability|\\bwound\\b|\\bpalliative\\b|\\bdermatolog|\\bophthalm|\\bENT\\b|\\bneonat|health visit|district nurs|\\bsexual health\\b|\\bcontinence\\b|\\bbladder\\b|\\bmusculoskeletal\\b|\\bMSK\\b|maternity (link|support|assistant|ward|unit|care|services)|\\bmammograph|\\bcytolog|\\bhistolog|\\bbiomedical\\b|\\bmortuary\\b|\\bpodiatry\\b",
+    "protect_title": "psycholog|forensic|mental health|wellbeing practitioner|\\bEMHP\\b|\\bCWP\\b|\\bPWP\\b"
   },
   {
     "name": "Support worker / HCA 20mi",
     "source": "nhs",
     "url": "https://www.jobs.nhs.uk/candidate/search/results?keyword=mental+health+support+worker&location=Leamington+Spa&distance=20&sort=publicationDateDesc&language=en",
-    "title_filter": "support worker|assistant psychologist|psycholog|recovery|rehabilitation|assistant practitioner",
+    "title_filter": "support worker|assistant psychologist|psycholog|recovery|rehabilitation",
     "max_miles": 20,
     "bands": [
       4,
@@ -743,6 +763,8 @@
     ],
     "allow_unknown_band": false,
     "pages": 3,
-    "exclude_title": "\\bsenior\\b|\\bconsultant\\b|\\bprincipal\\b|\\blead\\b|\\bhead of\\b|highly specialist|\\bdirector\\b|\\bmanager\\b|\\bband [6-9]\\b|\\bband 8[a-d]?\\b|\\bteacher\\b|\\bteaching\\b|\\btutor\\b|\\blecturer\\b|learning support assistant|\\bLSA\\b|cover supervisor|\\bSENDCo\\b|\\bSENCO\\b|\\bHLTA\\b|nursery|early years|classroom|invigilator|examinations officer|headteacher|school business|pastoral support|school (nurse|cleaner|catering|admin)"
+    "exclude_title": "\\bsenior\\b|\\bconsultant\\b|\\bprincipal\\b|\\blead\\b|\\bhead of\\b|highly specialist|\\bdirector\\b|\\bmanager\\b|\\bband [6-9]\\b|\\bband 8[a-d]?\\b|\\bteacher\\b|\\bteaching\\b|\\btutor\\b|\\blecturer\\b|learning support assistant|\\bLSA\\b|cover supervisor|\\bSENDCo\\b|\\bSENCO\\b|\\bHLTA\\b|nursery|early years|classroom|invigilator|examinations officer|headteacher|school business|pastoral support|school (nurse|cleaner|catering|admin)",
+    "exclude_discipline": "occupational therap|\\bOTA?\\b|speech (and|&) language|\\bSLT\\b|\\bSALT\\b|physiotherap|\\bphysio\\b|dietet|dietitian|\\bnutrition|podiatr|chiropod|radiograph|sonograph|\\bimaging\\b|orthopt|optometr|\\baudiolog|pharmac|phlebotom|\\bdental\\b|\\bdentist|\\bdenture|\\borthopaed|\\borthoped|\\bfracture\\b|\\btheatre\\b|endoscop|\\burolog|\\bcardiac\\b|\\bcardiolog|\\brespiratory\\b|\\boncolog|\\bcancer\\b|\\brenal\\b|\\bdialysis\\b|\\bstroke\\b|\\bdiabet|tissue viability|\\bwound\\b|\\bpalliative\\b|\\bdermatolog|\\bophthalm|\\bENT\\b|\\bneonat|health visit|district nurs|\\bsexual health\\b|\\bcontinence\\b|\\bbladder\\b|\\bmusculoskeletal\\b|\\bMSK\\b|maternity (link|support|assistant|ward|unit|care|services)|\\bmammograph|\\bcytolog|\\bhistolog|\\bbiomedical\\b|\\bmortuary\\b|\\bpodiatry\\b",
+    "protect_title": "psycholog|forensic|mental health|wellbeing practitioner|\\bEMHP\\b|\\bCWP\\b|\\bPWP\\b"
   }
 ]
