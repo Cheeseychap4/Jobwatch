@@ -365,20 +365,25 @@ def slug_title(url):
     return s.strip().title()
 
 
-def feed_location(url, pattern):
-    """Open one provider advert and read the town off it.
+def feed_probe(url, location_pattern, closed_pattern=""):
+    """Open one provider advert; return (location, closed).
 
-    Provider sitemaps carry no location, so a title-only filter would either
-    alert on every support-worker post in the country or drop the lot. This is
-    only ever called for an advert that is BOTH new and past the title filter,
+    Provider sitemaps carry no location, and they also lag behind closures -
+    Practice Plus Group's sitemap still listed an Assistant Psychologist whose
+    advert already read "Vacancy Not Found". So the same fetch does both jobs.
+    Only ever called for an advert that is BOTH new and past the title filter,
     so it costs a handful of requests a run rather than hundreds."""
     try:
         page = fetch(url)
     except Exception as e:
-        print("   location lookup failed for %s: %s" % (url, e))
-        return ""
-    m = re.search(pattern, page, re.S | re.I)
-    return strip_tags(m.group(1)).strip() if m else ""
+        print("   advert lookup failed for %s: %s" % (url, e))
+        return "", False
+    if closed_pattern and re.search(closed_pattern, page, re.I):
+        return "", True
+    if not location_pattern:
+        return "", False
+    m = re.search(location_pattern, page, re.S | re.I)
+    return (strip_tags(m.group(1)).strip() if m else ""), False
 
 
 def fetch_feed_cards(mon):
@@ -451,8 +456,11 @@ def trac_geo(card, towns, counties, employers, exclude_towns, exclude_counties=(
     if counties and norm(card.get("county")) in counties:
         return "in"
     if town in generic:
+        # Only an employer allow-list can justify keeping a locationless card.
+        # Without one, "no town" is not evidence of anything - say unknown and
+        # let the monitor's unknown_location setting decide.
         emp = norm(card.get("employer"))
-        if not employers or any(e in emp for e in employers):
+        if employers and any(e in emp for e in employers):
             return "in"
         return "unknown"
     # Note: the county in a TRAC advert URL is the EMPLOYER's home county,
@@ -583,8 +591,13 @@ def sweep(monitors, state):
                 dropped_senior += 1
                 continue
             if source == "feed" and seeded and not c["town"] \
-                    and mon.get("location_pattern"):
-                c["town"] = feed_location(c["url"], mon["location_pattern"])
+                    and (mon.get("location_pattern") or mon.get("closed_pattern")):
+                c["town"], closed = feed_probe(c["url"],
+                                               mon.get("location_pattern", ""),
+                                               mon.get("closed_pattern", ""))
+                if closed:
+                    dropped_dist += 1
+                    continue
             if source.startswith("trac") or source == "feed":
                 geo = trac_geo(c, towns, counties, employers, exclude_towns,
                                exclude_counties)

@@ -567,7 +567,8 @@
     "counties": [],
     "employers": [],
     "location_pattern": "\"jobLocation\"[^}]*?\"address\"\\s*:\\s*\"([^\"]+)\"",
-    "exclude_towns": []
+    "exclude_towns": [],
+    "closed_pattern": "vacancy not found|this vacancy (has )?(is )?(now )?clos|no longer accepting|position (has been )?filled"
   },
   {
     "name": "Practice Plus Group Health in Justice (own site)",
@@ -644,7 +645,8 @@
       "york",
       "yorkshire"
     ],
-    "location_pattern": "<title>\\s*[^<]*?\\sin\\s([^<]*?)\\s-\\sHealth In Justice"
+    "location_pattern": "<title>\\s*[^<]*?\\sin\\s([^<]*?)\\s-\\sHealth In Justice",
+    "closed_pattern": "vacancy not found|this vacancy (has )?(is )?(now )?clos|no longer accepting|position (has been )?filled"
   },
   {
     "name": "St Andrew's Healthcare (own site)",
@@ -679,7 +681,8 @@
       "maidstone",
       "kent",
       "london"
-    ]
+    ],
+    "closed_pattern": "vacancy not found|this vacancy (has )?(is )?(now )?clos|no longer accepting|position (has been )?filled"
   },
   {
     "name": "AP / psychology 40mi",
