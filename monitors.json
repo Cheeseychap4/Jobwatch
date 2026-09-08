@@ -196,8 +196,7 @@
       "worcester",
       "york"
     ],
-    "unknown_location": "keep",
-    "exclude_counties": []
+    "unknown_location": "keep"
   },
   {
     "name": "TRAC support / HCA (source of truth)",
@@ -372,14 +371,13 @@
       "worcester",
       "york"
     ],
-    "unknown_location": "keep",
-    "exclude_counties": []
+    "unknown_location": "keep"
   },
   {
     "name": "TRAC discovery (all employers, newest pages)",
     "source": "trac",
     "url": "https://www.healthjobsuk.com/job_list?JobSearch_re=&_ts=1",
-    "pages": 6,
+    "pages": 4,
     "title_filter": "psycholog|psychological|wellbeing practitioner|mental health practitioner|assistant practitioner|\\bEMHP\\b|\\bCWP\\b|\\bPWP\\b|graduate mental health|forensic|behaviour support|therapy assistant|technical instructor",
     "bands": [
       3,
@@ -536,7 +534,7 @@
       "york"
     ],
     "unknown_location": "drop",
-    "exclude_counties": []
+    "every_pass": false
   },
   {
     "name": "Cygnet Health Care (own site)",
@@ -564,10 +562,7 @@
       "bromsgrove",
       "redditch"
     ],
-    "counties": [],
-    "employers": [],
     "location_pattern": "\"jobLocation\"[^}]*?\"address\"\\s*:\\s*\"([^\"]+)\"",
-    "exclude_towns": [],
     "closed_pattern": "vacancy not found|this vacancy (has )?(is )?(now )?clos|no longer accepting|position (has been )?filled"
   },
   {
@@ -596,8 +591,6 @@
       "warwick",
       "five wells"
     ],
-    "counties": [],
-    "employers": [],
     "exclude_towns": [
       "altcourse",
       "bristol",
@@ -669,8 +662,6 @@
       "solihull",
       "sutton coldfield"
     ],
-    "counties": [],
-    "employers": [],
     "exclude_towns": [
       "essex",
       "suffolk",

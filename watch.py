@@ -36,7 +36,7 @@ UA = (
     "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36"
 )
 
-MAX_ALERTS_PER_RUN = 12
+MAX_ALERTS_PER_MONITOR = 12
 ADVERT_BASE = "https://www.jobs.nhs.uk/candidate/jobadvert/"
 TRAC_BASE = "https://www.healthjobsuk.com"
 
@@ -116,7 +116,18 @@ _COOKIES = http.cookiejar.CookieJar()
 _OPENER = urllib.request.build_opener(urllib.request.HTTPCookieProcessor(_COOKIES))
 
 
+# One pass often asks for the same page twice - the psychology poller and the
+# support poller read the same 31 TRAC employers - so pages are cached for the
+# length of a pass and the cache is cleared between passes. Same coverage, half
+# the requests, and kinder to the job boards.
+_CACHE = {}
+_STATS = {"fetched": 0, "cached": 0}
+
+
 def fetch(url, session=False):
+    if url in _CACHE:
+        _STATS["cached"] += 1
+        return _CACHE[url]
     req = urllib.request.Request(
         url,
         headers={
@@ -129,9 +140,12 @@ def fetch(url, session=False):
     with opener(req, timeout=60) as resp:
         raw = resp.read()
     try:
-        return raw.decode("utf-8")
+        page = raw.decode("utf-8")
     except UnicodeDecodeError:
-        return raw.decode("latin-1", "replace")
+        page = raw.decode("latin-1", "replace")
+    _STATS["fetched"] += 1
+    _CACHE[url] = page
+    return page
 
 
 def strip_tags(fragment):
@@ -529,8 +543,10 @@ def load(path, default):
         return default
 
 
-def sweep(monitors, state):
+def sweep(monitors, state, first_pass=True):
     """One pass over every monitor. Returns the alerts to send."""
+    _CACHE.clear()
+    _STATS.update(fetched=0, cached=0)
     # Advert references already alerted on, from any monitor.
     alerted = set(state.get("_alerted", []))
     # Employer+title keys already alerted on, so a job seen first on TRAC does
@@ -542,6 +558,8 @@ def sweep(monitors, state):
     for mon in monitors:
         name = mon["name"]
         source = mon.get("source", "nhs")
+        if not first_pass and not mon.get("every_pass", True):
+            continue
         print("== %s [%s]" % (name, source))
 
         try:
@@ -661,17 +679,17 @@ def sweep(monitors, state):
             alerted_keys.update(job_key(c) for c in cards)
         elif kept:
             print("   %s NEW" % len(kept))
-            for c in kept[:MAX_ALERTS_PER_RUN]:
+            for c in kept[:MAX_ALERTS_PER_MONITOR]:
                 print("      %s (%s, band %s)"
                       % (c["title"], c.get("town") or c["miles"],
                          "/".join(sorted(c["bands"])) or "?"))
                 alerts.append(format_alert(name, c))
                 alerted.add(c["ref"])
                 alerted_keys.add(job_key(c))
-            if len(kept) > MAX_ALERTS_PER_RUN:
+            if len(kept) > MAX_ALERTS_PER_MONITOR:
                 alerts.append(
                     "<b>%s</b>\n...and %s more. Open the search page."
-                    % (html.escape(name), len(kept) - MAX_ALERTS_PER_RUN))
+                    % (html.escape(name), len(kept) - MAX_ALERTS_PER_MONITOR))
         else:
             print("   no change")
 
@@ -691,6 +709,9 @@ def sweep(monitors, state):
             lines.append("PROBLEM: %s returned nothing. The page layout may "
                          "have changed." % ", ".join(broken))
         alerts.append("\n".join(lines))
+
+    print("\n%s page(s) fetched, %s served from this pass's cache"
+          % (_STATS["fetched"], _STATS["cached"]))
 
     state["_alerted"] = sorted(alerted)[:4000]
     state["_alerted_keys"] = sorted(alerted_keys)[:4000]
@@ -728,7 +749,7 @@ def main():
             print("\n----- pass %s (%.0fs into a %ss run)"
                   % (passes, time.time() - started, budget))
         state = load(STATE_FILE, {})
-        alerts = sweep(monitors, state)
+        alerts = sweep(monitors, state, first_pass=(passes == 1))
         for msg in alerts:
             telegram(msg)
         total += len(alerts)

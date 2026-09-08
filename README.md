@@ -107,8 +107,22 @@ Assistant Psychologist was sitting on page 2. The poller follows the pages.
 
 **The county in a TRAC advert URL is the employer's home county, not the
 advert's location.** Every Midlands Partnership advert reads "Staffordshire"
-whatever town it is in, so county is useless as a geography filter and
-`exclude_counties` is deliberately left empty. Towns do the work.
+whatever town it is in, so county is useless as a geography filter and no
+monitor sets one. Towns do the work.
+
+## Doing the same work once
+
+One pass used to fetch the same 31 TRAC employer pages twice, because the
+psychology poller and the support poller read the same employers. Pages are now
+cached for the length of a pass and the cache is cleared between passes, so
+coverage is unchanged and the request count is not. Every pass prints what it
+fetched and what came from cache.
+
+The national discovery sweep carries `"every_pass": false`: it exists to spot an
+employer missing from the id list, which cannot meaningfully change inside one
+45-minute run, so it runs on the first pass only.
+
+Measured over a run of nine passes: **882 requests before, 494 after.**
 
 ## Things worth knowing
 
