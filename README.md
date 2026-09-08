@@ -65,6 +65,18 @@ Open any of that employer's job cards on healthjobsuk.com and look at the logo
 image URL — `static.trac.jobs/employer-logos/476.png`. The number is the id.
 Add it to `employer_ids`.
 
+## Two things that would silently lose a post
+
+**A TRAC employer page shows 50 vacancies and pages the rest.** Reading page 1
+only would hide everything a large trust advertises beyond its fiftieth
+vacancy — Midlands Partnership runs 79 and Oxford Health 60 today, and an
+Assistant Psychologist was sitting on page 2. The poller follows the pages.
+
+**The county in a TRAC advert URL is the employer's home county, not the
+advert's location.** Every Midlands Partnership advert reads "Staffordshire"
+whatever town it is in, so county is useless as a geography filter and
+`exclude_counties` is deliberately left empty. Towns do the work.
+
 ## Things worth knowing
 
 - The national TRAC list cannot be sorted or deep-paged reliably. Coverage comes

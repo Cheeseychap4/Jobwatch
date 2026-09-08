@@ -323,28 +323,37 @@ def fetch_trac_cards(url, pages):
     return out
 
 
-def fetch_trac_employer_cards(ids, pages=2):
-    """Every live vacancy for each TRAC employer id.
+def fetch_trac_employer_cards(ids, pages=6):
+    """Every live vacancy for each TRAC employer id, following pagination.
 
-    One short request per employer, complete for that employer, and free of
-    the national list's unreliable ordering and session-bound paging."""
+    A TRAC employer page shows at most 50 vacancies and pages the rest, so
+    reading page 1 only would quietly hide everything a large trust advertises
+    beyond its fiftieth vacancy - Midlands Partnership and Oxford Health both
+    run past that today. Paging is session-bound, so each employer gets a
+    fresh cookie jar and is walked in order until nothing new comes back."""
     out, seen = [], set()
     for eid in ids:
-        url = ("https://www.healthjobsuk.com/job_list?JobSearch_re=&_ts=1"
-               "&employerid=%s" % eid)
-        try:
-            cards = parse_trac_cards(fetch(url))
-        except Exception as e:
-            print("   trac employer %s failed: %s" % (eid, e))
-            continue
-        for c in cards:
-            if c["ref"] not in seen:
-                seen.add(c["ref"])
-                out.append(c)
+        _COOKIES.clear()
+        base = ("https://www.healthjobsuk.com/job_list?JobSearch_re=&_ts=1"
+                "&employerid=%s" % eid)
+        for p in range(1, max(1, pages) + 1):
+            url = base if p == 1 else base + "&_pg=%d&_pgid=" % p
+            try:
+                cards = parse_trac_cards(fetch(url, session=True))
+            except Exception as e:
+                print("   trac employer %s page %s failed: %s" % (eid, p, e))
+                break
+            if not cards:
+                break
+            fresh = [c for c in cards if c["ref"] not in seen]
+            seen.update(c["ref"] for c in fresh)
+            out.extend(fresh)
+            if len(cards) < 50:
+                break
     return out
 
 
-def trac_geo(card, towns, counties, employers, exclude_towns):
+def trac_geo(card, towns, counties, employers, exclude_towns, exclude_counties=()):
     """TRAC carries a town, not a distance, so geography is judged by name.
 
     Deliberately fails OPEN. A recognised in-radius town is kept, a recognised
@@ -378,6 +387,15 @@ def trac_geo(card, towns, counties, employers, exclude_towns):
         if not employers or any(e in emp for e in employers):
             return "in"
         return "unknown"
+    # Note: the county in a TRAC advert URL is the EMPLOYER's home county,
+    # not the advert's location - every Midlands Partnership advert reads
+    # "Staffordshire" whatever town it is in. It is therefore useless as a
+    # geography filter and exclude_counties is left empty. Towns do the work,
+    # and anything unrecognised is kept and flagged rather than dropped.
+    county = norm(card.get("county"))
+    if exclude_counties and any(c and re.search(r"\b%s\b" % re.escape(c), county)
+                                for c in exclude_counties):
+        return "out"
     if exclude_towns and hit(exclude_towns):
         return "out"
     return "unknown"
@@ -454,7 +472,8 @@ def main():
 
         try:
             if source == "trac_employers":
-                cards = fetch_trac_employer_cards(mon.get("employer_ids", []))
+                cards = fetch_trac_employer_cards(mon.get("employer_ids", []),
+                                                  mon.get("pages", 6))
             elif source == "trac":
                 cards = fetch_trac_cards(mon["url"], mon.get("pages", 4))
             else:
@@ -483,6 +502,7 @@ def main():
         counties = set(norm(t) for t in mon.get("counties", []))
         employers = [norm(e) for e in mon.get("employers", [])]
         exclude_towns = [norm(t) for t in mon.get("exclude_towns", [])]
+        exclude_counties = [norm(t) for t in mon.get("exclude_counties", [])]
 
         fresh = [c for c in cards if c["ref"] not in seen]
         kept, dropped_title, dropped_dist, dropped_dupe, dropped_band = [], 0, 0, 0, 0
@@ -495,7 +515,8 @@ def main():
                 dropped_senior += 1
                 continue
             if source.startswith("trac"):
-                geo = trac_geo(c, towns, counties, employers, exclude_towns)
+                geo = trac_geo(c, towns, counties, employers, exclude_towns,
+                               exclude_counties)
                 if geo == "out":
                     dropped_dist += 1
                     continue
