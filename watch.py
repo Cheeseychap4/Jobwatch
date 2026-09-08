@@ -353,6 +353,74 @@ def fetch_trac_employer_cards(ids, pages=6):
     return out
 
 
+def slug_title(url):
+    """Human-ish title from the last path segment of a job URL."""
+    seg = [s for s in url.split("?")[0].split("/") if s]
+    if not seg:
+        return ""
+    s = seg[-1]
+    s = re.sub(r"\.(html?|aspx)$", "", s, flags=re.I)
+    s = re.sub(r"[-_]+", " ", s)
+    s = re.sub(r"\s+\d+$", "", s)          # trailing id, e.g. "support worker 399"
+    return s.strip().title()
+
+
+def feed_location(url, pattern):
+    """Open one provider advert and read the town off it.
+
+    Provider sitemaps carry no location, so a title-only filter would either
+    alert on every support-worker post in the country or drop the lot. This is
+    only ever called for an advert that is BOTH new and past the title filter,
+    so it costs a handful of requests a run rather than hundreds."""
+    try:
+        page = fetch(url)
+    except Exception as e:
+        print("   location lookup failed for %s: %s" % (url, e))
+        return ""
+    m = re.search(pattern, page, re.S | re.I)
+    return strip_tags(m.group(1)).strip() if m else ""
+
+
+def fetch_feed_cards(mon):
+    """Vacancies straight from a private provider's own careers system.
+
+    Private hospitals do not use TRAC and several do not post everything to
+    NHS Jobs, so each one is read from its own feed - the same principle as
+    TRAC for the NHS: go to the system the employer actually recruits on."""
+    page = fetch(mon["url"])
+    employer = mon.get("employer", "")
+    cards = []
+    if mon.get("feed_kind", "sitemap") == "sitemap":
+        for u in re.findall(r"<loc>\s*([^<\s]+)\s*</loc>", page):
+            if mon.get("url_filter") and not re.search(mon["url_filter"], u, re.I):
+                continue
+            cards.append({"url": html.unescape(u), "title": slug_title(u),
+                          "town": "", "salary": "", "grade": ""})
+    else:
+        for m in re.finditer(mon["card_pattern"], page, re.S | re.I):
+            d = m.groupdict()
+            u = html.unescape(d.get("url", "") or "")
+            if u and u.startswith("/"):
+                u = mon.get("base", "").rstrip("/") + u
+            cards.append({"url": u,
+                          "title": strip_tags(d.get("title", "") or ""),
+                          "town": strip_tags(d.get("location", "") or ""),
+                          "salary": strip_tags(d.get("salary", "") or ""),
+                          "grade": ""})
+    out, seen = [], set()
+    for c in cards:
+        if not c["title"] or not c["url"] or c["url"] in seen:
+            continue
+        seen.add(c["url"])
+        c.update({"source": "feed", "ref": "feed:" + c["url"],
+                  "employer": employer, "employer_id": "", "county": "",
+                  "employer_location": ", ".join(x for x in (employer, c["town"]) if x),
+                  "miles": None, "posted": "", "closing": ""})
+        c["bands"] = detect_bands(c["title"], c["salary"], c["grade"])
+        out.append(c)
+    return out
+
+
 def trac_geo(card, towns, counties, employers, exclude_towns, exclude_counties=()):
     """TRAC carries a town, not a distance, so geography is judged by name.
 
@@ -411,6 +479,8 @@ def format_alert(monitor_name, c):
         bits.append("Band " + "/".join(sorted(c["bands"])))
     if c.get("source", "").startswith("trac"):
         bits.append("TRAC - may not be on NHS Jobs yet")
+    if c.get("source") == "feed":
+        bits.append("Provider's own site - may not be on NHS Jobs at all")
     if c.get("note"):
         bits.append(c["note"])
     bits.append(c["url"])
@@ -451,12 +521,8 @@ def load(path, default):
         return default
 
 
-def main():
-    monitors = load(CONFIG_FILE, [])
-    if not monitors:
-        sys.exit("No monitors defined in %s" % CONFIG_FILE)
-
-    state = load(STATE_FILE, {})
+def sweep(monitors, state):
+    """One pass over every monitor. Returns the alerts to send."""
     # Advert references already alerted on, from any monitor.
     alerted = set(state.get("_alerted", []))
     # Employer+title keys already alerted on, so a job seen first on TRAC does
@@ -471,7 +537,9 @@ def main():
         print("== %s [%s]" % (name, source))
 
         try:
-            if source == "trac_employers":
+            if source == "feed":
+                cards = fetch_feed_cards(mon)
+            elif source == "trac_employers":
                 cards = fetch_trac_employer_cards(mon.get("employer_ids", []),
                                                   mon.get("pages", 6))
             elif source == "trac":
@@ -514,7 +582,10 @@ def main():
             if exclude_title and re.search(exclude_title, c["title"], re.I):
                 dropped_senior += 1
                 continue
-            if source.startswith("trac"):
+            if source == "feed" and seeded and not c["town"] \
+                    and mon.get("location_pattern"):
+                c["town"] = feed_location(c["url"], mon["location_pattern"])
+            if source.startswith("trac") or source == "feed":
                 geo = trac_geo(c, towns, counties, employers, exclude_towns,
                                exclude_counties)
                 if geo == "out":
@@ -608,16 +679,55 @@ def main():
                          "have changed." % ", ".join(broken))
         alerts.append("\n".join(lines))
 
-    for msg in alerts:
-        telegram(msg)
-
     state["_alerted"] = sorted(alerted)[:4000]
     state["_alerted_keys"] = sorted(alerted_keys)[:4000]
+    return alerts
 
-    with open(STATE_FILE, "w", encoding="utf-8") as f:
-        json.dump(state, f, indent=1, sort_keys=True)
 
-    print("\nDone. %s alert(s) sent." % len(alerts))
+def main():
+    """One pass by default.
+
+    Set JOBWATCH_LOOP_SECONDS to keep sweeping inside a single run, checking
+    every JOBWATCH_INTERVAL_SECONDS. GitHub throttles scheduled workflows on a
+    busy repo - a 15-minute cron really fires every 45 to 90 minutes - so the
+    way to actually check often is to stay alive between firings rather than
+    ask for more firings. State is written after every pass, so a run that is
+    cut short still keeps what it has seen."""
+    monitors = load(CONFIG_FILE, [])
+    if not monitors:
+        sys.exit("No monitors defined in %s" % CONFIG_FILE)
+
+    try:
+        budget = int(os.environ.get("JOBWATCH_LOOP_SECONDS", "0"))
+    except ValueError:
+        budget = 0
+    try:
+        interval = max(60, int(os.environ.get("JOBWATCH_INTERVAL_SECONDS", "300")))
+    except ValueError:
+        interval = 300
+
+    started = time.time()
+    total = 0
+    passes = 0
+    while True:
+        passes += 1
+        if budget:
+            print("\n----- pass %s (%.0fs into a %ss run)"
+                  % (passes, time.time() - started, budget))
+        state = load(STATE_FILE, {})
+        alerts = sweep(monitors, state)
+        for msg in alerts:
+            telegram(msg)
+        total += len(alerts)
+        with open(STATE_FILE, "w", encoding="utf-8") as f:
+            json.dump(state, f, indent=1, sort_keys=True)
+        os.environ.pop("JOBWATCH_HEARTBEAT", None)   # heartbeat is once per run
+        elapsed = time.time() - started
+        if not budget or elapsed + interval >= budget:
+            break
+        time.sleep(interval)
+
+    print("\nDone. %s pass(es), %s alert(s) sent." % (passes, total))
 
 
 if __name__ == "__main__":

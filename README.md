@@ -39,6 +39,14 @@ Each entry in `monitors.json` has a `source`:
   id list. Any advert it finds from an unknown employer is flagged in the alert
   with the id to add.
 - `"nhs"` — an NHS Jobs search URL, as before.
+- `"feed"` — a private provider's own careers system (Cygnet, Practice Plus
+  Group Health in Justice, St Andrew's). Private hospitals are not on TRAC and
+  do not post everything to NHS Jobs, so each is read from its own feed. Same
+  principle as TRAC: go to the system the employer actually recruits on.
+
+There are two TRAC employer pollers, one for psychology and practitioner titles
+and one for the support, HCA, recovery and peer-support tier, so the Reaside and
+Ardenleigh Band 3 campaigns are covered as well as the Band 4/5 psychology ones.
 
 Filters available on every monitor: `title_filter`, `exclude_title`, `bands`,
 `allow_unknown_band`. NHS monitors also take `max_miles`; TRAC monitors take
@@ -64,6 +72,31 @@ northamptonshire".
 Open any of that employer's job cards on healthjobsuk.com and look at the logo
 image URL — `static.trac.jobs/employer-logos/476.png`. The number is the id.
 Add it to `employer_ids`.
+
+## How often it really checks
+
+A 15-minute cron does not fire every 15 minutes. GitHub throttles scheduled
+workflows, and in practice this one fired every 45 to 90 minutes and skipped
+overnight. Adding more cron lines does not help — the throttle is per repo.
+
+So each firing now stays alive instead. `JOBWATCH_LOOP_SECONDS` (45 minutes)
+and `JOBWATCH_INTERVAL_SECONDS` (5 minutes) make a single run sweep about nine
+times, and because runs queue behind each other rather than cancelling, cover is
+close to continuous. A pass takes roughly two minutes. State is written after
+every pass, so a run that is cut short keeps what it has seen.
+
+## Private providers do not publish a location
+
+Cygnet's location field is a hospital name ("The Squirrels", "Tabley House"),
+not a town, and Practice Plus Group's is a prison. A sitemap carries no location
+at all. For those two the in-radius sites are listed by name and everything else
+is dropped — an unknown value there carries no information, and failing open
+would mean a hundred alerts a run. Both also post to NHS Jobs, where the
+40-mile monitors apply a real distance filter.
+
+The location is read by opening the advert itself, but only for an advert that
+is both new and past the title filter, so it costs a few requests a run rather
+than hundreds.
 
 ## Two things that would silently lose a post
 
