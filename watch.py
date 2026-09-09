@@ -526,6 +526,158 @@ def fetch_moj_cards(mon):
     return out
 
 
+# --------------------------------------------------------------------------
+# Local authority sources. The councils are the one seam the NHS and justice
+# monitors cannot see at all, and they are where Track B actually lives -
+# information rights, business support, residential care. wmjobs is the source
+# for most West Midlands councils and the mirror for those running their own
+# ATS; Coventry runs its own (Tribepad) and that one is the source.
+# --------------------------------------------------------------------------
+
+WMJOBS_BASE = "https://www.wmjobs.co.uk"
+
+
+def parse_wmjobs_cards(page):
+    """Return a list of dicts, one per wmjobs search-result card."""
+    marks = [m.start() for m in re.finditer(r'class="lister__item', page)]
+    cards = []
+    for i, start in enumerate(marks):
+        end = marks[i + 1] if i + 1 < len(marks) else len(page)
+        card = page[start:end]
+
+        ref = re.search(r'id="item-(\d+)"', card)
+        title = re.search(
+            r'class="lister__header"><a\s+href="\s*([^"]+?)\s*"[^>]*>'
+            r'<span>(.*?)</span>', card, re.S | re.I)
+        if not ref or not title:
+            continue
+        jid = ref.group(1)
+
+        def meta(kind):
+            m = re.search(
+                r'lister__meta-item--%s">(.*?)</li>' % kind, card, re.S | re.I)
+            return strip_tags(m.group(1)) if m else ""
+
+        # wmjobs does not print a closing date on the card, only a countdown
+        # ("1 day left", "Expiring today"). That is enough to make urgency
+        # visible in the ping; the real date is read off the advert body.
+        left = re.search(r'class="text-error">([^<]*)</span>', card, re.I)
+
+        loc = meta("location")
+        employer = meta("recruiter")
+        cards.append({
+            "source": "wmjobs",
+            "ref": "wmjobs-" + jid,
+            "title": strip_tags(title.group(2)),
+            "url": "%s/job/%s/" % (WMJOBS_BASE, jid),
+            "employer": employer,
+            "employer_location": (employer + " - " + loc).strip(" -"),
+            "town": loc,
+            "county": "",
+            "salary": meta("salary"),
+            "contract": "",
+            "miles": None,
+            "posted": "",
+            "closing": strip_tags(left.group(1)) if left else "",
+        })
+        cards[-1]["bands"] = detect_bands(cards[-1]["title"],
+                                          cards[-1]["salary"])
+    return cards
+
+
+def fetch_wmjobs_cards(mon):
+    """One search per keyword on wmjobs, de-duplicated across keywords."""
+    out, seen = [], set()
+    for kw in mon.get("keywords", []):
+        url = "%s/jobs/?keywords=%s" % (WMJOBS_BASE, urllib.parse.quote_plus(kw))
+        try:
+            cards = parse_wmjobs_cards(fetch(url))
+        except urllib.error.HTTPError as e:
+            # wmjobs answers a keyword with no hits with a 404. That is an
+            # empty search, not a broken source - say so, so a real breakage
+            # still stands out in the log.
+            if e.code == 404:
+                print("   wmjobs '%s': no results" % kw)
+            else:
+                print("   wmjobs '%s' failed: %s" % (kw, e))
+            continue
+        except Exception as e:
+            print("   wmjobs '%s' failed: %s" % (kw, e))
+            continue
+        for c in cards:
+            if c["ref"] not in seen:
+                seen.add(c["ref"])
+                out.append(c)
+    return out
+
+
+def parse_tribepad_cards(page):
+    """Return a list of dicts, one per Tribepad (Coventry CC) result card.
+
+    Richer than wmjobs: the card itself carries contract type, the closing
+    date and the posting date, so nothing has to be inferred."""
+    marks = [m.start() for m in re.finditer(r'class="job-list-title"', page)]
+    cards = []
+    for i, start in enumerate(marks):
+        end = marks[i + 1] if i + 1 < len(marks) else len(page)
+        # The href sits just above the title, so reach back for it.
+        head = page[max(0, start - 600):start]
+        card = page[start:end]
+
+        href = re.findall(r'href="(https?://[^"]*/jobs/job/[^"]+)"', head)
+        title = re.search(r'class="job-list-title">(.*?)</span>', card, re.S)
+        if not href or not title:
+            continue
+        url = html.unescape(href[-1])
+        rid = re.search(r"/(\d+)/?$", url.split("?")[0])
+
+        def grab(pattern):
+            m = re.search(pattern, card, re.S | re.I)
+            return strip_tags(m.group(1)) if m else ""
+
+        loc = grab(r"itemprop='address'>(.*?)</span>")
+        cards.append({
+            "source": "tribepad",
+            "ref": "tribepad-" + (rid.group(1) if rid else url[-40:]),
+            "title": strip_tags(title.group(1)),
+            "url": url,
+            "employer": "Coventry City Council",
+            "employer_location": ("Coventry City Council - " + loc).strip(" -"),
+            "town": loc,
+            "county": "",
+            "salary": grab(r"fa-wallet'></i>(.*?)</p>"),
+            "contract": grab(r"itemprop='employmentType'>(.*?)</p>"),
+            "miles": None,
+            "posted": grab(r"datePosted'>(.*?)</span>"),
+            "closing": grab(r"Apply by(.*?)</p>"),
+        })
+        cards[-1]["bands"] = detect_bands(cards[-1]["title"],
+                                          cards[-1]["salary"])
+    return cards
+
+
+def fetch_tribepad_cards(mon):
+    """Every page of a Tribepad careers site. Paging is stateless here -
+    /jobs/search/-1/<n> - so the whole list is reachable in one pass."""
+    out, seen = [], set()
+    base = mon["url"].rstrip("/")
+    for p in range(1, max(1, mon.get("pages", 10)) + 1):
+        url = base if p == 1 else "%s/jobs/search/-1/%d" % (base, p)
+        try:
+            cards = parse_tribepad_cards(fetch(url))
+        except Exception as e:
+            print("   tribepad page %s failed: %s" % (p, e))
+            break
+        if not cards:
+            break
+        fresh = [c for c in cards if c["ref"] not in seen]
+        if not fresh:
+            break
+        seen.update(c["ref"] for c in fresh)
+        out.extend(fresh)
+    return out
+
+
 def trac_geo(card, towns, counties, employers, exclude_towns, exclude_counties=()):
     """TRAC carries a town, not a distance, so geography is judged by name.
 
@@ -594,6 +746,16 @@ def format_alert(monitor_name, c):
         bits.append("Provider's own site - may not be on NHS Jobs at all")
     if c.get("source") == "moj":
         bits.append("HMPPS / MoJ board")
+    if c.get("source") == "wmjobs":
+        bits.append("wmjobs - local authority")
+    if c.get("source") == "tribepad":
+        bits.append("Coventry City Council - own site")
+    if c.get("salary") and not c.get("bands"):
+        bits.append(html.escape(c["salary"]))
+    if c.get("contract"):
+        bits.append(html.escape(c["contract"]))
+    if c.get("closing"):
+        bits.append("Closes: " + html.escape(c["closing"]))
     if c.get("note"):
         bits.append(c["note"])
     bits.append(c["url"])
@@ -663,6 +825,10 @@ def sweep(monitors, state, first_pass=True):
                                                   mon.get("pages", 6))
             elif source == "trac":
                 cards = fetch_trac_cards(mon["url"], mon.get("pages", 4))
+            elif source == "wmjobs":
+                cards = fetch_wmjobs_cards(mon)
+            elif source == "tribepad":
+                cards = fetch_tribepad_cards(mon)
             else:
                 cards = fetch_cards(mon["url"], mon.get("pages", 3))
         except Exception as e:
@@ -692,12 +858,24 @@ def sweep(monitors, state, first_pass=True):
         employers = [norm(e) for e in mon.get("employers", [])]
         exclude_towns = [norm(t) for t in mon.get("exclude_towns", [])]
         exclude_counties = [norm(t) for t in mon.get("exclude_counties", [])]
+        exclude_employers = [norm(e) for e in mon.get("exclude_employers", [])]
+        contract_filter = mon.get("contract_filter", "")
+        exclude_contract = mon.get("exclude_contract", "")
 
         fresh = [c for c in cards if c["ref"] not in seen]
         kept, dropped_title, dropped_dist, dropped_dupe, dropped_band = [], 0, 0, 0, 0
         dropped_senior = 0
         dropped_discipline = 0
+        dropped_pay = 0
+        dropped_contract = 0
+        dropped_employer = 0
         for c in fresh:
+            if exclude_employers:
+                emp = norm((c.get("employer") or "") + " "
+                           + (c.get("employer_location") or ""))
+                if any(e and e in emp for e in exclude_employers):
+                    dropped_employer += 1
+                    continue
             if title_filter and not re.search(title_filter, c["title"], re.I):
                 dropped_title += 1
                 continue
@@ -721,7 +899,8 @@ def sweep(monitors, state, first_pass=True):
                 if closed:
                     dropped_dist += 1
                     continue
-            if source.startswith("trac") or source in ("feed", "moj"):
+            if source.startswith("trac") or source in ("feed", "moj",
+                                                        "wmjobs", "tribepad"):
                 geo = trac_geo(c, towns, counties, employers, exclude_towns,
                                exclude_counties)
                 if geo == "out":
@@ -741,6 +920,28 @@ def sweep(monitors, state, first_pass=True):
                 pay = annual_salary_range(c["salary"])
                 if pay and pay[0] > max_salary:
                     dropped_band += 1
+                    continue
+            # Track B carries the only salary floor in the search. A band that
+            # STARTS below the floor and tops out above it is kept, because the
+            # pool says to state the split rather than cut it silently - so the
+            # test is on the top of the advertised range.
+            min_salary = mon.get("min_salary")
+            if min_salary:
+                pay = annual_salary_range(c["salary"])
+                if pay and pay[1] < min_salary:
+                    dropped_pay += 1
+                    continue
+            # Contract type, where the board publishes it. Track B is permanent
+            # full time only. Fails OPEN: wmjobs does not print a contract type
+            # on the card, and an advert must never be lost to a field that was
+            # simply absent.
+            contract = c.get("contract", "")
+            if contract:
+                if exclude_contract and re.search(exclude_contract, contract, re.I):
+                    dropped_contract += 1
+                    continue
+                if contract_filter and not re.search(contract_filter, contract, re.I):
+                    dropped_contract += 1
                     continue
             if want_bands:
                 got = set(band_number(b) for b in c["bands"])
@@ -783,6 +984,12 @@ def sweep(monitors, state, first_pass=True):
             print("   %s new but out of area" % dropped_dist)
         if dropped_band:
             print("   %s new but outside band %s" % (dropped_band, "/".join(sorted(want_bands))))
+        if dropped_pay:
+            print("   %s new but below the salary floor" % dropped_pay)
+        if dropped_contract:
+            print("   %s new but the wrong contract type" % dropped_contract)
+        if dropped_employer:
+            print("   %s new but a blocked or out-of-region employer" % dropped_employer)
         if dropped_dupe:
             print("   %s already alerted under another search or source" % dropped_dupe)
 

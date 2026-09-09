@@ -48,16 +48,42 @@ Each entry in `monitors.json` has a `source`:
   this source the whole justice side was only ever found by hand. One search per
   keyword in `keywords`, because the same job is a Group Worker at one prison
   and a Facilitator at the next.
+- `"wmjobs"` — wmjobs.co.uk, the shared board most West Midlands councils
+  advertise on. The councils are the one seam neither the NHS nor the justice
+  monitors can see, and they are where the income-fork roles actually live —
+  information rights, business support, residential care. One search per
+  keyword in `keywords`.
+- `"tribepad"` — a council running its own applicant tracking system, which is
+  then the source and wmjobs only the mirror. Coventry City Council is the one
+  in scope. The cards carry contract type, closing date and posting date, so
+  nothing has to be inferred, and paging is stateless (`/jobs/search/-1/<n>`),
+  so the whole list is read rather than just the first page.
 
 There are two TRAC employer pollers, one for psychology and practitioner titles
 and one for the support, HCA, recovery and peer-support tier, so the Reaside and
 Ardenleigh Band 3 campaigns are covered as well as the Band 4/5 psychology ones.
 
 Filters available on every monitor: `title_filter`, `exclude_title`, `bands`,
-`allow_unknown_band`, `exclude_discipline`, `protect_title`, `max_salary`. NHS
-monitors also take `max_miles`; TRAC, feed and MoJ monitors take `towns`,
-`counties`, `employers` and `exclude_towns` instead, because those boards
-publish a place, not a distance.
+`allow_unknown_band`, `exclude_discipline`, `protect_title`, `max_salary`,
+`min_salary`, `exclude_employers`, `contract_filter`, `exclude_contract`. NHS
+monitors also take `max_miles`; TRAC, feed, MoJ, wmjobs and Tribepad monitors
+take `towns`, `counties`, `employers` and `exclude_towns` instead, because those
+boards publish a place, not a distance.
+
+`min_salary` is the income fork's floor and tests the **top** of an advertised
+range, so a band that starts below the floor and finishes above it is kept and
+the split is left visible rather than cut silently. `contract_filter` and
+`exclude_contract` only bite where the board actually prints a contract type —
+wmjobs does not, so they fail open there rather than losing an advert to a field
+that was simply absent.
+
+`exclude_employers` matches on the employer name rather than the location, and
+does two jobs on a shared council board. It keeps out authorities that are
+plainly out of region but whose adverts give a venue name ("Wildwood", "The
+Guildhall, Frankwell") that no town list can recognise. And it enforces the
+standing block on policing employers, which matters because a Police and Crime
+Commissioner's business-support advert sits on wmjobs looking like any other
+council post.
 
 ## Geography fails open, on purpose
 
