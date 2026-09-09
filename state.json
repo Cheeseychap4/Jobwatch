@@ -2,6 +2,11 @@
  "AP / psychology 40mi": {
   "seeded": true,
   "seen": [
+   "C0020-26-1358",
+   "A1224-26-0003",
+   "C0020-26-1356",
+   "C9321-26-1586",
+   "C0020-26-1334",
    "D9086-26-0020",
    "L0034-26-3747",
    "L0034-26-3739",
@@ -102,7 +107,6 @@
    "feed:https://careers.cygnetgroup.com/job/bank-registered-nurse-rmn-rnld-8/",
    "feed:https://careers.cygnetgroup.com/job/bank-cook-and-kitchen-assistant/",
    "feed:https://careers.cygnetgroup.com/job/housekeeper-223/",
-   "feed:https://careers.cygnetgroup.com/job/hospital-administrator/",
    "feed:https://careers.cygnetgroup.com/job/bank-support-worker-185/",
    "feed:https://careers.cygnetgroup.com/job/bank-chef-19/",
    "feed:https://careers.cygnetgroup.com/job/bank-support-worker-186/",
@@ -154,7 +158,6 @@
    "feed:https://careers.cygnetgroup.com/job/maintenance-assistant-37/",
    "feed:https://careers.cygnetgroup.com/job/speciality-doctor-2/",
    "feed:https://careers.cygnetgroup.com/job/home-manager/",
-   "feed:https://careers.cygnetgroup.com/job/bank-support-worker-180/",
    "feed:https://careers.cygnetgroup.com/job/consultant-psychiatrist-female-acute-11/",
    "feed:https://careers.cygnetgroup.com/job/maintenance-operative-48/",
    "feed:https://careers.cygnetgroup.com/job/activity-co-ordinator-36/",
@@ -269,7 +272,11 @@
    "feed:https://careers.cygnetgroup.com/job/kitchen-assistant-37/",
    "feed:https://careers.cygnetgroup.com/job/senior-support-worker-26/",
    "feed:https://careers.cygnetgroup.com/job/receptionist-22/",
-   "feed:https://careers.cygnetgroup.com/job/registered-mental-health-nurse-rmn-100/"
+   "feed:https://careers.cygnetgroup.com/job/registered-mental-health-nurse-rmn-100/",
+   "feed:https://careers.cygnetgroup.com/job/mental-health-support-worker-40/",
+   "feed:https://careers.cygnetgroup.com/job/bank-support-worker-128/",
+   "feed:https://careers.cygnetgroup.com/job/bank-support-worker-180/",
+   "feed:https://careers.cygnetgroup.com/job/hospital-administrator/"
   ]
  },
  "Forensic 40mi": {
@@ -793,6 +800,7 @@
  "Support worker / HCA 20mi": {
   "seeded": true,
   "seen": [
+   "C0020-26-1334",
    "L0034-26-3747",
    "E0279-26-2406",
    "C9365-26-0470-S3",
@@ -828,12 +836,15 @@
  "TRAC discovery (all employers, newest pages)": {
   "seeded": true,
   "seen": [
+   "trac:v8115642",
    "trac:v8136255",
    "trac:v8161276",
    "trac:v8220863",
    "trac:v8222264",
    "trac:v8237717",
    "trac:v8238147",
+   "trac:v8242807",
+   "trac:v8253576",
    "trac:v8265840",
    "trac:v8273600",
    "trac:v8273642",
@@ -868,7 +879,6 @@
    "trac:v8134580",
    "trac:v8137380",
    "trac:v8140576",
-   "trac:v8141954",
    "trac:v8143036",
    "trac:v8153453",
    "trac:v8153941",
@@ -1026,6 +1036,7 @@
    "trac:v8242272",
    "trac:v8242524",
    "trac:v8242553",
+   "trac:v8141954",
    "trac:v8242788",
    "trac:v8243078",
    "trac:v8218093",
@@ -1277,7 +1288,6 @@
    "trac:v8245961",
    "trac:v8247277",
    "trac:v8262126",
-   "trac:v8225403",
    "trac:v8236454",
    "trac:v8255308",
    "trac:v8256358",
@@ -1461,7 +1471,6 @@
    "trac:v8258456",
    "trac:v8260428",
    "trac:v8260637",
-   "trac:v8189258",
    "trac:v8255865",
    "trac:v8256644",
    "trac:v8202785",
@@ -1521,7 +1530,6 @@
    "trac:v8280336",
    "trac:v8281626",
    "trac:v8275939",
-   "trac:v8261466",
    "trac:v8203918",
    "trac:v8236974",
    "trac:v8270442",
@@ -1618,7 +1626,6 @@
    "trac:v8238679",
    "trac:v8276080",
    "trac:v8246067",
-   "trac:v8246536",
    "trac:v8253053",
    "trac:v8273388",
    "trac:v8163488",
@@ -1644,7 +1651,11 @@
    "trac:v8280222",
    "trac:v8160764",
    "trac:v8228596",
-   "trac:v8239041"
+   "trac:v8239041",
+   "trac:v8277307",
+   "trac:v8277649",
+   "trac:v8277725",
+   "trac:v8221717"
   ]
  },
  "TRAC support / HCA (source of truth)": {
@@ -1882,7 +1893,6 @@
    "trac:v8245961",
    "trac:v8247277",
    "trac:v8262126",
-   "trac:v8225403",
    "trac:v8236454",
    "trac:v8255308",
    "trac:v8256358",
@@ -2066,7 +2076,6 @@
    "trac:v8258456",
    "trac:v8260428",
    "trac:v8260637",
-   "trac:v8189258",
    "trac:v8255865",
    "trac:v8256644",
    "trac:v8202785",
@@ -2126,7 +2135,6 @@
    "trac:v8280336",
    "trac:v8281626",
    "trac:v8275939",
-   "trac:v8261466",
    "trac:v8203918",
    "trac:v8236974",
    "trac:v8270442",
@@ -2223,7 +2231,6 @@
    "trac:v8238679",
    "trac:v8276080",
    "trac:v8246067",
-   "trac:v8246536",
    "trac:v8253053",
    "trac:v8273388",
    "trac:v8163488",
@@ -2249,12 +2256,18 @@
    "trac:v8280222",
    "trac:v8160764",
    "trac:v8228596",
-   "trac:v8239041"
+   "trac:v8239041",
+   "trac:v8277307",
+   "trac:v8277649",
+   "trac:v8277725",
+   "trac:v8221717"
   ]
  },
  "Wellbeing practitioner 40mi": {
   "seeded": true,
   "seen": [
+   "C0020-26-1358",
+   "C0020-26-1356",
    "E0279-26-2406",
    "A1341-26-0006",
    "A4502-26-0001",
