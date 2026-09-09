@@ -75,11 +75,29 @@ jobs:
         run: |
           git config user.name "jobwatch"
           git config user.email "actions@users.noreply.github.com"
-          git add state.json
-          if git diff --staged --quiet; then
-            echo "no state change"
-          else
-            git commit -m "state: $(date -u +'%Y-%m-%d %H:%M UTC')"
-            git pull --rebase --autostash
-            git push
-          fi
+          # state.json is generated, never hand-edited, so rebasing this
+          # run's copy onto another run's could only ever conflict - and a
+          # conflict failed the run and threw the whole pass away. Merge
+          # instead, and keep trying until the push lands.
+          for attempt in 1 2 3 4 5; do
+            git fetch --quiet origin main
+            git show origin/main:state.json > theirs.json 2>/dev/null || echo '{}' > theirs.json
+            python3 merge_state.py theirs.json state.json
+            rm -f theirs.json
+            cp state.json /tmp/state.json
+            git reset --quiet --hard origin/main
+            cp /tmp/state.json state.json
+            git add state.json
+            if git diff --staged --quiet; then
+              echo "no state change"
+              exit 0
+            fi
+            git commit -q -m "state: $(date -u +'%Y-%m-%d %H:%M UTC')"
+            if git push --quiet; then
+              exit 0
+            fi
+            echo "push rejected on attempt $attempt - merging again"
+            sleep $((RANDOM % 8 + 3))
+          done
+          echo "could not save state after 5 attempts"
+          exit 1
