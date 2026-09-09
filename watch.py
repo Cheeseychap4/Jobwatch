@@ -37,6 +37,10 @@ UA = (
 )
 
 MAX_ALERTS_PER_MONITOR = 12
+# How long a monitor is allowed to keep scanning nothing before it says so
+# again. Long enough that an empty search is not a daily nag, short enough
+# that a dead monitor cannot hide until the weekly heartbeat.
+ZERO_ALERT_SECONDS = 24 * 3600
 ADVERT_BASE = "https://www.jobs.nhs.uk/candidate/jobadvert/"
 TRAC_BASE = "https://www.healthjobsuk.com"
 
@@ -137,6 +141,16 @@ _OPENER = urllib.request.build_opener(urllib.request.HTTPCookieProcessor(_COOKIE
 # length of a pass and the cache is cleared between passes. Same coverage, half
 # the requests, and kinder to the job boards.
 _CACHE = {}
+
+# Fetch errors, keyed by monitor name. A source that refuses the runner and a
+# search that genuinely has no hits both end a pass with nothing; only this
+# register tells them apart, so the weekly heartbeat can say which happened
+# instead of blaming the page layout for both.
+_FETCH_ERRORS = {}
+
+
+def note_fetch_error(monitor, detail):
+    _FETCH_ERRORS.setdefault(monitor, []).append(detail)
 _STATS = {"fetched": 0, "cached": 0, "retried": 0}
 
 
@@ -160,7 +174,16 @@ def fetch(url, session=False):
             with opener(req, timeout=60) as resp:
                 raw = resp.read()
             break
-        except urllib.error.HTTPError:
+        except urllib.error.HTTPError as e:
+            # 404 and 403 are answers, not accidents - retrying them only
+            # wastes the pass. Rate limits and gateway errors are the ones
+            # that clear on their own, so those are the ones worth waiting on.
+            if e.code in (429, 500, 502, 503, 504) and attempt < 2:
+                _STATS["retried"] += 1
+                print("   retry %s for %s (%s)" % (attempt + 1,
+                                                   url.split("?")[0], e))
+                time.sleep(5 + 10 * attempt)
+                continue
             raise
         except Exception as e:
             if attempt == 2:
@@ -694,25 +717,110 @@ def parse_wmjobs_cards(page):
     return cards
 
 
+def parse_wmjobs_rss(xml):
+    """Return a list of dicts, one per advert in a wmjobs RSS feed.
+
+    The feed is the machine-readable face of the same search - employer,
+    title, salary, town, link and posting date - and it is served to a
+    plain client, where the HTML search page is answered with 403 for the
+    GitHub Actions runner."""
+    cards = []
+    for raw in re.findall(r"<item>(.*?)</item>", xml, re.S):
+        link = re.search(r"<link>(.*?)</link>", raw, re.S)
+        head = re.search(r"<title>(.*?)</title>", raw, re.S)
+        if not link or not head:
+            continue
+        url = html.unescape(link.group(1)).strip().split("?")[0]
+        jid = re.search(r"/job/(\d+)", url)
+        if not jid:
+            continue
+        # "Warwickshire County Council: Information Rights Officer"
+        employer, sep, title = strip_tags(head.group(1)).partition(": ")
+        if not sep:
+            employer, title = "", employer
+
+        desc = re.search(r"<description>(.*?)</description>", raw, re.S)
+        body = html.unescape(re.sub(r"<[^>]+>", " ", desc.group(1))) if desc else ""
+        lines = [x.strip() for x in body.split("\n") if x.strip()]
+        # Salary first, employer, blurb, town last.
+        salary = lines[0].rstrip(":").strip() if lines else ""
+        if norm(salary) == norm(employer):
+            salary = ""
+        town = lines[-1] if len(lines) > 1 else ""
+        # A truncated blurb ends in an ellipsis, and that is never a place.
+        if town.endswith("...") or town.endswith("\u2026") \
+                or norm(town) == norm(employer) or norm(town) == norm(salary):
+            town = ""
+        posted = re.search(r"<pubDate>(.*?)</pubDate>", raw, re.S)
+
+        cards.append({
+            "source": "wmjobs",
+            "ref": "wmjobs-" + jid.group(1),
+            "title": title.strip(),
+            "url": url,
+            "employer": employer.strip(),
+            "employer_location": (employer.strip() + " - " + town).strip(" -"),
+            "town": town,
+            "county": "",
+            "salary": salary,
+            "contract": "",
+            "miles": None,
+            "posted": strip_tags(posted.group(1)) if posted else "",
+            "closing": "",
+        })
+        cards[-1]["bands"] = detect_bands(cards[-1]["title"],
+                                          cards[-1]["salary"])
+    return cards
+
+
 def fetch_wmjobs_cards(mon):
-    """One search per keyword on wmjobs, de-duplicated across keywords."""
+    """One search per keyword on wmjobs, de-duplicated across keywords.
+
+    The RSS feed is read first and the HTML search page is only the
+    fallback. wmjobs sits behind a bot rule that answers the GitHub
+    Actions runner with 403 on the HTML page, which is why both council
+    monitors scanned nothing on every run before this. Both are asked for
+    newest first, so a fresh advert cannot sit below the twenty results
+    that a relevance-ranked page returns."""
     out, seen = [], set()
     for kw in mon.get("keywords", []):
-        url = "%s/jobs/?keywords=%s" % (WMJOBS_BASE, urllib.parse.quote_plus(kw))
+        q = urllib.parse.quote_plus(kw)
+        cards, feed = [], None
         try:
-            cards = parse_wmjobs_cards(fetch(url))
+            feed = fetch("%s/jobsrss/?keywords=%s&sort=Date" % (WMJOBS_BASE, q))
         except urllib.error.HTTPError as e:
             # wmjobs answers a keyword with no hits with a 404. That is an
             # empty search, not a broken source - say so, so a real breakage
             # still stands out in the log.
             if e.code == 404:
                 print("   wmjobs '%s': no results" % kw)
-            else:
-                print("   wmjobs '%s' failed: %s" % (kw, e))
-            continue
+                continue
+            print("   wmjobs feed '%s' refused (%s), trying the search page"
+                  % (kw, e))
         except Exception as e:
-            print("   wmjobs '%s' failed: %s" % (kw, e))
-            continue
+            print("   wmjobs feed '%s' failed (%s), trying the search page"
+                  % (kw, e))
+
+        if feed is not None:
+            cards = parse_wmjobs_rss(feed)
+            if not cards:
+                print("   wmjobs '%s': no results" % kw)
+        else:
+            try:
+                cards = parse_wmjobs_cards(
+                    fetch("%s/jobs/?keywords=%s&sort=Date" % (WMJOBS_BASE, q)))
+            except urllib.error.HTTPError as e:
+                if e.code == 404:
+                    print("   wmjobs '%s': no results" % kw)
+                else:
+                    note_fetch_error(mon["name"], "%s: %s" % (kw, e))
+                    print("   wmjobs '%s' failed: %s" % (kw, e))
+                continue
+            except Exception as e:
+                note_fetch_error(mon["name"], "%s: %s" % (kw, e))
+                print("   wmjobs '%s' failed: %s" % (kw, e))
+                continue
+
         for c in cards:
             if c["ref"] not in seen:
                 seen.add(c["ref"])
@@ -908,6 +1016,7 @@ def load(path, default):
 def sweep(monitors, state, first_pass=True):
     """One pass over every monitor. Returns the alerts to send."""
     _CACHE.clear()
+    _FETCH_ERRORS.clear()
     _STATS.update(fetched=0, cached=0, retried=0)
     # Advert references already alerted on, from any monitor.
     alerted = set(state.get("_alerted", []))
@@ -944,14 +1053,32 @@ def sweep(monitors, state, first_pass=True):
                 cards = fetch_cards(mon["url"], mon.get("pages", 3))
         except Exception as e:
             print("   FETCH FAILED: %s" % e)
+            note_fetch_error(name, str(e))
             scanned[name] = 0
             continue
 
         scanned[name] = len(cards)
+        zero = state.setdefault("_zero", {})
         if not cards:
             print("   WARNING: no result cards parsed. Page layout may have "
                   "changed, or the search returned nothing.")
+            # The weekly heartbeat is too slow to be the only alarm - a
+            # monitor that dies on a Tuesday would sit dead until the
+            # following Monday. Say it now, then stay quiet about it for a
+            # day so a genuinely empty search cannot become a daily nag.
+            if time.time() - zero.get(name, 0) > ZERO_ALERT_SECONDS:
+                zero[name] = time.time()
+                errs = _FETCH_ERRORS.get(name)
+                if errs:
+                    why = ("the source refused %s of the requests (%s)"
+                           % (len(errs), errs[0]))
+                else:
+                    why = ("either the search has no hits at all or the page "
+                           "layout changed")
+                alerts.append("<b>jobwatch problem</b>\n%s scanned nothing - %s."
+                              % (html.escape(name), html.escape(why)))
             continue
+        zero.pop(name, None)
 
         prev = state.get(name, {})
         seen = set(prev.get("seen", []))
@@ -1144,8 +1271,16 @@ def sweep(monitors, state, first_pass=True):
         broken = [n for n in scanned if scanned[n] == 0]
         if broken:
             lines.append("")
-            lines.append("PROBLEM: %s returned nothing. The page layout may "
-                         "have changed." % ", ".join(broken))
+            for n in broken:
+                errs = _FETCH_ERRORS.get(n)
+                if errs:
+                    lines.append("PROBLEM: %s - the source refused %s of the "
+                                 "requests (%s). Nothing to do with the search "
+                                 "terms." % (n, len(errs), errs[0]))
+                else:
+                    lines.append("PROBLEM: %s returned nothing. Either the "
+                                 "search genuinely has no hits or the page "
+                                 "layout changed." % n)
         alerts.append("\n".join(lines))
 
     print("\n%s page(s) fetched, %s served from this pass's cache, %s retried"
