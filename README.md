@@ -58,6 +58,15 @@ Each entry in `monitors.json` has a `source`:
   in scope. The cards carry contract type, closing date and posting date, so
   nothing has to be inferred, and paging is stateless (`/jobs/search/-1/<n>`),
   so the whole list is read rather than just the first page.
+- `"smartrecruiters"` — a charity or company recruiting through SmartRecruiters,
+  read from its public JSON API by `company` name. No HTML, so no layout to
+  break. These are national employers that always publish a city, so the
+  monitors set `"unknown_location": "drop"`: an unrecognised town here is a
+  genuinely distant job, not a missing field.
+- `"feed"` also takes `"feed_kind": "links"` — an ordinary HTML page that links
+  out to each vacancy. For an applicant tracking system that renders through
+  JavaScript and cannot be read directly, but whose adverts are linked from the
+  charity's own site. Title comes from the URL slug, location from a body probe.
 
 There are two TRAC employer pollers, one for psychology and practitioner titles
 and one for the support, HCA, recovery and peer-support tier, so the Reaside and
@@ -77,6 +86,13 @@ the split is left visible rather than cut silently. `contract_filter` and
 wmjobs does not, so they fail open there rather than losing an advert to a field
 that was simply absent.
 
+`probe_body` (wmjobs only) fetches the advert itself for the fields the search
+card leaves out — contract type, hours, real closing date and the full salary
+line. It runs after the cheap filters, so it costs one fetch per genuinely new
+advert rather than one per advert seen. **A contract filter on wmjobs without
+`probe_body` is worse than no filter**, because it silently never fires; the
+`--check` mode below refuses that combination.
+
 `exclude_employers` matches on the employer name rather than the location, and
 does two jobs on a shared council board. It keeps out authorities that are
 plainly out of region but whose adverts give a venue name ("Wildwood", "The
@@ -84,6 +100,36 @@ Guildhall, Frankwell") that no town list can recognise. And it enforces the
 standing block on policing employers, which matters because a Police and Crime
 Commissioner's business-support advert sits on wmjobs looking like any other
 council post.
+
+## What an alert looks like
+
+Two lines. The role, hyperlinked to the advert, and where it is:
+
+> **[Information Rights Officer](#)**
+> Warwickshire County Council - Warwick, Warwickshire
+
+Band, salary, contract type, closing date and which source found it are all one
+tap away on the advert, and a ping exists to decide whether to open it. The only
+thing added back is a third line when the location could not be matched against
+the town list — that is the alert saying it could not do the geography for you,
+and it is the one omission that could cost a job.
+
+## Command-line modes
+
+```
+python watch.py              # one pass, or a timed loop (see env vars below)
+python watch.py --check      # validate monitors.json, no network
+python watch.py --scan-trac  # probe every TRAC employer id for in-radius adverts
+```
+
+`--check` compiles every regex in `monitors.json` and verifies each monitor has
+the keys its source needs. Worth knowing why: filters are compiled at match
+time, so a stray bracket does not fail loudly — it raises inside one monitor's
+loop and that monitor quietly stops matching. Run it before every deploy.
+
+`--scan-trac` exists because the TRAC employer id list is a snapshot. An
+employer that adopts TRAC after the last scan is invisible until the next one.
+Run it monthly and add any id it marks `NEW`.
 
 ## Geography fails open, on purpose
 

@@ -102,11 +102,27 @@ def salary_window(labels):
 
 
 def annual_salary_range(salary):
-    """(lo, hi) annual figures from a salary string, or None if not annual."""
-    if not salary or "hour" in salary.lower():
+    """(lo, hi) annual figures from a salary string, or None if not annual.
+
+    Council adverts are messier than NHS ones. Some quote no currency symbol
+    at all ("27052 - 29345"), some bury the figures in brackets after a grade
+    ("Band C SCP 5-8 (£25,583- £26,824 per annum)"), and some quote an hourly
+    rate beside an annual one. So: prefer figures marked with a pound sign,
+    fall back to bare numbers, and treat anything under £5,000 as a pro-rata
+    actual rather than a full-time salary."""
+    if not salary:
         return None
-    amounts = [int(a.replace(",", "")) for a in re.findall(r"£\s*([\d,]{4,})", salary)]
+    text = salary.replace(",", "")
+    amounts = [int(a.split(".")[0])
+               for a in re.findall(r"£\s*(\d{4,}(?:\.\d+)?)", text)]
     if not amounts:
+        # No currency symbol. Bare four-to-six digit numbers only, so a grade
+        # ("SCP 5-8") or a year ("2026") is not mistaken for pay.
+        amounts = [int(a) for a in re.findall(r"(?<![\d.£])(\d{5,6})(?![\d.])", text)]
+    amounts = [a for a in amounts if 5000 <= a <= 300000]
+    if not amounts:
+        return None
+    if "hour" in salary.lower() and max(amounts) < 10000:
         return None
     return min(amounts), max(amounts)
 
@@ -422,11 +438,25 @@ def fetch_feed_cards(mon):
     page = fetch(mon["url"])
     employer = mon.get("employer", "")
     cards = []
-    if mon.get("feed_kind", "sitemap") == "sitemap":
+    kind = mon.get("feed_kind", "sitemap")
+    if kind == "sitemap":
         for u in re.findall(r"<loc>\s*([^<\s]+)\s*</loc>", page):
             if mon.get("url_filter") and not re.search(mon["url_filter"], u, re.I):
                 continue
             cards.append({"url": html.unescape(u), "title": slug_title(u),
+                          "town": "", "salary": "", "grade": ""})
+    elif kind == "links":
+        # An ordinary HTML page that links out to each vacancy on an applicant
+        # tracking system. Used where the ATS itself renders through JavaScript
+        # and cannot be read, but the charity's own site lists the adverts.
+        # Title comes from the slug and the location from a body probe.
+        for u in re.findall(r'href="([^"]+)"', page):
+            u = html.unescape(u)
+            if mon.get("url_filter") and not re.search(mon["url_filter"], u, re.I):
+                continue
+            if u.startswith("/"):
+                u = mon.get("base", "").rstrip("/") + u
+            cards.append({"url": u, "title": slug_title(u),
                           "town": "", "salary": "", "grade": ""})
     else:
         for m in re.finditer(mon["card_pattern"], page, re.S | re.I):
@@ -451,6 +481,85 @@ def fetch_feed_cards(mon):
         c["bands"] = detect_bands(c["title"], c["salary"], c["grade"])
         out.append(c)
     return out
+
+
+def fetch_smartrecruiters_cards(mon):
+    """Every live posting for a SmartRecruiters company, from its public API.
+
+    Several of the criminal justice charities recruit through SmartRecruiters,
+    which publishes an unauthenticated JSON endpoint - title, city and posting
+    id, with no HTML to parse and no layout to break."""
+    out = []
+    company = mon["company"]
+    employer = mon.get("employer", company)
+    offset, total = 0, None
+    while True:
+        url = ("https://api.smartrecruiters.com/v1/companies/%s/postings"
+               "?limit=100&offset=%d" % (urllib.parse.quote(company), offset))
+        try:
+            data = json.loads(fetch(url))
+        except Exception as e:
+            print("   smartrecruiters '%s' failed: %s" % (company, e))
+            break
+        content = data.get("content", [])
+        total = data.get("totalFound", len(content))
+        for j in content:
+            loc = j.get("location") or {}
+            town = loc.get("city") or ""
+            ref = j.get("id") or j.get("uuid") or ""
+            out.append({
+                "source": "smartrecruiters",
+                "ref": "sr-" + str(ref),
+                "title": j.get("name", ""),
+                "url": ("https://jobs.smartrecruiters.com/%s/%s"
+                        % (company, ref)),
+                "employer": employer,
+                "employer_location": ", ".join(x for x in (employer, town) if x),
+                "town": town,
+                "county": loc.get("region") or "",
+                "salary": "",
+                "contract": j.get("typeOfEmployment", {}).get("label", "")
+                            if isinstance(j.get("typeOfEmployment"), dict) else "",
+                "miles": None,
+                "posted": (j.get("releasedDate") or "")[:10],
+                "closing": "",
+            })
+            out[-1]["bands"] = detect_bands(out[-1]["title"], "")
+        offset += len(content)
+        if not content or offset >= total:
+            break
+    return out
+
+
+def probe_wmjobs(card):
+    """Read contract type, hours, salary and closing date off a wmjobs advert.
+
+    The search card carries none of them, so the income-fork filters would
+    otherwise have nothing to test - a permanent-only rule that never fires is
+    worse than no rule, because it reads as if it did. Only ever called for a
+    card that has already passed the title and employer filters, so the extra
+    fetch is one per genuinely new advert, not one per advert seen."""
+    try:
+        page = fetch(card["url"])
+    except Exception as e:
+        print("   wmjobs probe failed for %s: %s" % (card["url"], e))
+        return
+
+    def grab(pattern):
+        m = re.search(pattern, page, re.S | re.I)
+        return strip_tags(m.group(1)).strip() if m else ""
+
+    contract = grab(r'"Contract Type"\s*:\s*"([^"]*)"')
+    hours = grab(r'"Hours"\s*:\s*"([^"]*)"')
+    if contract or hours:
+        card["contract"] = " ".join(x for x in (contract, hours) if x)
+    closing = grab(r'Closing date</dt>\s*<dd[^>]*>(.*?)</dd>')
+    if closing:
+        card["closing"] = closing
+    salary = grab(r'"SalaryDescription"\s*:\s*"([^"]*)"')
+    if salary and not annual_salary_range(card.get("salary", "")):
+        card["salary"] = salary
+        card["bands"] = detect_bands(card["title"], salary)
 
 
 MOJ_BASE = "https://jobs.justice.gov.uk"
@@ -636,6 +745,11 @@ def parse_tribepad_cards(page):
             return strip_tags(m.group(1)) if m else ""
 
         loc = grab(r"itemprop='address'>(.*?)</span>")
+        # Tribepad appends a country to every address ("..., Coventry, United
+        # Kingdom (Incl. Northern Ireland)"), which is noise in a two-line
+        # alert and never helps the town match.
+        loc = re.sub(r",?\s*United Kingdom\s*\(Incl\.? Northern Ireland\)\s*$",
+                     "", loc).strip().strip(",").strip()
         cards.append({
             "source": "tribepad",
             "ref": "tribepad-" + (rid.group(1) if rid else url[-40:]),
@@ -735,30 +849,25 @@ def trac_geo(card, towns, counties, employers, exclude_towns, exclude_counties=(
 # --------------------------------------------------------------------------
 
 def format_alert(monitor_name, c):
-    bits = ["<b>%s</b>" % html.escape(c["title"])]
-    if c["employer_location"]:
-        bits.append(html.escape(c["employer_location"]))
-    if c.get("bands"):
-        bits.append("Band " + "/".join(sorted(c["bands"])))
-    if c.get("source", "").startswith("trac"):
-        bits.append("TRAC - may not be on NHS Jobs yet")
-    if c.get("source") == "feed":
-        bits.append("Provider's own site - may not be on NHS Jobs at all")
-    if c.get("source") == "moj":
-        bits.append("HMPPS / MoJ board")
-    if c.get("source") == "wmjobs":
-        bits.append("wmjobs - local authority")
-    if c.get("source") == "tribepad":
-        bits.append("Coventry City Council - own site")
-    if c.get("salary") and not c.get("bands"):
-        bits.append(html.escape(c["salary"]))
-    if c.get("contract"):
-        bits.append(html.escape(c["contract"]))
-    if c.get("closing"):
-        bits.append("Closes: " + html.escape(c["closing"]))
+    """Two lines: the role, hyperlinked, and where it is.
+
+    Everything else - band, salary, contract type, closing date, which source
+    found it - is one tap away on the advert itself, and a ping is for
+    deciding whether to open it. The one thing that stays is the flag for an
+    unrecognised location, because that is the alert saying it could not do
+    the geography for you."""
+    link = '<a href="%s">%s</a>' % (html.escape(c["url"], quote=True),
+                                    html.escape(c["title"]))
+    where = c.get("employer_location") or c.get("town") or ""
+    bits = [link]
+    if where:
+        bits.append(html.escape(where))
     if c.get("note"):
-        bits.append(c["note"])
-    bits.append(c["url"])
+        # Keep it to the short form - the long explanation was written for a
+        # log, not for a phone.
+        bits.append("Location not recognised - check the distance"
+                    if "not in the known list" in c["note"]
+                    else html.escape(c["note"].split("\n")[0]))
     return "\n".join(bits)
 
 
@@ -829,6 +938,8 @@ def sweep(monitors, state, first_pass=True):
                 cards = fetch_wmjobs_cards(mon)
             elif source == "tribepad":
                 cards = fetch_tribepad_cards(mon)
+            elif source == "smartrecruiters":
+                cards = fetch_smartrecruiters_cards(mon)
             else:
                 cards = fetch_cards(mon["url"], mon.get("pages", 3))
         except Exception as e:
@@ -899,8 +1010,15 @@ def sweep(monitors, state, first_pass=True):
                 if closed:
                     dropped_dist += 1
                     continue
-            if source.startswith("trac") or source in ("feed", "moj",
-                                                        "wmjobs", "tribepad"):
+            # wmjobs prints no contract type on the card, so a monitor that
+            # filters on one has to read the advert. Done here, after the
+            # cheap filters, so it costs one fetch per genuinely new advert.
+            if source == "wmjobs" and seeded and mon.get("probe_body") \
+                    and (contract_filter or exclude_contract
+                         or mon.get("min_salary")):
+                probe_wmjobs(c)
+            if source.startswith("trac") or source in (
+                    "feed", "moj", "wmjobs", "tribepad", "smartrecruiters"):
                 geo = trac_geo(c, towns, counties, employers, exclude_towns,
                                exclude_counties)
                 if geo == "out":
@@ -1038,6 +1156,111 @@ def sweep(monitors, state, first_pass=True):
     return alerts
 
 
+REQUIRED_KEYS = {
+    "nhs": ["url"],
+    "trac": ["url"],
+    "trac_employers": ["employer_ids"],
+    "feed": ["url"],
+    "moj": ["keywords"],
+    "wmjobs": ["keywords"],
+    "tribepad": ["url"],
+    "smartrecruiters": ["company"],
+}
+REGEX_KEYS = ("title_filter", "exclude_title", "exclude_discipline",
+              "protect_title", "contract_filter", "exclude_contract",
+              "location_pattern", "closed_pattern", "card_pattern")
+
+
+def check_monitors(monitors):
+    """Validate monitors.json without touching the network.
+
+    Every filter in this file is a regex compiled at match time, so a stray
+    bracket does not fail loudly - it raises inside one monitor's loop and
+    that monitor quietly stops matching. This catches that before a run does,
+    and is cheap enough to put in front of every deploy."""
+    problems, names = [], set()
+    for i, mon in enumerate(monitors):
+        where = mon.get("name") or "monitor %d" % i
+        if not mon.get("name"):
+            problems.append("%s: no name (name is the state key)" % where)
+        elif mon["name"] in names:
+            problems.append("%s: duplicate name - the two share state" % where)
+        names.add(mon.get("name"))
+
+        source = mon.get("source", "nhs")
+        if source not in REQUIRED_KEYS:
+            problems.append("%s: unknown source %r" % (where, source))
+        else:
+            for key in REQUIRED_KEYS[source]:
+                if not mon.get(key):
+                    problems.append("%s: source %s needs %r"
+                                    % (where, source, key))
+
+        for key in REGEX_KEYS:
+            pattern = mon.get(key)
+            if not pattern:
+                continue
+            try:
+                re.compile(pattern)
+            except re.error as e:
+                problems.append("%s: %s is not a valid regex (%s)"
+                                % (where, key, e))
+
+        lo, hi = mon.get("min_salary"), mon.get("max_salary")
+        if lo and hi and lo > hi:
+            problems.append("%s: min_salary above max_salary - matches nothing"
+                            % where)
+        if (mon.get("contract_filter") or mon.get("exclude_contract")) \
+                and source == "wmjobs" and not mon.get("probe_body"):
+            problems.append("%s: contract filter set but probe_body is not - "
+                            "wmjobs cards carry no contract type, so the "
+                            "filter would never fire" % where)
+
+    for p in problems:
+        print("PROBLEM  " + p)
+    print("%d monitor(s) checked, %d problem(s)." % (len(monitors), len(problems)))
+    return 1 if problems else 0
+
+
+def scan_trac(lo=1, hi=5000):
+    """Probe every TRAC employer id and report those advertising in radius.
+
+    The employer id list is a snapshot: an employer that adopts TRAC after the
+    last scan is invisible until the next one. Run this monthly and diff the
+    result against the ids in monitors.json."""
+    towns = set()
+    for mon in load(CONFIG_FILE, []):
+        if mon.get("source") == "trac_employers":
+            towns.update(norm(t) for t in mon.get("towns", []))
+    known = set()
+    for mon in load(CONFIG_FILE, []):
+        known.update(str(i) for i in mon.get("employer_ids", []))
+    found = {}
+    for eid in range(lo, hi + 1):
+        url = ("https://www.healthjobsuk.com/job_list?JobSearch_re=&_ts=1"
+               "&employerid=%d" % eid)
+        try:
+            cards = parse_trac_cards(fetch(url))
+        except Exception:
+            continue
+        if not cards:
+            continue
+        for c in cards:
+            town = norm(c.get("town", ""))
+            if any(t and re.search(r"\b%s\b" % re.escape(t), town) for t in towns):
+                found[str(eid)] = c.get("employer", "?")
+                break
+        if eid % 250 == 0:
+            print("   ...scanned to id %d, %d in radius so far" % (eid, len(found)))
+    print("\n%d employer(s) advertising in radius:" % len(found))
+    for eid, emp in sorted(found.items(), key=lambda kv: int(kv[0])):
+        print("   %s%s  %s" % (eid, "" if eid in known else "  NEW", emp))
+    missing = [e for e in found if e not in known]
+    print("\n%d new id(s) to add to monitors.json: %s"
+          % (len(missing), ", ".join(sorted(missing, key=int)) or "none"))
+    return 0
+
+
 def main():
     """One pass by default.
 
@@ -1050,6 +1273,11 @@ def main():
     monitors = load(CONFIG_FILE, [])
     if not monitors:
         sys.exit("No monitors defined in %s" % CONFIG_FILE)
+
+    if "--check" in sys.argv:
+        sys.exit(check_monitors(monitors))
+    if "--scan-trac" in sys.argv:
+        sys.exit(scan_trac())
 
     try:
         budget = int(os.environ.get("JOBWATCH_LOOP_SECONDS", "0"))
