@@ -1,0 +1,202 @@
+{
+  "_readme": [
+    "Screening rules for the Telegram alert. Plain text - edit this file, not watch.py.",
+    "Each rule has: level ('block' or 'check'), reason (shown in the alert), and",
+    "'any' (a list of words or phrases; if a criterion contains any of them the rule fires).",
+    "'unless' is optional - if the criterion also contains one of those, the rule stays quiet.",
+    "block = an essential criterion Lewis cannot currently meet.",
+    "check = worth a second look before applying, not a refusal."
+  ],
+  "holds": {
+    "bsc": "BSc (Hons) Forensic Psychology, 2:2, July 2025",
+    "msc": "MSc Forensic Psychology, Coventry - taught course finished Sep 2026, award Nov 2026",
+    "driving": "Full UK manual licence, no endorsements. NO access to a vehicle.",
+    "paid_relevant_experience": "none",
+    "vetting": "Vetted by West Midlands Police through PSD for the Appropriate Adult role; level unconfirmed",
+    "volunteering": "Appropriate Adult (vulnerable adults only), Prisoner Befriender, Research Assistant"
+  },
+  "rules": [
+    {
+      "level": "block",
+      "reason": "2:1 degree essential (BSc is a 2:2)",
+      "any": [
+        "upper second",
+        "2:1 or above",
+        "2:1 or higher",
+        "2:1 or better",
+        "minimum 2:1",
+        "minimum of 2:1",
+        "minimum of a 2:1",
+        "at least a 2:1",
+        "2:1 degree",
+        "degree at 2:1",
+        "class 2:1",
+        "classification of 2:1",
+        "2:1 honours",
+        "first or 2:1",
+        "1st or 2:1",
+        "2i or above",
+        "at 2:1"
+      ]
+    },
+    {
+      "level": "block",
+      "reason": "own vehicle required (licence yes, no car)",
+      "any": [
+        "access to a car",
+        "access to a vehicle",
+        "access to own",
+        "use of a car",
+        "car owner",
+        "own transport",
+        "own vehicle",
+        "must have a vehicle",
+        "car driver with access"
+      ]
+    },
+    {
+      "level": "block",
+      "reason": "professional registration not held",
+      "any": [
+        "hcpc",
+        "nmc registered",
+        "nmc registration",
+        "social work england",
+        "registered nurse",
+        "registered social worker",
+        "registered practitioner",
+        "practitioner psychologist",
+        "chartered psychologist",
+        "qualified psychologist",
+        "qualified social worker",
+        "current professional registration"
+      ]
+    },
+    {
+      "level": "block",
+      "reason": "a stated length of paid experience is essential",
+      "any": [
+        "years experience",
+        "years of experience",
+        "years' experience",
+        "year experience",
+        "year of experience",
+        "year's experience",
+        "months experience",
+        "months of experience",
+        "months' experience",
+        "minimum of 12 months",
+        "minimum of two years",
+        "minimum of 2 years",
+        "at least 1 year",
+        "at least 2 years",
+        "at least two years",
+        "at least 12 months",
+        "at least 6 months",
+        "at least six months"
+      ],
+      "unless": [
+        "voluntary",
+        "including voluntary",
+        "paid or voluntary",
+        "or voluntary"
+      ]
+    },
+    {
+      "level": "block",
+      "reason": "Welsh language essential",
+      "any": [
+        "welsh speaker",
+        "ability to speak welsh",
+        "welsh language"
+      ]
+    },
+    {
+      "level": "check",
+      "reason": "BPS / GBC wording - confirm his BSc route covers it",
+      "any": [
+        "graduate basis",
+        "gbc",
+        "british psychological society",
+        "bps"
+      ]
+    },
+    {
+      "level": "check",
+      "reason": "vague experience essential - check the wording",
+      "any": [
+        "administrative experience",
+        "demonstrable experience",
+        "experience gained",
+        "experience in",
+        "experience of",
+        "experience of working",
+        "experience with",
+        "experience working",
+        "previous experience",
+        "proven experience",
+        "relevant experience",
+        "significant experience",
+        "substantial experience"
+      ]
+    },
+    {
+      "level": "check",
+      "reason": "driving mentioned - he holds the licence, not a car",
+      "any": [
+        "driving licence",
+        "drivers licence",
+        "driver's licence",
+        "full uk licence",
+        "ability to travel",
+        "able to travel between",
+        "travel across sites",
+        "travel to other sites"
+      ]
+    },
+    {
+      "level": "check",
+      "reason": "children or young people - Appropriate Adult work was adults only",
+      "any": [
+        "children",
+        "young people",
+        "young person",
+        "camhs",
+        "under 18",
+        "adolescent",
+        "paediatric",
+        "safeguarding children"
+      ]
+    },
+    {
+      "level": "check",
+      "reason": "vetting or clearance above standard DBS",
+      "any": [
+        "enhanced dbs",
+        "security clearance",
+        "sc clearance",
+        "counter terrorism check",
+        "ctc clearance",
+        "prison service vetting",
+        "npv",
+        "hmpps vetting",
+        "police vetting",
+        "must hold clearance"
+      ]
+    },
+    {
+      "level": "check",
+      "reason": "shift, night or on-call working",
+      "any": [
+        "shift pattern",
+        "night shift",
+        "nights and weekends",
+        "on call",
+        "on-call",
+        "unsocial hours",
+        "rotational shift",
+        "24/7"
+      ]
+    }
+  ]
+}

@@ -25,6 +25,7 @@ from salary.
 |---|---|
 | `watch.py` | The monitor. No dependencies. |
 | `monitors.json` | The searches. Edit this, not the code. |
+| `profile.json` | The screening rules. Edit this, not the code. |
 | `state.json` | What has already been alerted on. Written by the workflow; don't edit. |
 | `.github/workflows/jobwatch.yml` | The 15-minute schedule and the Telegram secrets. |
 
@@ -108,11 +109,82 @@ Two lines. The role, hyperlinked to the advert, and where it is:
 > **[Information Rights Officer](#)**
 > Warwickshire County Council - Warwick, Warwickshire
 
-Band, salary, contract type, closing date and which source found it are all one
-tap away on the advert, and a ping exists to decide whether to open it. The only
-thing added back is a third line when the location could not be matched against
-the town list — that is the alert saying it could not do the geography for you,
-and it is the one omission that could cost a job.
+Band, salary, contract type and which source found it are all one tap away on
+the advert, and a ping exists to decide whether to open it. The only thing added
+back is a third line when the location could not be matched against the town
+list - that is the alert saying it could not do the geography for you, and it is
+the one omission that could cost a job.
+
+### NHS Jobs alerts also carry the person specification
+
+NHS Jobs numbers every criterion in the markup
+(`essential_skill_N_criteria_M`), so the essential criteria can be read from the
+advert rather than guessed at. Those alerts get two extra parts:
+
+A **screen line**, which is a keyword check of the criteria against
+`profile.json`:
+
+> Screen: blocked - 2:1 degree essential (BSc is a 2:2); own vehicle required
+
+And a **code block** holding the role, the pay, the closing date, the link and
+the essential criteria. Telegram copies a code block on a tap, so the whole
+advert can be pasted into a fit assessment without opening anything:
+
+> ```
+> Assistant Psychologist
+> Coventry and Warwickshire Partnership NHS Trust, Coventry
+> £28,392 to £31,157 a year
+> The closing date is 25 September 2026
+> https://www.jobs.nhs.uk/candidate/jobadvert/C9820-26-0621
+>
+> Essential criteria:
+> [X] Qualifications: Honours degree in Psychology at 2:1 or above
+> [?] Experience: Experience of working with people with complex needs
+> - Skills: Ability to write clear clinical notes
+> (+6 more on the advert)
+>
+> [X] blocker   [?] worth checking
+> ```
+
+The block is capped at nine criteria and about 950 characters, so it stays
+readable on a phone. Anything a rule fired on is kept first, then qualifications
+and experience, then the rest in advert order; whatever gets dropped is counted
+rather than quietly binned.
+
+The screen is a keyword match, not a judgement. It exists to kill the obvious
+non-starters before they cost a tap. Three states:
+
+- `Screen: blocked` - an essential criterion that cannot currently be met.
+- `Screen: check` - worth a second look, not a refusal.
+- `Screen: no flags` - nothing in the rule list fired. Not the same as a good fit.
+- `Screen: spec not on NHS Jobs` - the trust put the person spec in an attached
+  document and left a "click apply" placeholder behind. Nothing was screened,
+  and the alert says so rather than reporting a clean advert.
+
+TRAC serves its advert pages behind Cloudflare and refuses datacentre traffic,
+so TRAC alerts stay at two lines. The council, charity and justice boards each
+use their own markup and would need a parser each; they stay at two lines too.
+
+### Editing the screening rules
+
+`profile.json` holds the rules as plain text, so they can be changed without
+touching Python. Each rule is:
+
+```json
+{
+  "level": "block",
+  "reason": "own vehicle required (licence yes, no car)",
+  "any": ["access to a car", "own transport"],
+  "unless": ["desirable"]
+}
+```
+
+`any` fires the rule if a criterion contains any of those phrases. `unless`
+keeps it quiet if the criterion also contains one of those - that is what stops
+"six months experience, paid or voluntary" from being read as a hard gate.
+Matching ignores case and punctuation, so `2:1` also catches `2.1`. Patterns of
+four characters or fewer have to be whole words, so `bps` does not match inside
+another word.
 
 ## Command-line modes
 

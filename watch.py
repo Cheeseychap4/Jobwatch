@@ -955,27 +955,233 @@ def trac_geo(card, towns, counties, employers, exclude_towns, exclude_counties=(
 
 
 # --------------------------------------------------------------------------
+# Person specification: read the essential criteria, screen them against
+# profile.json, and hand back something that fits on a phone.
+#
+# Only NHS Jobs is read here. TRAC serves its advert pages behind Cloudflare
+# and refuses datacentre traffic, and the other boards each need their own
+# parser, so those alerts stay as they were rather than shipping a parser
+# that quietly returns nothing.
+# --------------------------------------------------------------------------
+
+PROFILE_FILE = "profile.json"
+
+CRITERIA_MAX = 9        # bullets kept in the copy block
+CRITERIA_CHARS = 950    # hard cap on the block body, well inside Telegram's limit
+CRITERION_CHARS = 180   # a single criterion longer than this is trimmed
+
+_PROFILE = None
+
+
+def profile():
+    global _PROFILE
+    if _PROFILE is None:
+        _PROFILE = load(PROFILE_FILE, {"rules": []})
+    return _PROFILE
+
+
+def parse_criteria(page):
+    """Essential criteria from an NHS Jobs advert page, in advert order.
+
+    NHS Jobs numbers every criterion (essential_skill_N_criteria_M) under an
+    h3 category heading, so the split between essential and desirable is read
+    from the markup rather than inferred from where a heading sits."""
+    cats = {}
+    for num, label in re.findall(
+            r'<h3 id="skill_category_(\d+)"[^>]*>(.*?)</h3>', page, re.S):
+        cats[num] = strip_tags(label)
+
+    out, seen = [], set()
+    for skill, _n, body in re.findall(
+            r'<li id="essential_skill_(\d+)_criteria_(\d+)"[^>]*>(.*?)</li>',
+            page, re.S):
+        text = strip_tags(body)
+        # Trusts paste person specs out of Word, which leaves the bullet
+        # character behind as a stray "o" welded to the first word.
+        text = re.sub(r"^[o•·*\-]\s*(?=[A-Z])", "", text)
+        text = text.strip(" .;-")
+        if not text:
+            continue
+        key = norm(text)
+        if key in seen:
+            continue
+        seen.add(key)
+        cat = cats.get(skill, "")
+        # Some trusts name their categories "Essential" / "Desirable" rather
+        # than "Qualifications" / "Experience", which turns the prefix into
+        # noise - or, worse, prints "Desirable:" above a criterion the
+        # markup has flagged as essential.
+        if norm(cat) in ("essential", "desirable", "criteria",
+                         "essential criteria", "desirable criteria", ""):
+            cat = ""
+        out.append((cat, text))
+    return out
+
+
+def screen(criteria):
+    """Rule-check the criteria against profile.json.
+
+    Returns (verdict, reasons, hits): verdict is 'blocked', 'check' or
+    'clear', and hits maps a criterion's position to the worst level fired on
+    it. This is a keyword screen, not a judgement - it exists to kill the
+    obvious non-starters before they cost a tap, not to replace reading the
+    advert."""
+    if not criteria:
+        return "", [], {}
+    def hit(pattern, low):
+        p = norm(pattern)
+        if not p:
+            return False
+        # A short pattern like "bps" or "gbc" has to be a word of its own,
+        # or it starts matching the middle of unrelated ones.
+        if " " not in p and len(p) <= 4:
+            return (" " + p + " ") in low
+        return p in low
+
+    rules = profile().get("rules", [])
+    fired, hits = [], {}
+    for i, (_cat, text) in enumerate(criteria):
+        low = " " + norm(text) + " "
+        for rule in rules:
+            if not any(hit(p, low) for p in rule.get("any", [])):
+                continue
+            if any(hit(p, low) for p in rule.get("unless", [])):
+                continue
+            level = rule.get("level", "check")
+            reason = rule.get("reason", "")
+            if (level, reason) not in fired:
+                fired.append((level, reason))
+            if hits.get(i) != "block":
+                hits[i] = level
+    # A blocker is the thing worth reading first, so it leads the line.
+    reasons = [r for lvl, r in fired if lvl == "block"] + \
+              [r for lvl, r in fired if lvl != "block"]
+    verdict = "blocked" if "block" in hits.values() else ("check" if hits else "clear")
+    return verdict, reasons, hits
+
+
+def condense(criteria, hits):
+    """Cut the person spec down to what decides the application.
+
+    Anything a rule fired on is kept first, then qualifications and
+    experience, then the rest in advert order. What is dropped is counted, so
+    the block never pretends to be the whole spec."""
+    def weight(item):
+        i, (cat, _text) = item
+        if hits.get(i) == "block":
+            return 0
+        if hits.get(i) == "check":
+            return 1
+        c = cat.lower()
+        if "qualif" in c or "experience" in c or "training" in c:
+            return 2
+        return 3
+
+    ranked = sorted(enumerate(criteria), key=lambda it: (weight(it), it[0]))
+    keep = sorted(i for i, _ in ranked[:CRITERIA_MAX])
+
+    lines, used = [], 0
+    for i in keep:
+        cat, text = criteria[i]
+        if len(text) > CRITERION_CHARS:
+            text = text[:CRITERION_CHARS].rsplit(" ", 1)[0] + "..."
+        mark = {"block": "[X] ", "check": "[?] "}.get(hits.get(i), "- ")
+        line = mark + (cat + ": " if cat else "") + text
+        if used + len(line) > CRITERIA_CHARS:
+            break
+        lines.append(line)
+        used += len(line)
+    return lines, len(criteria) - len(lines)
+
+
+def criteria_block(c):
+    """The tap-to-copy block: everything needed to assess the role in one paste."""
+    if c.get("source") != "nhs":
+        return None
+    try:
+        page = fetch(c["url"])
+    except Exception as e:
+        print("   criteria fetch failed for %s (%s)" % (c["url"], e))
+        return None
+    criteria = parse_criteria(page)
+    if not criteria:
+        return None
+
+    # Some trusts fill the person spec with "click apply and read the
+    # attached document". Screening that would report a clean advert when
+    # nothing has actually been checked, which is the one failure mode worth
+    # ruling out by hand.
+    joined = norm(" ".join(t for _c, t in criteria))
+    stub = (len(criteria) <= 2 and
+            any(p in joined for p in ("apply for this job", "re directed",
+                                      "redirected", "person specification",
+                                      "attached document", "see attached",
+                                      "job description and person")))
+
+    verdict, reasons, hits = screen(criteria)
+    lines, dropped = condense(criteria, hits)
+
+    body = [c["title"]]
+    where = c.get("employer_location") or c.get("employer") or c.get("town") or ""
+    if where:
+        body.append(where)
+    if c.get("salary"):
+        body.append(c["salary"])
+    close = re.search(r'id="closing_date"[^>]*>(.*?)</p>', page, re.S)
+    if close:
+        body.append(strip_tags(close.group(1)))
+    body.append(c["url"])
+    body.append("")
+    body.append("Essential criteria:")
+    body.extend(lines)
+    if dropped > 0:
+        body.append("(+%s more on the advert)" % dropped)
+
+    if stub:
+        return ("Screen: spec not on NHS Jobs - it is in the attached document",
+                "\n".join(body))
+
+    head = {"blocked": "Screen: blocked", "check": "Screen: check",
+            "clear": "Screen: no flags"}.get(verdict, "")
+    if reasons:
+        head += " - " + "; ".join(reasons[:3])
+    if any(v == "block" for v in hits.values()):
+        body.append("")
+        body.append("[X] blocker   [?] worth checking")
+    elif hits:
+        body.append("")
+        body.append("[?] worth checking")
+    return head, "\n".join(body)
+
 
 def format_alert(monitor_name, c):
-    """Two lines: the role, hyperlinked, and where it is.
+    """The role, where it is, and - for NHS Jobs - what it actually asks for.
 
-    Everything else - band, salary, contract type, closing date, which source
-    found it - is one tap away on the advert itself, and a ping is for
-    deciding whether to open it. The one thing that stays is the flag for an
-    unrecognised location, because that is the alert saying it could not do
-    the geography for you."""
+    The first two lines are the ping: enough to decide whether to open the
+    advert. Under them, where the source allows it, sits the essential
+    criteria as a code block, which Telegram copies on a tap, so the whole
+    role can be pasted into a fit assessment without opening anything. The
+    screen line above it is a keyword check against profile.json, not a
+    verdict on the job."""
     link = '<a href="%s">%s</a>' % (html.escape(c["url"], quote=True),
-                                    html.escape(c["title"]))
+                                    html.escape(c["title"], quote=False))
     where = c.get("employer_location") or c.get("town") or ""
     bits = [link]
     if where:
-        bits.append(html.escape(where))
+        bits.append(html.escape(where, quote=False))
     if c.get("note"):
         # Keep it to the short form - the long explanation was written for a
         # log, not for a phone.
         bits.append("Location not recognised - check the distance"
                     if "not in the known list" in c["note"]
-                    else html.escape(c["note"].split("\n")[0]))
+                    else html.escape(c["note"].split("\n")[0], quote=False))
+
+    spec = criteria_block(c)
+    if spec:
+        head, body = spec
+        if head:
+            bits.append(html.escape(head, quote=False))
+        bits.append("<pre>%s</pre>" % html.escape(body, quote=False))
     return "\n".join(bits)
 
 
