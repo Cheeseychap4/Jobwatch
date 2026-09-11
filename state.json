@@ -250,6 +250,7 @@
  "Councils - Track B income (wmjobs)": {
   "seeded": true,
   "seen": [
+   "wmjobs-275839",
    "wmjobs-275824",
    "wmjobs-275818",
    "wmjobs-275811",
@@ -269,7 +270,6 @@
    "wmjobs-275765",
    "wmjobs-275746",
    "wmjobs-275753",
-   "wmjobs-275752",
    "wmjobs-275833",
    "wmjobs-275813",
    "wmjobs-275784",
@@ -281,7 +281,6 @@
    "wmjobs-275747",
    "wmjobs-275738",
    "wmjobs-275733",
-   "wmjobs-275723",
    "wmjobs-274576",
    "wmjobs-275799",
    "wmjobs-275582",
@@ -319,6 +318,7 @@
    "wmjobs-275705",
    "wmjobs-275700",
    "wmjobs-275792",
+   "wmjobs-275723",
    "wmjobs-275643",
    "wmjobs-275606",
    "wmjobs-275563",
@@ -350,6 +350,7 @@
    "wmjobs-274034",
    "wmjobs-273869",
    "wmjobs-267988",
+   "wmjobs-275752",
    "wmjobs-274449",
    "wmjobs-275788",
    "wmjobs-275266",
@@ -778,7 +779,6 @@
    "feed:https://careers.cygnetgroup.com/job/lead-admin/",
    "feed:https://careers.cygnetgroup.com/job/female-support-worker-nights-only-2/",
    "feed:https://careers.cygnetgroup.com/job/female-support-worker-36/",
-   "feed:https://careers.cygnetgroup.com/job/speciality-doctor-female-acute/",
    "feed:https://careers.cygnetgroup.com/job/psychologist-part-time-3/",
    "feed:https://careers.cygnetgroup.com/job/registered-mental-health-nurse-rmn-96/",
    "feed:https://careers.cygnetgroup.com/job/activity-coordinator-36/",
@@ -868,7 +868,6 @@
    "feed:https://careers.cygnetgroup.com/job/head-chef-3/",
    "feed:https://careers.cygnetgroup.com/job/support-worker-oakwood-ward/",
    "feed:https://careers.cygnetgroup.com/job/support-worker-castle-ward/",
-   "feed:https://careers.cygnetgroup.com/job/part-time-housekeeper-4/",
    "feed:https://careers.cygnetgroup.com/job/resident-medical-officer-ftc/",
    "feed:https://careers.cygnetgroup.com/job/consultant-psychiatrist-19/",
    "feed:https://careers.cygnetgroup.com/job/support-worker-423/",
@@ -898,7 +897,6 @@
    "feed:https://careers.cygnetgroup.com/job/maintenance-assistant-part-time-4/",
    "feed:https://careers.cygnetgroup.com/job/housekeeper-227/",
    "feed:https://careers.cygnetgroup.com/job/kitchen-assistant-36/",
-   "feed:https://careers.cygnetgroup.com/job/ward-clerk-103/",
    "feed:https://careers.cygnetgroup.com/job/part-time-driver/",
    "feed:https://careers.cygnetgroup.com/job/kitchen-assistant-37/",
    "feed:https://careers.cygnetgroup.com/job/receptionist-22/",
@@ -921,6 +919,9 @@
    "feed:https://careers.cygnetgroup.com/job/assistant-psychologist-44/",
    "feed:https://careers.cygnetgroup.com/job/support-worker-410/",
    "feed:https://careers.cygnetgroup.com/job/active-life-lead/",
+   "feed:https://careers.cygnetgroup.com/job/part-time-housekeeper-4/",
+   "feed:https://careers.cygnetgroup.com/job/ward-clerk-103/",
+   "feed:https://careers.cygnetgroup.com/job/speciality-doctor-female-acute/",
    "feed:https://careers.cygnetgroup.com/job/weekend-female-mental-health-support-worker/",
    "feed:https://careers.cygnetgroup.com/job/female-day-healthcare-assistant/",
    "feed:https://careers.cygnetgroup.com/job/support-worker-411/",
@@ -1522,6 +1523,9 @@
  "Support worker / HCA 20mi": {
   "seeded": true,
   "seen": [
+   "E0279-26-2463",
+   "E0279-26-2461",
+   "E0279-26-2447",
    "A2939-26-0004",
    "A2939-26-0003",
    "C9267-26-1075",
@@ -1660,6 +1664,7 @@
    "trac:v8284303",
    "trac:v8287271",
    "trac:v8287314",
+   "trac:v8288898",
    "trac:v7650516",
    "trac:v7965330",
    "trac:v7983895",
@@ -2234,8 +2239,7 @@
    "trac:v8254749",
    "trac:v8254995",
    "trac:v8255197",
-   "trac:v8255422",
-   "trac:v8255663"
+   "trac:v8255422"
   ]
  },
  "TRAC employers (source of truth)": {
@@ -2608,6 +2612,7 @@
    "trac:v8233863",
    "trac:v8178211",
    "trac:v8100368",
+   "trac:v8288898",
    "trac:v7650516",
    "trac:v8209206",
    "trac:v8288480",
@@ -2701,7 +2706,6 @@
    "trac:v8257105",
    "trac:v8258429",
    "trac:v8258515",
-   "trac:v8263687",
    "trac:v8269711",
    "trac:v8194784",
    "trac:v8230229",
@@ -2750,7 +2754,6 @@
    "trac:v8153749",
    "trac:v8233923",
    "trac:v8283739",
-   "trac:v8285105",
    "trac:v8236974",
    "trac:v8270442",
    "trac:v8270463",
@@ -2840,7 +2843,8 @@
    "trac:v8255421",
    "trac:v8266501",
    "trac:v8274865",
-   "trac:v8284228"
+   "trac:v8284228",
+   "trac:v8284286"
   ]
  },
  "TRAC support / HCA (source of truth)": {
@@ -3213,6 +3217,7 @@
    "trac:v8233863",
    "trac:v8178211",
    "trac:v8100368",
+   "trac:v8288898",
    "trac:v7650516",
    "trac:v8209206",
    "trac:v8288480",
@@ -3306,7 +3311,6 @@
    "trac:v8257105",
    "trac:v8258429",
    "trac:v8258515",
-   "trac:v8263687",
    "trac:v8269711",
    "trac:v8194784",
    "trac:v8230229",
@@ -3355,7 +3359,6 @@
    "trac:v8153749",
    "trac:v8233923",
    "trac:v8283739",
-   "trac:v8285105",
    "trac:v8236974",
    "trac:v8270442",
    "trac:v8270463",
@@ -3445,12 +3448,17 @@
    "trac:v8255421",
    "trac:v8266501",
    "trac:v8274865",
-   "trac:v8284228"
+   "trac:v8284228",
+   "trac:v8284286"
   ]
  },
  "Wellbeing practitioner 40mi": {
   "seeded": true,
   "seen": [
+   "E0279-26-2463",
+   "E0279-26-2461",
+   "E0279-26-2449",
+   "E0279-26-2447",
    "C9321-26-1605",
    "C9321-26-1604",
    "C9321-26-1602",
