@@ -892,14 +892,12 @@
    "feed:https://careers.cygnetgroup.com/job/support-worker-399/",
    "feed:https://careers.cygnetgroup.com/job/registered-mental-health-nurse-8/",
    "feed:https://careers.cygnetgroup.com/job/bank-support-worker-167/",
-   "feed:https://careers.cygnetgroup.com/job/clinical-neuropsychologist-band-8c-entry-level/",
    "feed:https://careers.cygnetgroup.com/job/support-worker-427/",
    "feed:https://careers.cygnetgroup.com/job/chef-24/",
    "feed:https://careers.cygnetgroup.com/job/camhs-consultant-psychiatrist/",
    "feed:https://careers.cygnetgroup.com/job/camhs-consultant-psychiatrist-camhs-clinical-and-safeguarding-lead/",
    "feed:https://careers.cygnetgroup.com/job/bank-support-worker-175/",
    "feed:https://careers.cygnetgroup.com/job/female-night-support-worker-8/",
-   "feed:https://careers.cygnetgroup.com/job/project-manager-property-development/",
    "feed:https://careers.cygnetgroup.com/job/workshop-technical-instructor/",
    "feed:https://careers.cygnetgroup.com/job/activity-co-ordinator-38/",
    "feed:https://careers.cygnetgroup.com/job/support-worker-397/",
@@ -1122,6 +1120,8 @@
    "feed:https://careers.cygnetgroup.com/job/support-worker-days-32/",
    "feed:https://careers.cygnetgroup.com/job/bank-support-worker-190/",
    "feed:https://careers.cygnetgroup.com/job/consultant-neuropsychiatrist-11/",
+   "feed:https://careers.cygnetgroup.com/job/clinical-neuropsychologist-band-8c-entry-level/",
+   "feed:https://careers.cygnetgroup.com/job/project-manager-property-development/",
    "feed:https://careers.cygnetgroup.com/job/assistant-cook-7/",
    "feed:https://careers.cygnetgroup.com/job/registered-nurse-rmn-or-rnld-15/",
    "feed:https://careers.cygnetgroup.com/job/consultant-neuropsychiatrist-and-medical-director/",
@@ -1921,6 +1921,11 @@
  "TRAC discovery (all employers, newest pages)": {
   "seeded": true,
   "seen": [
+   "trac:v7798519",
+   "trac:v8218534",
+   "trac:v8241882",
+   "trac:v8271511",
+   "trac:v8284674",
    "trac:v8128634",
    "trac:v8210608",
    "trac:v8255008",
@@ -1985,7 +1990,6 @@
    "trac:v8194755",
    "trac:v8194827",
    "trac:v8196920",
-   "trac:v8196930",
    "trac:v8197608",
    "trac:v8198029",
    "trac:v8198057",
@@ -2117,6 +2121,7 @@
    "trac:v8251038",
    "trac:v8251498",
    "trac:v8251532",
+   "trac:v8196930",
    "trac:v8251575",
    "trac:v8251704",
    "trac:v8251763",
@@ -2515,12 +2520,7 @@
    "trac:v8257764",
    "trac:v8257902",
    "trac:v8258342",
-   "trac:v8258424",
-   "trac:v8258425",
-   "trac:v8258868",
-   "trac:v8259631",
-   "trac:v8259835",
-   "trac:v8259843"
+   "trac:v8258424"
   ]
  },
  "TRAC employers (source of truth)": {
@@ -2578,7 +2578,6 @@
    "trac:v8255683",
    "trac:v8249367",
    "trac:v8140496",
-   "trac:v8183440",
    "trac:v8183540",
    "trac:v8291917",
    "trac:v8289085",
@@ -3074,7 +3073,6 @@
    "trac:v7951890",
    "trac:v8186218",
    "trac:v8159814",
-   "trac:v8170899",
    "trac:v8253873",
    "trac:v8257821",
    "trac:v8240507",
@@ -3125,7 +3123,9 @@
    "trac:v8242015",
    "trac:v8246498",
    "trac:v8248747",
-   "trac:v8255421"
+   "trac:v8255421",
+   "trac:v8266501",
+   "trac:v8274865"
   ]
  },
  "TRAC support / HCA (source of truth)": {
@@ -3183,7 +3183,6 @@
    "trac:v8255683",
    "trac:v8249367",
    "trac:v8140496",
-   "trac:v8183440",
    "trac:v8183540",
    "trac:v8291917",
    "trac:v8289085",
@@ -3679,7 +3678,6 @@
    "trac:v7951890",
    "trac:v8186218",
    "trac:v8159814",
-   "trac:v8170899",
    "trac:v8253873",
    "trac:v8257821",
    "trac:v8240507",
@@ -3730,7 +3728,9 @@
    "trac:v8242015",
    "trac:v8246498",
    "trac:v8248747",
-   "trac:v8255421"
+   "trac:v8255421",
+   "trac:v8266501",
+   "trac:v8274865"
   ]
  },
  "Wellbeing practitioner 40mi": {
