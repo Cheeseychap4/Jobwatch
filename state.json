@@ -2,6 +2,7 @@
  "AP / psychology 40mi": {
   "seeded": true,
   "seen": [
+   "E0197-26-0085",
    "L0034-26-3807",
    "E0177-26-9984",
    "E0177-26-9978",
@@ -314,6 +315,13 @@
  "Councils - Track B income (wmjobs)": {
   "seeded": true,
   "seen": [
+   "wmjobs-276000",
+   "wmjobs-275999",
+   "wmjobs-275998",
+   "wmjobs-275997",
+   "wmjobs-275995",
+   "wmjobs-275994",
+   "wmjobs-275993",
    "wmjobs-275992",
    "wmjobs-275981",
    "wmjobs-275980",
@@ -327,13 +335,6 @@
    "wmjobs-275948",
    "wmjobs-275940",
    "wmjobs-275937",
-   "wmjobs-275939",
-   "wmjobs-275936",
-   "wmjobs-275611",
-   "wmjobs-275880",
-   "wmjobs-275927",
-   "wmjobs-275929",
-   "wmjobs-275928",
    "wmjobs-275991",
    "wmjobs-275990",
    "wmjobs-275989",
@@ -343,11 +344,7 @@
    "wmjobs-275978",
    "wmjobs-275969",
    "wmjobs-275956",
-   "wmjobs-275922",
-   "wmjobs-275915",
-   "wmjobs-275914",
-   "wmjobs-275911",
-   "wmjobs-275904",
+   "wmjobs-275939",
    "wmjobs-274576",
    "wmjobs-275853",
    "wmjobs-275799",
@@ -377,14 +374,19 @@
    "wmjobs-275970",
    "wmjobs-275943",
    "wmjobs-275932",
+   "wmjobs-275611",
+   "wmjobs-275927",
+   "wmjobs-275929",
    "wmjobs-275918",
+   "wmjobs-275914",
+   "wmjobs-275911",
    "wmjobs-275891",
    "wmjobs-275887",
    "wmjobs-275873",
    "wmjobs-275857",
    "wmjobs-275851",
    "wmjobs-275850",
-   "wmjobs-275824",
+   "wmjobs-275936",
    "wmjobs-275792",
    "wmjobs-275723",
    "wmjobs-275606",
@@ -402,9 +404,9 @@
    "wmjobs-274769",
    "wmjobs-274493",
    "wmjobs-274428",
-   "wmjobs-269009",
    "wmjobs-275976",
    "wmjobs-275973",
+   "wmjobs-269009",
    "wmjobs-267075",
    "wmjobs-260551",
    "wmjobs-275858",
@@ -424,6 +426,12 @@
    "wmjobs-274034",
    "wmjobs-273869",
    "wmjobs-267988",
+   "wmjobs-275880",
+   "wmjobs-275928",
+   "wmjobs-275922",
+   "wmjobs-275915",
+   "wmjobs-275904",
+   "wmjobs-275824",
    "wmjobs-275903",
    "wmjobs-275901",
    "wmjobs-275886",
@@ -551,6 +559,7 @@
  "Councils - psychology-track (wmjobs)": {
   "seeded": true,
   "seen": [
+   "wmjobs-275995",
    "wmjobs-275972",
    "wmjobs-275970",
    "wmjobs-275939",
@@ -570,7 +579,6 @@
    "wmjobs-275491",
    "wmjobs-275353",
    "wmjobs-275342",
-   "wmjobs-275268",
    "wmjobs-275769",
    "wmjobs-275447",
    "wmjobs-275426",
@@ -611,6 +619,7 @@
    "wmjobs-275417",
    "wmjobs-275318",
    "wmjobs-272128",
+   "wmjobs-275268",
    "wmjobs-274755",
    "wmjobs-274581",
    "wmjobs-275246",
@@ -1659,6 +1668,7 @@
  "Psychology wide 40mi": {
   "seeded": true,
   "seen": [
+   "B0139-26-0074",
    "E0132-26-2055",
    "E0132-26-2050",
    "C9321-26-1611",
@@ -1752,6 +1762,7 @@
  "Support worker / HCA 20mi": {
   "seeded": true,
   "seen": [
+   "E0197-26-0085",
    "L0034-26-3807",
    "E0177-26-9978",
    "L0034-26-3800",
@@ -3027,7 +3038,6 @@
    "trac:v8280323",
    "trac:v8280336",
    "trac:v8281626",
-   "trac:v8275939",
    "trac:v8203918",
    "trac:v8141353",
    "trac:v8013432",
@@ -3111,7 +3121,8 @@
    "trac:v8259631",
    "trac:v8284741",
    "trac:v8286129",
-   "trac:v8161276"
+   "trac:v8161276",
+   "trac:v8222264"
   ]
  },
  "TRAC support / HCA (source of truth)": {
@@ -3632,7 +3643,6 @@
    "trac:v8280323",
    "trac:v8280336",
    "trac:v8281626",
-   "trac:v8275939",
    "trac:v8203918",
    "trac:v8141353",
    "trac:v8013432",
@@ -3716,12 +3726,14 @@
    "trac:v8259631",
    "trac:v8284741",
    "trac:v8286129",
-   "trac:v8161276"
+   "trac:v8161276",
+   "trac:v8222264"
   ]
  },
  "Wellbeing practitioner 40mi": {
   "seeded": true,
   "seen": [
+   "B0139-26-0074",
    "L0034-26-3807",
    "E0177-26-9984",
    "E0177-26-9978",
@@ -4144,7 +4156,9 @@
   "wmjobs-275684",
   "wmjobs-275685",
   "wmjobs-275700",
-  "wmjobs-275978"
+  "wmjobs-275978",
+  "wmjobs-275993",
+  "wmjobs-275995"
  ],
  "_alerted_keys": [
   "1 1 teaching assistant ks2 forsbrook ce primary school|forsbrook cofe",
@@ -4218,9 +4232,11 @@
   "data and information lead the 3 18 education trust|the 3",
   "dcp customer service adviser|dudley metropolitan",
   "development support officer x2|stratford on",
+  "direct payments support officer|warwickshire county",
   "early intervention rehabilitation assistant south|birmingham community",
   "ecologist|warwickshire county",
   "education mental health practitioner emhp|midlands partnership",
+  "educational psychologist|warwickshire county",
   "ehcp officer|sandwell metropolitan",
   "electoral services support officer|coventry city",
   "emhp children s wellbeing practitioner cwp in mhst|coventry and",
