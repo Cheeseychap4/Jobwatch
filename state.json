@@ -2,6 +2,7 @@
  "AP / psychology 40mi": {
   "seeded": true,
   "seen": [
+   "A0805-26-0017",
    "C9407-26-0365",
    "C0020-26-1402",
    "C9365-26-0719",
@@ -439,6 +440,7 @@
  "Councils - Track B income (wmjobs)": {
   "seeded": true,
   "seen": [
+   "wmjobs-276342",
    "wmjobs-276338",
    "wmjobs-276336",
    "wmjobs-276327",
@@ -458,7 +460,6 @@
    "wmjobs-276307",
    "wmjobs-276289",
    "wmjobs-276282",
-   "wmjobs-276276",
    "wmjobs-276153",
    "wmjobs-276267",
    "wmjobs-276292",
@@ -469,7 +470,6 @@
    "wmjobs-276257",
    "wmjobs-276256",
    "wmjobs-276255",
-   "wmjobs-276254",
    "wmjobs-274576",
    "wmjobs-276222",
    "wmjobs-276027",
@@ -496,6 +496,7 @@
    "wmjobs-275935",
    "wmjobs-275939",
    "wmjobs-275816",
+   "wmjobs-276254",
    "wmjobs-276253",
    "wmjobs-276244",
    "wmjobs-276228",
@@ -550,6 +551,7 @@
    "wmjobs-274544",
    "wmjobs-274034",
    "wmjobs-267988",
+   "wmjobs-276276",
    "wmjobs-274493",
    "wmjobs-276270",
    "wmjobs-276252",
@@ -1414,6 +1416,7 @@
    "feed:https://careers.cygnetgroup.com/job/registered-nurse-rmn-or-rnld-17/",
    "feed:https://careers.cygnetgroup.com/job/deputy-manager-9/",
    "feed:https://careers.cygnetgroup.com/job/activity-co-ordinator-41/",
+   "feed:https://careers.cygnetgroup.com/job/senior-hospital-administrator/",
    "feed:https://careers.cygnetgroup.com/job/hospital-manager-11/",
    "feed:https://careers.cygnetgroup.com/job/data-engineer-hybrid-7/",
    "feed:https://careers.cygnetgroup.com/job/bank-housekeeper-43/",
@@ -1555,8 +1558,8 @@
   "seen": [
    "moj:20591",
    "moj:21380",
-   "moj:19614",
    "moj:21684",
+   "moj:19614",
    "moj:20670",
    "moj:19376",
    "moj:20567",
@@ -2140,6 +2143,8 @@
  "Support worker / HCA 20mi": {
   "seeded": true,
   "seen": [
+   "C0020-26-1401",
+   "L0034-26-3852",
    "C9365-26-0729",
    "L0042-26-0202",
    "A5360-26-0010",
@@ -3147,7 +3152,6 @@
    "trac:v8270242",
    "trac:v8203148",
    "trac:v8235256",
-   "trac:v8231110",
    "trac:v8254094",
    "trac:v8162190",
    "trac:v8272015",
@@ -3571,7 +3575,8 @@
    "trac:v8250997",
    "trac:v8251199",
    "trac:v8267264",
-   "trac:v8232233"
+   "trac:v8232233",
+   "trac:v8251383"
   ]
  },
  "TRAC support / HCA (source of truth)": {
@@ -3752,7 +3757,6 @@
    "trac:v8270242",
    "trac:v8203148",
    "trac:v8235256",
-   "trac:v8231110",
    "trac:v8254094",
    "trac:v8162190",
    "trac:v8272015",
@@ -4176,7 +4180,8 @@
    "trac:v8250997",
    "trac:v8251199",
    "trac:v8267264",
-   "trac:v8232233"
+   "trac:v8232233",
+   "trac:v8251383"
   ]
  },
  "Wellbeing practitioner 40mi": {
