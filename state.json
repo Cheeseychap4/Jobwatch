@@ -605,7 +605,7 @@
    "wmjobs-276523",
    "wmjobs-276519",
    "wmjobs-276514",
-   "wmjobs-274576",
+   "wmjobs-276558",
    "wmjobs-276222",
    "wmjobs-276027",
    "wmjobs-275853",
@@ -686,6 +686,7 @@
    "wmjobs-274759",
    "wmjobs-274034",
    "wmjobs-267988",
+   "wmjobs-274576",
    "wmjobs-276548",
    "wmjobs-276430",
    "wmjobs-276511",
@@ -2505,6 +2506,7 @@
  "Support worker / HCA 20mi": {
   "seeded": true,
   "seen": [
+   "W0003-26-0007",
    "A4850-26-0008",
    "C9444-26-0553",
    "E0505-26-0479",
@@ -2821,7 +2823,6 @@
    "trac:v7979890",
    "trac:v7995113",
    "trac:v8003826",
-   "trac:v8029870",
    "trac:v8051990",
    "trac:v8053506",
    "trac:v8057042",
@@ -2833,7 +2834,6 @@
    "trac:v8125138",
    "trac:v8125266",
    "trac:v8127103",
-   "trac:v8134711",
    "trac:v8135622",
    "trac:v8139043",
    "trac:v8139059",
@@ -2864,6 +2864,8 @@
    "trac:v8185596",
    "trac:v8185836",
    "trac:v8186710",
+   "trac:v8188193",
+   "trac:v8188328",
    "trac:v8188335",
    "trac:v8188775",
    "trac:v8189765",
@@ -3003,13 +3005,15 @@
    "trac:v8257115",
    "trac:v8257353",
    "trac:v8257471",
-   "trac:v8258004",
    "trac:v8258371",
    "trac:v8258416",
    "trac:v8258460",
    "trac:v8258675",
    "trac:v8259362",
    "trac:v8259541",
+   "trac:v8029870",
+   "trac:v8134711",
+   "trac:v8258004",
    "trac:v8260248",
    "trac:v8260766",
    "trac:v8260910",
@@ -3406,9 +3410,7 @@
    "trac:v8285659",
    "trac:v8285762",
    "trac:v8285898",
-   "trac:v8286498",
-   "trac:v8286628",
-   "trac:v8287574"
+   "trac:v8286498"
   ]
  },
  "TRAC employers (source of truth)": {
@@ -3869,7 +3871,6 @@
    "trac:v8289698",
    "trac:v7650516",
    "trac:v8288480",
-   "trac:v8288590",
    "trac:v8288832",
    "trac:v8288851",
    "trac:v8189366",
@@ -4013,7 +4014,8 @@
    "trac:v8204400",
    "trac:v7977328",
    "trac:v8143946",
-   "trac:v8211329"
+   "trac:v8211329",
+   "trac:v8242094"
   ]
  },
  "TRAC support / HCA (source of truth)": {
@@ -4474,7 +4476,6 @@
    "trac:v8289698",
    "trac:v7650516",
    "trac:v8288480",
-   "trac:v8288590",
    "trac:v8288832",
    "trac:v8288851",
    "trac:v8189366",
@@ -4618,12 +4619,14 @@
    "trac:v8204400",
    "trac:v7977328",
    "trac:v8143946",
-   "trac:v8211329"
+   "trac:v8211329",
+   "trac:v8242094"
   ]
  },
  "Wellbeing practitioner 40mi": {
   "seeded": true,
   "seen": [
+   "C9842-26-0573",
    "E0358-26-0542",
    "C9444-26-0553",
    "L0034-26-3883",
