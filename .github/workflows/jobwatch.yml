@@ -7,8 +7,8 @@ on:
     # every few minutes (see JOBWATCH_LOOP_SECONDS below) rather than relying
     # on the schedule for cadence.
     - cron: "*/15 * * * *"
-    # Weekly heartbeat: Mondays 08:00 UTC.
-    - cron: "0 8 * * 1"
+    # Weekly heartbeat: Mondays 10:00 UTC (clear of the jobs.nhs.uk 07:00-09:30 maintenance window).
+    - cron: "0 10 * * 1"
   workflow_dispatch:
     inputs:
       test_ping:
@@ -63,7 +63,7 @@ jobs:
         env:
           TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
-          JOBWATCH_HEARTBEAT: ${{ (github.event.schedule == '0 8 * * 1' || inputs.heartbeat) && '1' || '' }}
+          JOBWATCH_HEARTBEAT: ${{ (github.event.schedule == '0 10 * * 1' || inputs.heartbeat) && '1' || '' }}
           # Keep checking for 45 minutes, every 5 minutes. With the runs
           # queueing behind each other this is close to continuous cover.
           JOBWATCH_LOOP_SECONDS: ${{ inputs.loop_seconds || '2700' }}
