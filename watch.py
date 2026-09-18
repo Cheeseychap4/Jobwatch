@@ -293,7 +293,17 @@ def fetch_cards(url, pages):
     seen_refs, out = set(), []
     for p in range(1, max(1, pages) + 1):
         u = url if p == 1 else url + "&page=%d" % p
-        cards = parse_cards(fetch(u))
+        page = fetch(u)
+        if p == 1 and re.search(
+                r"NHS Jobs service is currently unavailable"
+                r"|planned downtime|assets/maintenance", page, re.I):
+            # jobs.nhs.uk runs a daily 07:00-09:30 maintenance window and
+            # serves a static "planned downtime" page for every URL. That is
+            # the site being down, not an empty search - raise so the caller
+            # treats it as a transient outage instead of firing a false
+            # "scanned nothing" alarm on every NHS monitor.
+            raise RuntimeError("NHS Jobs in scheduled maintenance")
+        cards = parse_cards(page)
         fresh = [c for c in cards if c["ref"] not in seen_refs]
         if not fresh:
             break

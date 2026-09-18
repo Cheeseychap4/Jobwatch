@@ -652,43 +652,7 @@
     "protect_title": "psycholog|forensic|mental health|wellbeing practitioner|\\bEMHP\\b|\\bCWP\\b|\\bPWP\\b"
   },
   {
-    "name": "St Andrew's Healthcare (own site)",
-    "source": "feed",
-    "feed_kind": "html_cards",
-    "url": "https://www.stah.org/careers/job-search",
-    "base": "https://www.stah.org",
-    "employer": "St Andrew's Healthcare",
-    "card_pattern": "<div class=\"result\">\\s*<a href=\"(?P<url>[^\"]+)\"[^>]*>.*?<h3>(?P<title>.*?)</h3>.*?Salary:(?P<salary>[^<]*)<.*?Location:\\s*(?P<location>[^<]*)<",
-    "title_filter": "psycholog|psychological|wellbeing practitioner|mental health practitioner|\\bEMHP\\b|\\bCWP\\b|\\bPWP\\b|graduate mental health|forensic|behaviour support|positive behaviour|technical instructor|mental health act|group worker|facilitator|intervention|support worker|healthcare assistant|health care assistant|recovery|activities coordinator|activity coordinator",
-    "exclude_title": "\\bsenior\\b|\\bconsultant\\b|\\bprincipal\\b|\\blead\\b|\\bhead of\\b|highly specialist|\\bdirector\\b|\\bmanager\\b|\\bband [6-9]\\b|\\bband 8[a-d]?\\b|\\bmatron\\b|\\bpsychiatrist\\b|\\bnurse\\b|\\bmidwif|\\bqualified\\b|housekeep|catering|cleaner|domestic|chef|\\bcook\\b|maintenance|security|estates|ward clerk|receptionist|\\bdriver\\b|\\bteacher\\b|\\bdoctor\\b|deputy",
-    "bands": [],
-    "allow_unknown_band": true,
-    "unknown_location": "keep",
-    "towns": [
-      "birmingham",
-      "northampton",
-      "coventry",
-      "warwickshire",
-      "solihull",
-      "sutton coldfield"
-    ],
-    "exclude_towns": [
-      "essex",
-      "suffolk",
-      "norfolk",
-      "nottinghamshire",
-      "oxford",
-      "reading",
-      "maidstone",
-      "kent",
-      "london"
-    ],
-    "closed_pattern": "vacancy not found|this vacancy (has )?(is )?(now )?clos|no longer accepting|position (has been )?filled",
-    "exclude_discipline": "occupational therap|\\bOTA?\\b|speech (and|&) language|\\bSLT\\b|\\bSALT\\b|physiotherap|\\bphysio\\b|dietet|dietitian|\\bnutrition|podiatr|chiropod|radiograph|sonograph|\\bimaging\\b|orthopt|optometr|\\baudiolog|pharmac|phlebotom|\\bdental\\b|\\bdentist|\\bdenture|\\borthopaed|\\borthoped|\\bfracture\\b|\\btheatre\\b|endoscop|\\burolog|\\bcardiac\\b|\\bcardiolog|\\brespiratory\\b|\\boncolog|\\bcancer\\b|\\brenal\\b|\\bdialysis\\b|\\bstroke\\b|\\bdiabet|tissue viability|\\bwound\\b|\\bpalliative\\b|\\bdermatolog|\\bophthalm|\\bENT\\b|\\bneonat|health visit|district nurs|\\bsexual health\\b|\\bcontinence\\b|\\bbladder\\b|\\bmusculoskeletal\\b|\\bMSK\\b|maternity (link|support|assistant|ward|unit|care|services)|\\bmammograph|\\bcytolog|\\bhistolog|\\bbiomedical\\b|\\bmortuary\\b|\\bpodiatry\\b",
-    "protect_title": "psycholog|forensic|mental health|wellbeing practitioner|\\bEMHP\\b|\\bCWP\\b|\\bPWP\\b"
-  },
-  {
-    "name": "HMPPS / MoJ board \u2014 house terms",
+    "name": "HMPPS / MoJ board — house terms",
     "source": "moj",
     "keywords": [
       "group worker",
@@ -875,7 +839,7 @@
     "every_pass": true
   },
   {
-    "name": "HMPPS / MoJ board \u2014 in-radius establishments",
+    "name": "HMPPS / MoJ board — in-radius establishments",
     "source": "moj",
     "keywords": [
       "onley",
