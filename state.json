@@ -3088,13 +3088,20 @@
  "TRAC discovery (all employers, newest pages)": {
   "seeded": true,
   "seen": [
+   "trac:v8045358",
+   "trac:v8219353",
    "trac:v8263207",
    "trac:v8273863",
+   "trac:v8280157",
+   "trac:v8291301",
    "trac:v8293152",
    "trac:v8297094",
+   "trac:v8297998",
    "trac:v8306253",
    "trac:v8308323",
    "trac:v8308325",
+   "trac:v8308398",
+   "trac:v8308399",
    "trac:v8247056",
    "trac:v7399589",
    "trac:v7694924",
@@ -3680,14 +3687,7 @@
    "trac:v8262654",
    "trac:v8262687",
    "trac:v8262988",
-   "trac:v8262999",
-   "trac:v8263454",
-   "trac:v8156765",
-   "trac:v8216258",
-   "trac:v8264785",
-   "trac:v8264833",
-   "trac:v8265773",
-   "trac:v8266248"
+   "trac:v8262999"
   ]
  },
  "TRAC employers (source of truth)": {
