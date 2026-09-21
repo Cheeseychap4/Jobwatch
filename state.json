@@ -1968,6 +1968,7 @@
    "feed:https://careers.cygnetgroup.com/job/part-time-housekeeper-5/",
    "feed:https://careers.cygnetgroup.com/job/specialist-occupational-therapist-band-6-17/",
    "feed:https://careers.cygnetgroup.com/job/resident-medical-officer-4/",
+   "feed:https://careers.cygnetgroup.com/job/assistant-chef-ftc-2/",
    "feed:https://careers.cygnetgroup.com/job/ward-clerk-102/",
    "feed:https://careers.cygnetgroup.com/job/medical-secretaty/",
    "feed:https://careers.cygnetgroup.com/job/lead-admin/",
@@ -2047,6 +2048,9 @@
  "Forensic 40mi": {
   "seeded": true,
   "seen": [
+   "E0059-93995",
+   "E0059-95718-2",
+   "E0059-101385",
    "C9267-26-1120",
    "E0166-26-0252",
    "E0166-26-0251",
@@ -2866,7 +2870,6 @@
   "seen": [
    "B0498-26-0003",
    "A6033-26-0020",
-   "C9301-26-1371",
    "C9284-26-0425",
    "C9284-26-0427",
    "C9284-26-0434",
@@ -2895,6 +2898,7 @@
    "C9444-26-0561",
    "C9203-26-0581",
    "C9203-26-0580",
+   "C9301-26-1371",
    "C0020-26-1405",
    "L0121-26-0970",
    "L0034-26-3923",
@@ -3315,6 +3319,7 @@
    "trac:v8223486",
    "trac:v8223894",
    "trac:v8224916",
+   "trac:v8224985",
    "trac:v8225643",
    "trac:v8225870",
    "trac:v8226124",
@@ -3334,7 +3339,6 @@
    "trac:v8234856",
    "trac:v8235287",
    "trac:v8236313",
-   "trac:v8236374",
    "trac:v8238220",
    "trac:v8238496",
    "trac:v8238907",
@@ -3371,7 +3375,6 @@
    "trac:v8250627",
    "trac:v8250852",
    "trac:v8251302",
-   "trac:v8251668",
    "trac:v8252036",
    "trac:v8252333",
    "trac:v8252381",
@@ -3447,6 +3450,9 @@
    "trac:v8269599",
    "trac:v8269678",
    "trac:v8270198",
+   "trac:v8270230",
+   "trac:v8236374",
+   "trac:v8251668",
    "trac:v8238362",
    "trac:v8253131",
    "trac:v8263746",
@@ -3844,9 +3850,7 @@
    "trac:v8287609",
    "trac:v8288016",
    "trac:v8288559",
-   "trac:v8289958",
-   "trac:v8290719",
-   "trac:v8291233"
+   "trac:v8289958"
   ]
  },
  "TRAC employers (source of truth)": {
@@ -3970,7 +3974,6 @@
    "trac:v8301241",
    "trac:v8303445",
    "trac:v8256593",
-   "trac:v8268146",
    "trac:v8302315",
    "trac:v8192734",
    "trac:v8210629",
@@ -4178,7 +4181,6 @@
    "trac:v8254196",
    "trac:v8240958",
    "trac:v8247770",
-   "trac:v8241239",
    "trac:v8241331",
    "trac:v8217546",
    "trac:v8218128",
@@ -4298,7 +4300,6 @@
    "trac:v8296160",
    "trac:v8297784",
    "trac:v8298405",
-   "trac:v8144946",
    "trac:v8156301",
    "trac:v8159446",
    "trac:v8159906",
@@ -4383,7 +4384,6 @@
    "trac:v8270776",
    "trac:v8271140",
    "trac:v8072039",
-   "trac:v8286715",
    "trac:v7979888",
    "trac:v8128571",
    "trac:v8257105",
@@ -4451,7 +4451,11 @@
    "trac:v8228006",
    "trac:v8159283",
    "trac:v7925303",
-   "trac:v7557172"
+   "trac:v7557172",
+   "trac:v8241487",
+   "trac:v8267814",
+   "trac:v8279508",
+   "trac:v8099526"
   ]
  },
  "TRAC support / HCA (source of truth)": {
@@ -4575,7 +4579,6 @@
    "trac:v8301241",
    "trac:v8303445",
    "trac:v8256593",
-   "trac:v8268146",
    "trac:v8302315",
    "trac:v8192734",
    "trac:v8210629",
@@ -4783,7 +4786,6 @@
    "trac:v8254196",
    "trac:v8240958",
    "trac:v8247770",
-   "trac:v8241239",
    "trac:v8241331",
    "trac:v8217546",
    "trac:v8218128",
@@ -4903,7 +4905,6 @@
    "trac:v8296160",
    "trac:v8297784",
    "trac:v8298405",
-   "trac:v8144946",
    "trac:v8156301",
    "trac:v8159446",
    "trac:v8159906",
@@ -4988,7 +4989,6 @@
    "trac:v8270776",
    "trac:v8271140",
    "trac:v8072039",
-   "trac:v8286715",
    "trac:v7979888",
    "trac:v8128571",
    "trac:v8257105",
@@ -5056,7 +5056,11 @@
    "trac:v8228006",
    "trac:v8159283",
    "trac:v7925303",
-   "trac:v7557172"
+   "trac:v7557172",
+   "trac:v8241487",
+   "trac:v8267814",
+   "trac:v8279508",
+   "trac:v8099526"
   ]
  },
  "Wellbeing practitioner 40mi": {
