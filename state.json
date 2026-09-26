@@ -24,7 +24,6 @@
    "A0875-26-1026",
    "C9407-26-0371",
    "C9407-26-0372",
-   "C9407-26-0375",
    "C0020-26-1465",
    "E0505-26-0560",
    "B0516-26-0259",
@@ -33,6 +32,7 @@
    "A3309-26-0051",
    "C9335-26-0137",
    "C0020-26-1464",
+   "C9407-26-0375",
    "A3309-26-0050",
    "C9335-26-0136",
    "B0478-26-0017",
@@ -685,6 +685,7 @@
  "Councils - Track B income (wmjobs)": {
   "seeded": true,
   "seen": [
+   "wmjobs-277462",
    "wmjobs-277451",
    "wmjobs-277401",
    "wmjobs-277442",
@@ -704,7 +705,6 @@
    "wmjobs-277391",
    "wmjobs-277381",
    "wmjobs-277370",
-   "wmjobs-277363",
    "wmjobs-277431",
    "wmjobs-277428",
    "wmjobs-277427",
@@ -713,7 +713,6 @@
    "wmjobs-277373",
    "wmjobs-277372",
    "wmjobs-277371",
-   "wmjobs-277355",
    "wmjobs-277418",
    "wmjobs-277407",
    "wmjobs-277398",
@@ -727,6 +726,7 @@
    "wmjobs-275511",
    "wmjobs-272963",
    "wmjobs-277416",
+   "wmjobs-277355",
    "wmjobs-277331",
    "wmjobs-277308",
    "wmjobs-277296",
@@ -761,7 +761,6 @@
    "wmjobs-277248",
    "wmjobs-277247",
    "wmjobs-277240",
-   "wmjobs-277228",
    "wmjobs-277238",
    "wmjobs-277235",
    "wmjobs-277186",
@@ -796,6 +795,8 @@
    "wmjobs-275236",
    "wmjobs-274034",
    "wmjobs-267988",
+   "wmjobs-277363",
+   "wmjobs-277228",
    "wmjobs-276712",
    "wmjobs-277086",
    "wmjobs-277368",
@@ -1283,8 +1284,7 @@
    "wmjobs-275556",
    "wmjobs-275943",
    "wmjobs-275932",
-   "wmjobs-275611",
-   "wmjobs-274769"
+   "wmjobs-275611"
   ]
  },
  "Councils - psychology-track (wmjobs)": {
@@ -3716,7 +3716,6 @@
    "trac:v7818808",
    "trac:v7846881",
    "trac:v7890737",
-   "trac:v7891928",
    "trac:v7972572",
    "trac:v8000002",
    "trac:v8040008",
@@ -3913,12 +3912,13 @@
    "trac:v8287508",
    "trac:v8287718",
    "trac:v8287891",
+   "trac:v8288005",
+   "trac:v7891928",
    "trac:v8257556",
    "trac:v8267501",
    "trac:v8279176",
    "trac:v8261208",
    "trac:v8284937",
-   "trac:v8288005",
    "trac:v8288874",
    "trac:v8289525",
    "trac:v8289664",
@@ -4890,7 +4890,6 @@
    "trac:v8226220",
    "trac:v8222752",
    "trac:v8274906",
-   "trac:v8312835",
    "trac:v8272629",
    "trac:v8288326",
    "trac:v8230177",
@@ -4917,7 +4916,8 @@
    "trac:v8292435",
    "trac:v8292467",
    "trac:v8153749",
-   "trac:v8283739"
+   "trac:v8283739",
+   "trac:v8228006"
   ]
  },
  "TRAC support / HCA (source of truth)": {
@@ -5495,7 +5495,6 @@
    "trac:v8226220",
    "trac:v8222752",
    "trac:v8274906",
-   "trac:v8312835",
    "trac:v8272629",
    "trac:v8288326",
    "trac:v8230177",
@@ -5522,7 +5521,8 @@
    "trac:v8292435",
    "trac:v8292467",
    "trac:v8153749",
-   "trac:v8283739"
+   "trac:v8283739",
+   "trac:v8228006"
   ]
  },
  "Wellbeing practitioner 40mi": {
@@ -6422,7 +6422,8 @@
   "wmjobs-276969",
   "wmjobs-277043",
   "wmjobs-277048",
-  "wmjobs-277191"
+  "wmjobs-277191",
+  "wmjobs-277462"
  ],
  "_alerted_keys": [
   "1 1 teaching assistant ks2 forsbrook ce primary school|forsbrook cofe",
@@ -6477,6 +6478,7 @@
   "business support officer|dudley metropolitan",
   "business support officer|sandwell metropolitan",
   "business support officer|shropshire council",
+  "business support officer|warwickshire county",
   "care assistant reablement|sandwell metropolitan",
   "care experienced apprenticeship programme 2027|telford wrekin",
   "career coach maternity cover|catch22",
