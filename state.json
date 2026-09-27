@@ -3713,8 +3713,12 @@
  "TRAC discovery (all employers, newest pages)": {
   "seeded": true,
   "seen": [
+   "trac:v8039365",
    "trac:v8279919",
    "trac:v8324969",
+   "trac:v8324991",
+   "trac:v8325014",
+   "trac:v8325024",
    "trac:v7818808",
    "trac:v7890737",
    "trac:v7972572",
@@ -3881,7 +3885,6 @@
    "trac:v8282976",
    "trac:v8283090",
    "trac:v8283430",
-   "trac:v8283439",
    "trac:v8283442",
    "trac:v8283566",
    "trac:v8283957",
@@ -3910,6 +3913,7 @@
    "trac:v8288005",
    "trac:v8289525",
    "trac:v8289664",
+   "trac:v8283439",
    "trac:v8290202",
    "trac:v8290203",
    "trac:v8290339",
@@ -4308,11 +4312,7 @@
    "trac:v8154965",
    "trac:v8155897",
    "trac:v8157155",
-   "trac:v8159014",
-   "trac:v8159335",
-   "trac:v8161374",
-   "trac:v8164782",
-   "trac:v8166769"
+   "trac:v8159014"
   ]
  },
  "TRAC employers (source of truth)": {
@@ -4458,7 +4458,6 @@
    "trac:v8319794",
    "trac:v8153894",
    "trac:v8241436",
-   "trac:v8316871",
    "trac:v8223894",
    "trac:v8255817",
    "trac:v8258519",
@@ -4572,7 +4571,6 @@
    "trac:v8305119",
    "trac:v8281599",
    "trac:v8298768",
-   "trac:v8299682",
    "trac:v8299978",
    "trac:v8300364",
    "trac:v8301048",
@@ -4620,7 +4618,6 @@
    "trac:v8260324",
    "trac:v8255465",
    "trac:v8255549",
-   "trac:v8254196",
    "trac:v8241331",
    "trac:v8217546",
    "trac:v8210098",
@@ -4739,7 +4736,6 @@
    "trac:v8261419",
    "trac:v8271355",
    "trac:v8315191",
-   "trac:v8315905",
    "trac:v8317989",
    "trac:v8318238",
    "trac:v8318282",
@@ -4917,7 +4913,11 @@
    "trac:v8295901",
    "trac:v8296122",
    "trac:v8275642",
-   "trac:v8241487"
+   "trac:v8241487",
+   "trac:v8267814",
+   "trac:v8279508",
+   "trac:v8099526",
+   "trac:v8249465"
   ]
  },
  "TRAC support / HCA (source of truth)": {
@@ -5063,7 +5063,6 @@
    "trac:v8319794",
    "trac:v8153894",
    "trac:v8241436",
-   "trac:v8316871",
    "trac:v8223894",
    "trac:v8255817",
    "trac:v8258519",
@@ -5177,7 +5176,6 @@
    "trac:v8305119",
    "trac:v8281599",
    "trac:v8298768",
-   "trac:v8299682",
    "trac:v8299978",
    "trac:v8300364",
    "trac:v8301048",
@@ -5225,7 +5223,6 @@
    "trac:v8260324",
    "trac:v8255465",
    "trac:v8255549",
-   "trac:v8254196",
    "trac:v8241331",
    "trac:v8217546",
    "trac:v8210098",
@@ -5344,7 +5341,6 @@
    "trac:v8261419",
    "trac:v8271355",
    "trac:v8315191",
-   "trac:v8315905",
    "trac:v8317989",
    "trac:v8318238",
    "trac:v8318282",
@@ -5522,7 +5518,11 @@
    "trac:v8295901",
    "trac:v8296122",
    "trac:v8275642",
-   "trac:v8241487"
+   "trac:v8241487",
+   "trac:v8267814",
+   "trac:v8279508",
+   "trac:v8099526",
+   "trac:v8249465"
   ]
  },
  "Wellbeing practitioner 40mi": {
