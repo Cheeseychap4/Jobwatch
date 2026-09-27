@@ -1851,20 +1851,14 @@
    "feed:https://careers.cygnetgroup.com/job/speech-and-language-therapist-2/",
    "feed:https://careers.cygnetgroup.com/job/regional-bank-support-worker-across-the-east-midlands-5/",
    "feed:https://careers.cygnetgroup.com/job/strategic-buyer-soft-facilities-2/",
-   "feed:https://careers.cygnetgroup.com/job/highly-specialist-speech-and-language-therapist-4/",
-   "feed:https://careers.cygnetgroup.com/job/registered-mental-health-nurse-rmn-rnld-11/",
    "feed:https://careers.cygnetgroup.com/job/highly-specialist-speech-and-language-therapist-6/",
-   "feed:https://careers.cygnetgroup.com/job/evening-receptionist-part-time-2/",
    "feed:https://careers.cygnetgroup.com/job/support-worker-403/",
-   "feed:https://careers.cygnetgroup.com/job/night-support-worker-71/",
    "feed:https://careers.cygnetgroup.com/job/female-support-worker-37/",
    "feed:https://careers.cygnetgroup.com/job/mental-health-support-worker-39/",
-   "feed:https://careers.cygnetgroup.com/job/support-worker-days-29/",
    "feed:https://careers.cygnetgroup.com/job/speciality-doctor-2/",
    "feed:https://careers.cygnetgroup.com/job/consultant-psychiatrist-female-acute-11/",
    "feed:https://careers.cygnetgroup.com/job/night-care-rehabilitation-assistant-3/",
    "feed:https://careers.cygnetgroup.com/job/care-rehabilitation-assistant-2/",
-   "feed:https://careers.cygnetgroup.com/job/bank-housekeeper-37/",
    "feed:https://careers.cygnetgroup.com/job/bank-support-worker-189/",
    "feed:https://careers.cygnetgroup.com/job/kitchen-assistant-28/",
    "feed:https://careers.cygnetgroup.com/job/bank-registered-mental-health-nurse-rmn-3/",
@@ -2036,7 +2030,6 @@
    "feed:https://careers.cygnetgroup.com/job/receptionist-23/",
    "feed:https://careers.cygnetgroup.com/job/bank-highly-specialist-dietitian/",
    "feed:https://careers.cygnetgroup.com/job/bank-catering-assistant-3/",
-   "feed:https://careers.cygnetgroup.com/job/resident-medical-officer-4/",
    "feed:https://careers.cygnetgroup.com/job/support-worker-440/",
    "feed:https://careers.cygnetgroup.com/job/senior-support-worker-20/",
    "feed:https://careers.cygnetgroup.com/job/cook-22/",
@@ -2077,6 +2070,13 @@
    "feed:https://careers.cygnetgroup.com/job/registered-mental-health-nurse-7/",
    "feed:https://careers.cygnetgroup.com/job/kitchen-assistant-36/",
    "feed:https://careers.cygnetgroup.com/job/activity-co-ordinator-40/",
+   "feed:https://careers.cygnetgroup.com/job/highly-specialist-speech-and-language-therapist-4/",
+   "feed:https://careers.cygnetgroup.com/job/registered-mental-health-nurse-rmn-rnld-11/",
+   "feed:https://careers.cygnetgroup.com/job/evening-receptionist-part-time-2/",
+   "feed:https://careers.cygnetgroup.com/job/night-support-worker-71/",
+   "feed:https://careers.cygnetgroup.com/job/support-worker-days-29/",
+   "feed:https://careers.cygnetgroup.com/job/bank-housekeeper-37/",
+   "feed:https://careers.cygnetgroup.com/job/resident-medical-officer-4/",
    "feed:https://careers.cygnetgroup.com/job/activity-co-ordinator-39/",
    "feed:https://careers.cygnetgroup.com/job/bank-support-worker-185/",
    "feed:https://careers.cygnetgroup.com/job/shift-bank-receptionist-2/",
@@ -3713,6 +3713,7 @@
  "TRAC discovery (all employers, newest pages)": {
   "seeded": true,
   "seen": [
+   "trac:v8279919",
    "trac:v7818808",
    "trac:v7846881",
    "trac:v7890737",
@@ -4311,8 +4312,7 @@
    "trac:v8161374",
    "trac:v8164782",
    "trac:v8166769",
-   "trac:v8169094",
-   "trac:v8169997"
+   "trac:v8169094"
   ]
  },
  "TRAC employers (source of truth)": {
@@ -4428,6 +4428,7 @@
    "trac:v8270206",
    "trac:v8258066",
    "trac:v8200881",
+   "trac:v8279919",
    "trac:v8198480",
    "trac:v8208364",
    "trac:v8290339",
@@ -4598,7 +4599,6 @@
    "trac:v8265623",
    "trac:v8275479",
    "trac:v8277227",
-   "trac:v8278563",
    "trac:v8286200",
    "trac:v8286730",
    "trac:v8286863",
@@ -4867,7 +4867,6 @@
    "trac:v8184101",
    "trac:v8200007",
    "trac:v8201491",
-   "trac:v8230046",
    "trac:v8303876",
    "trac:v8206408",
    "trac:v8208932",
@@ -4917,7 +4916,8 @@
    "trac:v7557172",
    "trac:v8086405",
    "trac:v8142311",
-   "trac:v8185710"
+   "trac:v8185710",
+   "trac:v8246463"
   ]
  },
  "TRAC support / HCA (source of truth)": {
@@ -5033,6 +5033,7 @@
    "trac:v8270206",
    "trac:v8258066",
    "trac:v8200881",
+   "trac:v8279919",
    "trac:v8198480",
    "trac:v8208364",
    "trac:v8290339",
@@ -5203,7 +5204,6 @@
    "trac:v8265623",
    "trac:v8275479",
    "trac:v8277227",
-   "trac:v8278563",
    "trac:v8286200",
    "trac:v8286730",
    "trac:v8286863",
@@ -5472,7 +5472,6 @@
    "trac:v8184101",
    "trac:v8200007",
    "trac:v8201491",
-   "trac:v8230046",
    "trac:v8303876",
    "trac:v8206408",
    "trac:v8208932",
@@ -5522,7 +5521,8 @@
    "trac:v7557172",
    "trac:v8086405",
    "trac:v8142311",
-   "trac:v8185710"
+   "trac:v8185710",
+   "trac:v8246463"
   ]
  },
  "Wellbeing practitioner 40mi": {
