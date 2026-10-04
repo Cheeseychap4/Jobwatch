@@ -2925,7 +2925,6 @@
    "feed:https://ppghealthinjusticeweb.eploy.net/vacancies/15526/night-nurse.html",
    "feed:https://ppghealthinjusticeweb.eploy.net/vacancies/15530/patient-engagement-lead.html",
    "feed:https://ppghealthinjusticeweb.eploy.net/vacancies/15531/advanced-clinical-practitioner.html",
-   "feed:https://ppghealthinjusticeweb.eploy.net/vacancies/15535/regional-primary-care-clinical-lead-secondment.html",
    "feed:https://ppghealthinjusticeweb.eploy.net/vacancies/15539/practice-nurse.html",
    "feed:https://ppghealthinjusticeweb.eploy.net/vacancies/15541/social-prescriber.html",
    "feed:https://ppghealthinjusticeweb.eploy.net/vacancies/15542/substance-misuse-recovery-worker.html",
@@ -2946,6 +2945,8 @@
    "feed:https://ppghealthinjusticeweb.eploy.net/vacancies/15589/pharmacy-assistant--part-time.html",
    "feed:https://ppghealthinjusticeweb.eploy.net/vacancies/15590/national-psychosocial-and-wellbeing-lead.html",
    "feed:https://ppghealthinjusticeweb.eploy.net/vacancies/15592/employee-relations-manager.html",
+   "feed:https://ppghealthinjusticeweb.eploy.net/vacancies/15593/senior-hr-business-partner.html",
+   "feed:https://ppghealthinjusticeweb.eploy.net/vacancies/15594/head-of-hr-business-partnering.html",
    "feed:https://ppghealthinjusticeweb.eploy.net/vacancies/15598/primary-care-nurse.html",
    "feed:https://ppghealthinjusticeweb.eploy.net/vacancies/15599/head-of-nursing-and-quality.html",
    "feed:https://ppghealthinjusticeweb.eploy.net/vacancies/15600/lead-pharmacist.html",
@@ -3010,6 +3011,7 @@
    "feed:https://ppghealthinjusticeweb.eploy.net/vacancies/15698/paramedic.html",
    "feed:https://ppghealthinjusticeweb.eploy.net/vacancies/15699/pharmacy-technician.html",
    "feed:https://ppghealthinjusticeweb.eploy.net/vacancies/15700/primary-care-nurse.html",
+   "feed:https://ppghealthinjusticeweb.eploy.net/vacancies/15535/regional-primary-care-clinical-lead-secondment.html",
    "feed:https://ppghealthinjusticeweb.eploy.net/vacancies/14837/administrator-part-time.html",
    "feed:https://ppghealthinjusticeweb.eploy.net/vacancies/14996/healthcare-assistant.html",
    "feed:https://ppghealthinjusticeweb.eploy.net/vacancies/15046/pharmacy-assistant.html",
@@ -3043,8 +3045,6 @@
    "feed:https://ppghealthinjusticeweb.eploy.net/vacancies/14832/general-practitioner.html",
    "feed:https://ppghealthinjusticeweb.eploy.net/vacancies/15447/primary-care-nurse.html",
    "feed:https://ppghealthinjusticeweb.eploy.net/vacancies/15565/assistant-finance-manager--south--west-midlands.html",
-   "feed:https://ppghealthinjusticeweb.eploy.net/vacancies/15593/senior-hr-business-partner.html",
-   "feed:https://ppghealthinjusticeweb.eploy.net/vacancies/15594/head-of-hr-business-partnering.html",
    "feed:https://ppghealthinjusticeweb.eploy.net/vacancies/15446/pharmacy-technician.html",
    "feed:https://apply.practiceplushij.com/vacancies/14836/primary-care-nurse.html",
    "feed:https://apply.practiceplushij.com/vacancies/14904/healthcare-assistant.html",
@@ -4211,7 +4211,6 @@
    "trac:v8216672",
    "trac:v8217362",
    "trac:v8219948",
-   "trac:v8222394",
    "trac:v8222563",
    "trac:v8226456",
    "trac:v8227698",
@@ -4366,8 +4365,9 @@
    "trac:v8303290",
    "trac:v8303434",
    "trac:v8303690",
-   "trac:v8281243",
    "trac:v8304420",
+   "trac:v8222394",
+   "trac:v8281243",
    "trac:v8304522",
    "trac:v8275981",
    "trac:v8276406",
@@ -5240,7 +5240,6 @@
    "trac:v8314825",
    "trac:v8134876",
    "trac:v8306273",
-   "trac:v8306434",
    "trac:v8269725",
    "trac:v8033705",
    "trac:v8135581",
@@ -5370,7 +5369,8 @@
    "trac:v8078026",
    "trac:v8199249",
    "trac:v8211713",
-   "trac:v8221983"
+   "trac:v8221983",
+   "trac:v8250353"
   ]
  },
  "TRAC support / HCA (source of truth)": {
@@ -5845,7 +5845,6 @@
    "trac:v8314825",
    "trac:v8134876",
    "trac:v8306273",
-   "trac:v8306434",
    "trac:v8269725",
    "trac:v8033705",
    "trac:v8135581",
@@ -5975,7 +5974,8 @@
    "trac:v8078026",
    "trac:v8199249",
    "trac:v8211713",
-   "trac:v8221983"
+   "trac:v8221983",
+   "trac:v8250353"
   ]
  },
  "Wellbeing practitioner 40mi": {
