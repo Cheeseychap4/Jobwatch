@@ -715,6 +715,7 @@
  "Councils - Track B income (wmjobs)": {
   "seeded": true,
   "seen": [
+   "wmjobs-279321",
    "wmjobs-279318",
    "wmjobs-279317",
    "wmjobs-279316",
@@ -734,7 +735,6 @@
    "wmjobs-279220",
    "wmjobs-279230",
    "wmjobs-279226",
-   "wmjobs-279224",
    "wmjobs-279306",
    "wmjobs-279251",
    "wmjobs-279235",
@@ -745,7 +745,6 @@
    "wmjobs-279197",
    "wmjobs-279187",
    "wmjobs-279179",
-   "wmjobs-279168",
    "wmjobs-279258",
    "wmjobs-278918",
    "wmjobs-278797",
@@ -764,6 +763,7 @@
    "wmjobs-279212",
    "wmjobs-279209",
    "wmjobs-279200",
+   "wmjobs-279168",
    "wmjobs-279166",
    "wmjobs-279143",
    "wmjobs-279142",
@@ -815,6 +815,7 @@
    "wmjobs-277764",
    "wmjobs-276369",
    "wmjobs-267988",
+   "wmjobs-279224",
    "wmjobs-278610",
    "wmjobs-279141",
    "wmjobs-279213",
@@ -1313,8 +1314,7 @@
    "wmjobs-277578",
    "wmjobs-277576",
    "wmjobs-277548",
-   "wmjobs-277547",
-   "wmjobs-277683"
+   "wmjobs-277547"
   ]
  },
  "Councils - psychology-track (wmjobs)": {
@@ -7352,7 +7352,8 @@
   "wmjobs-278750",
   "wmjobs-278804",
   "wmjobs-278813",
-  "wmjobs-279306"
+  "wmjobs-279306",
+  "wmjobs-279321"
  ],
  "_alerted_keys": [
   "1 1 teaching assistant ks2 forsbrook ce primary school|forsbrook cofe",
@@ -7677,6 +7678,7 @@
   "strategy and regeneration delivery officer|https staffordandcannockjobs",
   "substance use practitioner maternity cover|catch22",
   "substance use practitioner|catch22",
+  "support officer 2nd line ref rt01626|walsall council",
   "support time and recovery worker hjvs|birmingham and",
   "support worker adult eating disorders|oxford health",
   "support worker|cygnet health",
