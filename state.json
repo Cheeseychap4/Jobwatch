@@ -719,7 +719,6 @@
    "wmjobs-279211",
    "wmjobs-279456",
    "wmjobs-279448",
-   "wmjobs-279447",
    "wmjobs-279440",
    "wmjobs-279433",
    "wmjobs-279434",
@@ -736,9 +735,11 @@
    "wmjobs-279369",
    "wmjobs-279362",
    "wmjobs-279357",
+   "wmjobs-279356",
+   "wmjobs-279460",
+   "wmjobs-279459",
    "wmjobs-279426",
    "wmjobs-279424",
-   "wmjobs-279356",
    "wmjobs-279355",
    "wmjobs-279349",
    "wmjobs-279347",
@@ -751,8 +752,6 @@
    "wmjobs-279316",
    "wmjobs-279308",
    "wmjobs-279307",
-   "wmjobs-279306",
-   "wmjobs-279263",
    "wmjobs-279258",
    "wmjobs-279252",
    "wmjobs-278918",
@@ -793,7 +792,9 @@
    "wmjobs-279403",
    "wmjobs-279346",
    "wmjobs-279342",
+   "wmjobs-279330",
    "wmjobs-279282",
+   "wmjobs-279263",
    "wmjobs-279012",
    "wmjobs-278996",
    "wmjobs-278966",
@@ -824,8 +825,9 @@
    "wmjobs-277764",
    "wmjobs-276369",
    "wmjobs-267988",
+   "wmjobs-279447",
+   "wmjobs-279306",
    "wmjobs-276558",
-   "wmjobs-279330",
    "wmjobs-277658",
    "wmjobs-279354",
    "wmjobs-279333",
@@ -1313,9 +1315,7 @@
    "wmjobs-277802",
    "wmjobs-277779",
    "wmjobs-277890",
-   "wmjobs-277836",
-   "wmjobs-277839",
-   "wmjobs-277807"
+   "wmjobs-277836"
   ]
  },
  "Councils - psychology-track (wmjobs)": {
@@ -5274,7 +5274,6 @@
    "trac:v8360495",
    "trac:v8360920",
    "trac:v8361478",
-   "trac:v8366702",
    "trac:v8367786",
    "trac:v8343366",
    "trac:v8346144",
@@ -5810,7 +5809,8 @@
    "trac:v8324648",
    "trac:v8289613",
    "trac:v8346558",
-   "trac:v8282265"
+   "trac:v8282265",
+   "trac:v8271119"
   ]
  },
  "TRAC support / HCA (source of truth)": {
@@ -5879,7 +5879,6 @@
    "trac:v8360495",
    "trac:v8360920",
    "trac:v8361478",
-   "trac:v8366702",
    "trac:v8367786",
    "trac:v8343366",
    "trac:v8346144",
@@ -6415,7 +6414,8 @@
    "trac:v8324648",
    "trac:v8289613",
    "trac:v8346558",
-   "trac:v8282265"
+   "trac:v8282265",
+   "trac:v8271119"
   ]
  },
  "Wellbeing practitioner 40mi": {
