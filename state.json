@@ -2201,7 +2201,6 @@
    "feed:https://careers.cygnetgroup.com/job/bank-driver-18/",
    "feed:https://careers.cygnetgroup.com/job/maintenance-operative-50/",
    "feed:https://careers.cygnetgroup.com/job/bank-chef-21/",
-   "feed:https://careers.cygnetgroup.com/job/registered-mental-health-nurse-rmn-rnld-9/",
    "feed:https://careers.cygnetgroup.com/job/support-worker-434/",
    "feed:https://careers.cygnetgroup.com/job/highly-specialist-speech-language-therapist-band-7-equivalent/",
    "feed:https://careers.cygnetgroup.com/job/bank-support-worker-171/",
@@ -2344,7 +2343,6 @@
    "feed:https://careers.cygnetgroup.com/job/support-worker-424/",
    "feed:https://careers.cygnetgroup.com/job/learning-development-trainer-3/",
    "feed:https://careers.cygnetgroup.com/job/regional-restraint-and-violence-reduction-instructor-4/",
-   "feed:https://careers.cygnetgroup.com/job/bank-housekeeper-48/",
    "feed:https://careers.cygnetgroup.com/job/nurse-assessor-4/",
    "feed:https://careers.cygnetgroup.com/job/registered-nurse-rmn-rldn-6-month-contract/",
    "feed:https://careers.cygnetgroup.com/job/maintenance-operative-46/",
@@ -2457,6 +2455,8 @@
    "feed:https://careers.cygnetgroup.com/job/part-time-support-worker-6/",
    "feed:https://careers.cygnetgroup.com/job/support-worker-days-37/",
    "feed:https://careers.cygnetgroup.com/job/consultant-psychiatrist-20/",
+   "feed:https://careers.cygnetgroup.com/job/registered-mental-health-nurse-rmn-rnld-9/",
+   "feed:https://careers.cygnetgroup.com/job/bank-housekeeper-48/",
    "feed:https://careers.cygnetgroup.com/job/ward-administrator-clerk/",
    "feed:https://careers.cygnetgroup.com/job/bank-housekeeper-45/",
    "feed:https://careers.cygnetgroup.com/job/maintenance-assistant-part-time-5/",
@@ -3104,7 +3104,6 @@
    "feed:https://ppghealthinjusticeweb.eploy.net/vacancies/15671/unscheduled-care-nurse-paramedic.html",
    "feed:https://ppghealthinjusticeweb.eploy.net/vacancies/15672/release-and-transfer-coordinator.html",
    "feed:https://ppghealthinjusticeweb.eploy.net/vacancies/15673/assistant-psychologist.html",
-   "feed:https://ppghealthinjusticeweb.eploy.net/vacancies/15675/administrator-apprenticeship.html",
    "feed:https://ppghealthinjusticeweb.eploy.net/vacancies/15676/paramedic.html",
    "feed:https://ppghealthinjusticeweb.eploy.net/vacancies/15679/primary-care-nurse.html",
    "feed:https://ppghealthinjusticeweb.eploy.net/vacancies/15683/administrator-bank.html",
@@ -3263,7 +3262,6 @@
    "feed:https://apply.practiceplushij.com/vacancies/15671/unscheduled-care-nurse-paramedic.html",
    "feed:https://apply.practiceplushij.com/vacancies/15672/release-and-transfer-coordinator.html",
    "feed:https://apply.practiceplushij.com/vacancies/15673/assistant-psychologist.html",
-   "feed:https://apply.practiceplushij.com/vacancies/15675/administrator-apprenticeship.html",
    "feed:https://apply.practiceplushij.com/vacancies/15676/paramedic.html",
    "feed:https://apply.practiceplushij.com/vacancies/15679/primary-care-nurse.html",
    "feed:https://apply.practiceplushij.com/vacancies/15683/administrator-bank.html",
@@ -3306,6 +3304,8 @@
    "feed:https://apply.practiceplushij.com/vacancies/15761/night-nurse.html",
    "feed:https://apply.practiceplushij.com/vacancies/15764/social-prescribing-coordinator--west-yorkshire.html",
    "feed:https://apply.practiceplushij.com/vacancies/15767/operations-director.html",
+   "feed:https://apply.practiceplushij.com/vacancies/15675/administrator-apprenticeship.html",
+   "feed:https://ppghealthinjusticeweb.eploy.net/vacancies/15675/administrator-apprenticeship.html",
    "feed:https://ppghealthinjusticeweb.eploy.net/vacancies/14107/primary-care-nurse.html",
    "feed:https://ppghealthinjusticeweb.eploy.net/vacancies/14996/healthcare-assistant.html",
    "feed:https://ppghealthinjusticeweb.eploy.net/vacancies/15248/healthcare-assistant.html",
@@ -4652,6 +4652,9 @@
  "TRAC discovery (all employers, newest pages)": {
   "seeded": true,
   "seen": [
+   "trac:v8311877",
+   "trac:v8353910",
+   "trac:v8371703",
    "trac:v8267134",
    "trac:v8316239",
    "trac:v8320240",
@@ -4751,7 +4754,6 @@
    "trac:v8302661",
    "trac:v8302964",
    "trac:v8302984",
-   "trac:v8303000",
    "trac:v8303766",
    "trac:v8303870",
    "trac:v8304472",
@@ -4850,6 +4852,7 @@
    "trac:v8327849",
    "trac:v8327851",
    "trac:v8327984",
+   "trac:v8303000",
    "trac:v8327988",
    "trac:v8328487",
    "trac:v8041915",
@@ -5248,10 +5251,7 @@
    "trac:v8339375",
    "trac:v8339647",
    "trac:v8341584",
-   "trac:v8341910",
-   "trac:v8342852",
-   "trac:v8343048",
-   "trac:v8343051"
+   "trac:v8341910"
   ]
  },
  "TRAC employers (source of truth)": {
@@ -5380,7 +5380,6 @@
    "trac:v8363971",
    "trac:v8329932",
    "trac:v8348269",
-   "trac:v8200881",
    "trac:v8340721",
    "trac:v8217991",
    "trac:v8308397",
@@ -5856,7 +5855,8 @@
    "trac:v8330097",
    "trac:v8342129",
    "trac:v8140191",
-   "trac:v8228652"
+   "trac:v8228652",
+   "trac:v8258127"
   ]
  },
  "TRAC support / HCA (source of truth)": {
@@ -5985,7 +5985,6 @@
    "trac:v8363971",
    "trac:v8329932",
    "trac:v8348269",
-   "trac:v8200881",
    "trac:v8340721",
    "trac:v8217991",
    "trac:v8308397",
@@ -6461,7 +6460,8 @@
    "trac:v8330097",
    "trac:v8342129",
    "trac:v8140191",
-   "trac:v8228652"
+   "trac:v8228652",
+   "trac:v8258127"
   ]
  },
  "Wellbeing practitioner 40mi": {
