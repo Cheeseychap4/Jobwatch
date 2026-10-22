@@ -2,6 +2,7 @@
  "AP / psychology 40mi": {
   "seeded": true,
   "seen": [
+   "C0020-26-1625",
    "C9205-26-2010",
    "C9205-26-2009",
    "A4918-26-0002",
@@ -600,8 +601,7 @@
    "C9358-26-0675",
    "C9164-26-0968",
    "C9164-26-0967",
-   "C9164-26-0963",
-   "C9164-26-0962"
+   "C9164-26-0963"
   ]
  },
  "Charities - Catch22 (SmartRecruiters)": {
@@ -721,6 +721,7 @@
   "seeded": true,
   "seen": [
    "wmjobs-280111",
+   "wmjobs-280179",
    "wmjobs-280169",
    "wmjobs-280156",
    "wmjobs-280155",
@@ -739,11 +740,11 @@
    "wmjobs-280112",
    "wmjobs-280105",
    "wmjobs-280104",
-   "wmjobs-280103",
    "wmjobs-280162",
    "wmjobs-280139",
    "wmjobs-280138",
    "wmjobs-280131",
+   "wmjobs-280103",
    "wmjobs-280102",
    "wmjobs-280101",
    "wmjobs-280100",
@@ -784,6 +785,7 @@
    "wmjobs-279434",
    "wmjobs-280143",
    "wmjobs-280146",
+   "wmjobs-280114",
    "wmjobs-280093",
    "wmjobs-280086",
    "wmjobs-280055",
@@ -1317,9 +1319,7 @@
    "wmjobs-278308",
    "wmjobs-278557",
    "wmjobs-277426",
-   "wmjobs-278555",
-   "wmjobs-278551",
-   "wmjobs-278522"
+   "wmjobs-278555"
   ]
  },
  "Councils - psychology-track (wmjobs)": {
@@ -1351,6 +1351,7 @@
    "wmjobs-277762",
    "wmjobs-276837",
    "wmjobs-272946",
+   "wmjobs-280176",
    "wmjobs-280153",
    "wmjobs-280142",
    "wmjobs-280080",
@@ -2497,7 +2498,6 @@
    "feed:https://careers.cygnetgroup.com/job/support-worker-days-37/",
    "feed:https://careers.cygnetgroup.com/job/registered-nurse-rmn-rnld-9/",
    "feed:https://careers.cygnetgroup.com/job/training-and-compliance-administrator-maternity-cover/",
-   "feed:https://careers.cygnetgroup.com/job/support-worker-454/",
    "feed:https://careers.cygnetgroup.com/job/consultant-psychiatrist-female-pd/",
    "feed:https://careers.cygnetgroup.com/job/registered-mental-health-nurse-rmn-rnld-13/",
    "feed:https://careers.cygnetgroup.com/job/qualified-psychologist-11/",
@@ -2559,6 +2559,7 @@
    "feed:https://careers.cygnetgroup.com/job/ward-administrator-clerk-2/",
    "feed:https://careers.cygnetgroup.com/job/hr-administrator-5/",
    "feed:https://careers.cygnetgroup.com/job/clinical-psychologist-specialising-in-neuropsychology-2/",
+   "feed:https://careers.cygnetgroup.com/job/support-worker-454/",
    "feed:https://careers.cygnetgroup.com/job/day-support-worker-24/",
    "feed:https://careers.cygnetgroup.com/job/activity-coordinator-35/",
    "feed:https://careers.cygnetgroup.com/job/hr-administrator-and-reception-manager/",
@@ -2872,10 +2873,10 @@
    "C9186-26-0707",
    "C9436-26-0644",
    "C9270-26-0774",
-   "E0166-26-0240",
    "C9313-26-0422",
    "M0042-89576",
    "C9186-26-0199",
+   "E0166-26-0240",
    "B0354-REQ000241",
    "C9820-26-0695",
    "C9186-26-0721",
@@ -3096,9 +3097,9 @@
    "moj:20591",
    "moj:23076",
    "moj:23045",
+   "moj:22973",
    "moj:22724",
    "moj:20670",
-   "moj:22973",
    "moj:20567",
    "moj:22391",
    "moj:23159",
@@ -3326,6 +3327,7 @@
    "feed:https://ppghealthinjusticeweb.eploy.net/vacancies/14953/principal-psychologist.html",
    "feed:https://ppghealthinjusticeweb.eploy.net/vacancies/14975/advanced-clinical-practitioner.html",
    "feed:https://ppghealthinjusticeweb.eploy.net/vacancies/14994/advanced-clinical-practitioner.html",
+   "feed:https://ppghealthinjusticeweb.eploy.net/vacancies/14996/healthcare-assistant.html",
    "feed:https://ppghealthinjusticeweb.eploy.net/vacancies/15018/senior-primary-care-nurse-part-time.html",
    "feed:https://ppghealthinjusticeweb.eploy.net/vacancies/15020/night-nurse.html",
    "feed:https://ppghealthinjusticeweb.eploy.net/vacancies/15031/speech--language-therapist-part-time.html",
@@ -3424,6 +3426,7 @@
    "feed:https://ppghealthinjusticeweb.eploy.net/vacancies/15721/speech-and-language-therapist.html",
    "feed:https://ppghealthinjusticeweb.eploy.net/vacancies/15724/preceptorship-psychologist-12-month-fixed-term-contract.html",
    "feed:https://ppghealthinjusticeweb.eploy.net/vacancies/15727/general-practitioner--out-of-hours.html",
+   "feed:https://ppghealthinjusticeweb.eploy.net/vacancies/15728/healthcare-assistant.html",
    "feed:https://ppghealthinjusticeweb.eploy.net/vacancies/15731/pharmacy-technician.html",
    "feed:https://ppghealthinjusticeweb.eploy.net/vacancies/15732/healthcare-assistant.html",
    "feed:https://ppghealthinjusticeweb.eploy.net/vacancies/15735/physiotherapist.html",
@@ -3511,7 +3514,6 @@
    "feed:https://apply.practiceplushij.com/vacancies/15742/senior-mental-health-nurse.html",
    "feed:https://apply.practiceplushij.com/vacancies/15675/administrator-apprenticeship.html",
    "feed:https://ppghealthinjusticeweb.eploy.net/vacancies/15675/administrator-apprenticeship.html",
-   "feed:https://ppghealthinjusticeweb.eploy.net/vacancies/14996/healthcare-assistant.html",
    "feed:https://ppghealthinjusticeweb.eploy.net/vacancies/15248/healthcare-assistant.html",
    "feed:https://ppghealthinjusticeweb.eploy.net/vacancies/15550/healthcare-assistant-bank.html",
    "feed:https://ppghealthinjusticeweb.eploy.net/vacancies/15649/administration--governance-manager.html",
@@ -3736,8 +3738,7 @@
    "feed:https://ppghealthinjusticeweb.eploy.net/vacancies/15544/administrator.html",
    "feed:https://ppghealthinjusticeweb.eploy.net/vacancies/15551/administrator-bank.html",
    "feed:https://apply.practiceplushij.com/vacancies/15147/advanced-clinical-practitioner.html",
-   "feed:https://apply.practiceplushij.com/vacancies/15441/porter.html",
-   "feed:https://apply.practiceplushij.com/vacancies/15446/pharmacy-technician.html"
+   "feed:https://apply.practiceplushij.com/vacancies/15441/porter.html"
   ]
  },
  "Psychology wide 40mi": {
@@ -3765,7 +3766,6 @@
    "E0343-26-0032abl775d",
    "M0035-26-0495",
    "C9301-26-1515",
-   "C9321-26-1931",
    "E0233-26-2241",
    "C9321-26-1927",
    "C9365-26-0827",
@@ -3774,6 +3774,7 @@
    "C9218-26-1295",
    "C9218-26-1294",
    "C9218-26-1292",
+   "C9321-26-1931",
    "C9820-26-0733",
    "C9285-26-0715",
    "C9285-26-0714",
@@ -4242,6 +4243,7 @@
  "Support worker / HCA 20mi": {
   "seeded": true,
   "seen": [
+   "C0020-26-1625",
    "C9218-26-1308",
    "C9218-26-0706",
    "A2634-003-1512",
@@ -4840,8 +4842,7 @@
    "C9218-26-1199",
    "E0302-26-1138",
    "C9444-26-0580",
-   "C9444-26-0579",
-   "A1311-26-0000"
+   "C9444-26-0579"
   ]
  },
  "TRAC discovery (all employers, newest pages)": {
@@ -4868,7 +4869,6 @@
    "trac:v8206707",
    "trac:v8212435",
    "trac:v8215283",
-   "trac:v8233634",
    "trac:v8233784",
    "trac:v8236586",
    "trac:v8239504",
@@ -4877,7 +4877,6 @@
    "trac:v8247639",
    "trac:v8248748",
    "trac:v8249592",
-   "trac:v8250057",
    "trac:v8251644",
    "trac:v8251790",
    "trac:v8252663",
@@ -4893,6 +4892,7 @@
    "trac:v8276994",
    "trac:v8277080",
    "trac:v8278511",
+   "trac:v8280022",
    "trac:v8280460",
    "trac:v8280474",
    "trac:v8281477",
@@ -4961,6 +4961,7 @@
    "trac:v8321842",
    "trac:v8321898",
    "trac:v8321912",
+   "trac:v8322786",
    "trac:v8324144",
    "trac:v8324390",
    "trac:v8324469",
@@ -5047,6 +5048,8 @@
    "trac:v8350590",
    "trac:v8350869",
    "trac:v8350999",
+   "trac:v8233634",
+   "trac:v8250057",
    "trac:v8231653",
    "trac:v8351153",
    "trac:v8351550",
@@ -5444,15 +5447,12 @@
    "trac:v8382781",
    "trac:v8382783",
    "trac:v8382797",
-   "trac:v8382798",
-   "trac:v8382805",
-   "trac:v8382819"
+   "trac:v8382798"
   ]
  },
  "TRAC employers (source of truth)": {
   "seeded": true,
   "seen": [
-   "trac:v8380277",
    "trac:v8381233",
    "trac:v8375996",
    "trac:v8377553",
@@ -5592,7 +5592,6 @@
    "trac:v8368780",
    "trac:v8368800",
    "trac:v8368813",
-   "trac:v8370501",
    "trac:v8370503",
    "trac:v8370505",
    "trac:v8099541",
@@ -5872,7 +5871,6 @@
    "trac:v8272009",
    "trac:v8379353",
    "trac:v8381537",
-   "trac:v8382214",
    "trac:v8382249",
    "trac:v8382470",
    "trac:v8300347",
@@ -6042,7 +6040,6 @@
    "trac:v8323293",
    "trac:v8324512",
    "trac:v8314891",
-   "trac:v8322032",
    "trac:v8337320",
    "trac:v8248897",
    "trac:v8283094",
@@ -6051,13 +6048,16 @@
    "trac:v8260884",
    "trac:v8143946",
    "trac:v8283739",
-   "trac:v8317605"
+   "trac:v8317605",
+   "trac:v8385899",
+   "trac:v8386723",
+   "trac:v7677218",
+   "trac:v8235790"
   ]
  },
  "TRAC support / HCA (source of truth)": {
   "seeded": true,
   "seen": [
-   "trac:v8380277",
    "trac:v8381233",
    "trac:v8375996",
    "trac:v8377553",
@@ -6197,7 +6197,6 @@
    "trac:v8368780",
    "trac:v8368800",
    "trac:v8368813",
-   "trac:v8370501",
    "trac:v8370503",
    "trac:v8370505",
    "trac:v8099541",
@@ -6477,7 +6476,6 @@
    "trac:v8272009",
    "trac:v8379353",
    "trac:v8381537",
-   "trac:v8382214",
    "trac:v8382249",
    "trac:v8382470",
    "trac:v8300347",
@@ -6647,7 +6645,6 @@
    "trac:v8323293",
    "trac:v8324512",
    "trac:v8314891",
-   "trac:v8322032",
    "trac:v8337320",
    "trac:v8248897",
    "trac:v8283094",
@@ -6656,7 +6653,11 @@
    "trac:v8260884",
    "trac:v8143946",
    "trac:v8283739",
-   "trac:v8317605"
+   "trac:v8317605",
+   "trac:v8385899",
+   "trac:v8386723",
+   "trac:v7677218",
+   "trac:v8235790"
   ]
  },
  "Wellbeing practitioner 40mi": {
@@ -6682,16 +6683,18 @@
    "C9264-26-0632",
    "F0024-8311",
    "C9285-26-0717",
-   "C9264-26-0631",
    "C9365-26-0836",
    "F0024-8310",
    "C9225-26-0764",
    "C9284-26-0478",
    "C9284-26-0477",
    "C9230-26-0324",
-   "C9320-26-1072",
    "N0096-Bromsgrove",
    "C9253-26-0534",
+   "N0096-Tamworth",
+   "C9303-26-0162",
+   "C9264-26-0631",
+   "C9320-26-1072",
    "E0176-26-0079",
    "C9264-26-0630",
    "E0358-26-0590",
@@ -7259,9 +7262,7 @@
    "C9264-26-0582",
    "E0123-26-0205",
    "E0046-26-0049",
-   "C9820-26-0698",
-   "C9820-26-0699",
-   "C9820-26-0697"
+   "C9820-26-0698"
   ]
  },
  "_alerted": [
