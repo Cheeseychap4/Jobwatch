@@ -4406,6 +4406,7 @@
  "Support worker / HCA 20mi": {
   "seeded": true,
   "seen": [
+   "C0020-26-1661",
    "C9313-26-0483",
    "E0505-26-0883",
    "B0354-26-0061",
@@ -5004,8 +5005,7 @@
    "C9203-26-0616",
    "C9203-26-0615",
    "E0046-26-0048",
-   "A2927-26-0022",
-   "C9444-26-0600"
+   "A2927-26-0022"
   ]
  },
  "TRAC discovery (all employers, newest pages)": {
@@ -5013,7 +5013,6 @@
   "seen": [
    "trac:v7440683",
    "trac:v7447067",
-   "trac:v7829509",
    "trac:v8071736",
    "trac:v8089035",
    "trac:v8115480",
@@ -5191,6 +5190,7 @@
    "trac:v8360174",
    "trac:v8360678",
    "trac:v8361377",
+   "trac:v8361432",
    "trac:v8361466",
    "trac:v8361577",
    "trac:v8361597",
@@ -5202,6 +5202,7 @@
    "trac:v8363149",
    "trac:v8363238",
    "trac:v8363250",
+   "trac:v8363290",
    "trac:v8363660",
    "trac:v8363690",
    "trac:v8364899",
@@ -5210,6 +5211,7 @@
    "trac:v8365444",
    "trac:v8365615",
    "trac:v8365628",
+   "trac:v7829509",
    "trac:v8365817",
    "trac:v8271290",
    "trac:v8336028",
@@ -5608,9 +5610,7 @@
    "trac:v8384349",
    "trac:v8384384",
    "trac:v8384581",
-   "trac:v8384727",
-   "trac:v8385087",
-   "trac:v8385326"
+   "trac:v8384727"
   ]
  },
  "TRAC employers (source of truth)": {
@@ -5775,7 +5775,6 @@
    "trac:v8342234",
    "trac:v8351929",
    "trac:v8331947",
-   "trac:v8341733",
    "trac:v8378436",
    "trac:v8109487",
    "trac:v8257273",
@@ -6210,12 +6209,13 @@
    "trac:v8304160",
    "trac:v8089035",
    "trac:v8290342",
-   "trac:v8302667",
    "trac:v8132488",
    "trac:v8257570",
    "trac:v8258491",
    "trac:v8380234",
-   "trac:v8376611"
+   "trac:v8376611",
+   "trac:v8324512",
+   "trac:v8248897"
   ]
  },
  "TRAC support / HCA (source of truth)": {
@@ -6380,7 +6380,6 @@
    "trac:v8342234",
    "trac:v8351929",
    "trac:v8331947",
-   "trac:v8341733",
    "trac:v8378436",
    "trac:v8109487",
    "trac:v8257273",
@@ -6815,12 +6814,13 @@
    "trac:v8304160",
    "trac:v8089035",
    "trac:v8290342",
-   "trac:v8302667",
    "trac:v8132488",
    "trac:v8257570",
    "trac:v8258491",
    "trac:v8380234",
-   "trac:v8376611"
+   "trac:v8376611",
+   "trac:v8324512",
+   "trac:v8248897"
   ]
  },
  "Wellbeing practitioner 40mi": {
@@ -8280,7 +8280,7 @@
  ],
  "_zero": {
   "AP / psychology 40mi": 1789625277.042531,
-  "Charities - Nacro (own site)": 1793051709.6310227,
+  "Charities - Nacro (own site)": 1793140322.7716558,
   "Forensic 40mi": 1789625277.7857332,
   "Psychology wide 40mi": 1789625277.2355425,
   "St Andrew's Healthcare (own site)": 1789658070.8698184,
