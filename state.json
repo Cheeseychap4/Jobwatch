@@ -2,6 +2,14 @@
  "AP / psychology 40mi": {
   "seeded": true,
   "seen": [
+   "C9320-26-1156",
+   "C9320-26-1153",
+   "C9321-26-2077",
+   "C9321-26-2079",
+   "E0093-26-0071",
+   "A5841-26-0002",
+   "C0020-26-1680",
+   "L0034-26-4652",
    "C9321-26-2067",
    "A3283-26-0031",
    "C9365-26-0862-2",
@@ -593,15 +601,7 @@
    "C9203-26-0643",
    "C9365-26-0837",
    "B0374-26-0089",
-   "C9321-26-1945",
-   "E0176-26-0079",
-   "C9321-26-1939",
-   "C9320-26-1077",
-   "A4196-26-0002",
-   "C9218-26-1168",
-   "E0358-26-0590",
-   "C9253-26-0528",
-   "C9253-26-0527"
+   "C9321-26-1945"
   ]
  },
  "Charities - Catch22 (SmartRecruiters)": {
@@ -2502,8 +2502,6 @@
    "feed:https://careers.cygnetgroup.com/job/highly-specialist-speech-language-therapist-band-7-equivalent-2/",
    "feed:https://careers.cygnetgroup.com/job/regional-resuscitation-trainer/",
    "feed:https://careers.cygnetgroup.com/job/physical-health-nurse-rgn-2/",
-   "feed:https://careers.cygnetgroup.com/job/registered-mental-health-nurse-rmn-rnld-14/",
-   "feed:https://careers.cygnetgroup.com/job/senior-support-worker-26/",
    "feed:https://careers.cygnetgroup.com/job/support-worker-males-only/",
    "feed:https://careers.cygnetgroup.com/job/acting-team-leader-support-worker-6/",
    "feed:https://careers.cygnetgroup.com/job/support-worker-416/",
@@ -2567,7 +2565,6 @@
    "feed:https://careers.cygnetgroup.com/job/registered-mental-health-nurse-rmn-rnld-15/",
    "feed:https://careers.cygnetgroup.com/job/ward-clerk-102/",
    "feed:https://careers.cygnetgroup.com/job/support-worker-deaf-community-5/",
-   "feed:https://careers.cygnetgroup.com/job/speciality-doctor-5/",
    "feed:https://careers.cygnetgroup.com/job/support-worker-401/",
    "feed:https://careers.cygnetgroup.com/job/support-worker-haven-ward/",
    "feed:https://careers.cygnetgroup.com/job/male-bank-support-worker-2/",
@@ -2583,7 +2580,6 @@
    "feed:https://careers.cygnetgroup.com/job/bank-registered-mental-health-nurse-rmn-rnld-6/",
    "feed:https://careers.cygnetgroup.com/job/bank-healthcare-support-worker-19/",
    "feed:https://careers.cygnetgroup.com/job/registered-mental-health-nurse-rmn-95/",
-   "feed:https://careers.cygnetgroup.com/job/social-worker-assistant-3/",
    "feed:https://careers.cygnetgroup.com/job/consultant-psychiatrist-female-acute-12/",
    "feed:https://careers.cygnetgroup.com/job/maintenance-operative-49/",
    "feed:https://careers.cygnetgroup.com/job/bank-support-worker-189/",
@@ -2683,6 +2679,15 @@
    "feed:https://careers.cygnetgroup.com/job/regional-pbs-lead-yorkshire/",
    "feed:https://careers.cygnetgroup.com/job/support-worker-george-willard-ward/",
    "feed:https://careers.cygnetgroup.com/job/support-worker-greenacre-ward-2/",
+   "feed:https://careers.cygnetgroup.com/job/payroll-administrator-7/",
+   "feed:https://careers.cygnetgroup.com/job/payroll-administrator-8/",
+   "feed:https://careers.cygnetgroup.com/job/payroll-team-lead-3/",
+   "feed:https://careers.cygnetgroup.com/job/bank-support-worker-207/",
+   "feed:https://careers.cygnetgroup.com/job/team-leader-12/",
+   "feed:https://careers.cygnetgroup.com/job/registered-mental-health-nurse-rmn-rnld-14/",
+   "feed:https://careers.cygnetgroup.com/job/senior-support-worker-26/",
+   "feed:https://careers.cygnetgroup.com/job/speciality-doctor-5/",
+   "feed:https://careers.cygnetgroup.com/job/social-worker-assistant-3/",
    "feed:https://careers.cygnetgroup.com/job/chef-ftc-2/",
    "feed:https://careers.cygnetgroup.com/job/support-worker-468/",
    "feed:https://careers.cygnetgroup.com/job/support-worker-469/",
@@ -3037,12 +3042,7 @@
    "feed:https://careers.cygnetgroup.com/job/support-worker-part-time-24-hours-2/",
    "feed:https://careers.cygnetgroup.com/job/maintenance-assistant-37/",
    "feed:https://careers.cygnetgroup.com/job/maintenance-operative-part-time-3/",
-   "feed:https://careers.cygnetgroup.com/job/chef-24/",
-   "feed:https://careers.cygnetgroup.com/job/workshop-technical-instructor/",
-   "feed:https://careers.cygnetgroup.com/job/residential-service-manager/",
-   "feed:https://careers.cygnetgroup.com/job/team-leader-social-care/",
-   "feed:https://careers.cygnetgroup.com/job/bank-mental-health-support-worker-7/",
-   "feed:https://careers.cygnetgroup.com/job/apprentice-support-worker-2/"
+   "feed:https://careers.cygnetgroup.com/job/chef-24/"
   ]
  },
  "Forensic 40mi": {
@@ -3338,11 +3338,11 @@
   "seeded": true,
   "seen": [
    "moj:20591",
+   "moj:23954",
    "moj:20670",
    "moj:22973",
    "moj:22342",
    "moj:23254",
-   "moj:23253",
    "moj:20567",
    "moj:23811",
    "moj:22391",
@@ -3352,6 +3352,7 @@
    "moj:20617",
    "moj:23544",
    "moj:23786",
+   "moj:23253",
    "moj:23356",
    "moj:22724",
    "moj:23215",
@@ -4600,6 +4601,9 @@
  "Support worker / HCA 20mi": {
   "seeded": true,
   "seen": [
+   "C9320-26-1156",
+   "C0020-26-1677",
+   "C0020-26-1680",
    "A5718-26-0001",
    "A3064-26-0000",
    "C9321-26-2074",
@@ -5196,10 +5200,7 @@
    "E0233-26-2205",
    "C9444-26-0621",
    "C9444-26-0620",
-   "A2634-26-0004",
-   "C9284-26-0464",
-   "C9284-26-0466",
-   "C9284-26-0465"
+   "A2634-26-0004"
   ]
  },
  "TRAC discovery (all employers, newest pages)": {
@@ -7020,6 +7021,8 @@
  "Wellbeing practitioner 40mi": {
   "seeded": true,
   "seen": [
+   "C9321-26-2077",
+   "E0093-26-0071",
    "C9365-26-0862-2",
    "A5718-26-0001",
    "E0327-26-0610",
@@ -7617,9 +7620,7 @@
    "E0130-26-0065",
    "E0302-26-1257",
    "E0302-26-1255",
-   "E0302-26-1251",
-   "C9798-26-0122",
-   "C9327-26-0884"
+   "E0302-26-1251"
   ]
  },
  "_alerted": [
@@ -8523,8 +8524,8 @@
   "Psychology wide 40mi": 1789625277.2355425,
   "St Andrew's Healthcare (own site)": 1789658070.8698184,
   "Support worker / HCA 20mi": 1789625277.9810328,
-  "TRAC employers (source of truth)": 1793773783.7033048,
-  "TRAC support / HCA (source of truth)": 1793773785.5084438,
+  "TRAC employers (source of truth)": 1793867195.5180337,
+  "TRAC support / HCA (source of truth)": 1793867197.7782185,
   "Wellbeing practitioner 40mi": 1789625277.5903056
  }
 }
