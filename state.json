@@ -2,6 +2,10 @@
  "AP / psychology 40mi": {
   "seeded": true,
   "seen": [
+   "A0653-26-0004",
+   "C9301-26-1597",
+   "C9301-26-1596",
+   "C9301-26-1595",
    "E0197-26-0110",
    "E0197-26-0109",
    "E0197-26-0108",
@@ -597,16 +601,13 @@
    "C9327-26-0899",
    "A0142-26-0001",
    "D9118-26-0069",
-   "C0020-26-1632",
-   "C0020-26-1630",
-   "L0034-26-4429",
-   "C0020-26-1623",
-   "A0976-26-0001"
+   "C0020-26-1632"
   ]
  },
  "Charities - Catch22 (SmartRecruiters)": {
   "seeded": true,
   "seen": [
+   "sr-744000159940167",
    "sr-744000159901114",
    "sr-744000159886839",
    "sr-744000159861765",
@@ -737,6 +738,7 @@
  "Councils - Track B income (wmjobs)": {
   "seeded": true,
   "seen": [
+   "wmjobs-281446",
    "wmjobs-281439",
    "wmjobs-281437",
    "wmjobs-281435",
@@ -756,20 +758,20 @@
    "wmjobs-281394",
    "wmjobs-281384",
    "wmjobs-281383",
-   "wmjobs-281382",
+   "wmjobs-281441",
    "wmjobs-281426",
    "wmjobs-281399",
    "wmjobs-281407",
    "wmjobs-281389",
    "wmjobs-281387",
    "wmjobs-281386",
+   "wmjobs-281382",
    "wmjobs-281381",
    "wmjobs-281379",
    "wmjobs-281378",
    "wmjobs-281376",
    "wmjobs-281375",
    "wmjobs-281374",
-   "wmjobs-281373",
    "wmjobs-281385",
    "wmjobs-281299",
    "wmjobs-280157",
@@ -840,6 +842,7 @@
    "wmjobs-276369",
    "wmjobs-267988",
    "wmjobs-261227",
+   "wmjobs-281373",
    "wmjobs-281326",
    "wmjobs-281323",
    "wmjobs-281296",
@@ -1334,9 +1337,7 @@
    "wmjobs-279937",
    "wmjobs-279668",
    "wmjobs-279216",
-   "wmjobs-277764",
-   "wmjobs-279928",
-   "wmjobs-280007"
+   "wmjobs-277764"
   ]
  },
  "Councils - psychology-track (wmjobs)": {
@@ -1363,23 +1364,15 @@
    "wmjobs-279780",
    "wmjobs-279410",
    "wmjobs-281332",
-   "wmjobs-281299",
    "wmjobs-281295",
    "wmjobs-281259",
    "wmjobs-281155",
-   "wmjobs-281089",
    "wmjobs-281047",
-   "wmjobs-280879",
-   "wmjobs-278547",
    "wmjobs-280609",
-   "wmjobs-280542",
    "wmjobs-280539",
-   "wmjobs-280317",
    "wmjobs-280191",
-   "wmjobs-279890",
-   "wmjobs-279456",
-   "wmjobs-277372",
-   "wmjobs-273327",
+   "wmjobs-272946",
+   "wmjobs-281441",
    "wmjobs-281427",
    "wmjobs-281426",
    "wmjobs-281412",
@@ -1399,18 +1392,27 @@
    "wmjobs-281276",
    "wmjobs-281275",
    "wmjobs-281264",
-   "wmjobs-281263",
    "wmjobs-281141",
    "wmjobs-281104",
    "wmjobs-280519",
    "wmjobs-280518",
    "wmjobs-279921",
    "wmjobs-278264",
+   "wmjobs-281299",
+   "wmjobs-281089",
+   "wmjobs-280879",
+   "wmjobs-278547",
+   "wmjobs-280542",
+   "wmjobs-280317",
+   "wmjobs-279890",
+   "wmjobs-279456",
+   "wmjobs-277372",
+   "wmjobs-273327",
+   "wmjobs-281263",
    "wmjobs-279567",
    "wmjobs-279519",
    "wmjobs-279381",
    "wmjobs-278448",
-   "wmjobs-272946",
    "wmjobs-281261",
    "wmjobs-281251",
    "wmjobs-281228",
@@ -2720,6 +2722,7 @@
    "feed:https://careers.cygnetgroup.com/job/bank-registered-mental-health-nurse-rmn-4/",
    "feed:https://careers.cygnetgroup.com/job/bank-support-worker-204/",
    "feed:https://careers.cygnetgroup.com/job/therapydd-iaith-a-lleferydd-arbenigol-iawn-cyfwerth-a-band-7/",
+   "feed:https://careers.cygnetgroup.com/job/physical-health-assistant-part-time/",
    "feed:https://careers.cygnetgroup.com/job/activity-coordinator-38/",
    "feed:https://careers.cygnetgroup.com/job/camhs-consultant-psychiatrist-camhs-clinical-and-safeguarding-lead/",
    "feed:https://careers.cygnetgroup.com/job/registered-mental-health-nurse-rmn-rnld-part-tme/",
@@ -3075,8 +3078,7 @@
    "feed:https://careers.cygnetgroup.com/job/support-worker-397/",
    "feed:https://careers.cygnetgroup.com/job/assistant-chef-ftc/",
    "feed:https://careers.cygnetgroup.com/job/home-manager/",
-   "feed:https://careers.cygnetgroup.com/job/information-security-grc-analyst/",
-   "feed:https://careers.cygnetgroup.com/job/hospital-manager-11/"
+   "feed:https://careers.cygnetgroup.com/job/information-security-grc-analyst/"
   ]
  },
  "Forensic 40mi": {
@@ -4033,6 +4035,7 @@
  "Psychology wide 40mi": {
   "seeded": true,
   "seen": [
+   "C9301-26-1596",
    "M0035-26-0529",
    "C9203-26-0673",
    "C9321-26-2093",
@@ -4651,6 +4654,7 @@
  "Support worker / HCA 20mi": {
   "seeded": true,
   "seen": [
+   "C9301-26-1595",
    "E0197-26-0110",
    "E0197-26-0109",
    "M0035-26-0529",
@@ -5249,8 +5253,7 @@
    "C9820-26-0717",
    "C9820-26-0718",
    "C9820-26-0716",
-   "C9820-26-0715",
-   "C9820-26-0714"
+   "C9820-26-0715"
   ]
  },
  "TRAC discovery (all employers, newest pages)": {
@@ -7071,6 +7074,8 @@
  "Wellbeing practitioner 40mi": {
   "seeded": true,
   "seen": [
+   "E0455-26-0016",
+   "C9301-26-1597",
    "A1968-26-0018",
    "C9270-26-0899",
    "B0332-26-0055",
@@ -7668,9 +7673,7 @@
    "E0302-26-1269",
    "E0302-26-1265",
    "C9230-26-0323",
-   "C9301-26-1516",
-   "C9301-26-1515",
-   "C9301-26-1517"
+   "C9301-26-1516"
   ]
  },
  "_alerted": [
@@ -8579,7 +8582,7 @@
  ],
  "_zero": {
   "AP / psychology 40mi": 1789625277.042531,
-  "Charities - Nacro (own site)": 1793826695.3392167,
+  "Charities - Nacro (own site)": 1793917474.561755,
   "Forensic 40mi": 1789625277.7857332,
   "Psychology wide 40mi": 1789625277.2355425,
   "St Andrew's Healthcare (own site)": 1789658070.8698184,
