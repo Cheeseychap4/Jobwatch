@@ -2,6 +2,7 @@
  "AP / psychology 40mi": {
   "seeded": true,
   "seen": [
+   "C9313-26-0510",
    "A2970-26-0038",
    "C9267-26-1320",
    "C9267-26-1313",
@@ -600,8 +601,7 @@
    "C9270-26-0870",
    "A2800-26-0006",
    "C9230-26-0326",
-   "B0201-HO-PSL-36-FTC-1",
-   "C9436-26-0707"
+   "B0201-HO-PSL-36-FTC-1"
   ]
  },
  "Charities - Catch22 (SmartRecruiters)": {
@@ -837,10 +837,10 @@
    "wmjobs-279899",
    "wmjobs-279805",
    "wmjobs-279773",
-   "wmjobs-279483",
    "wmjobs-278542",
    "wmjobs-267988",
    "wmjobs-261227",
+   "wmjobs-279483",
    "wmjobs-281462",
    "wmjobs-281367",
    "wmjobs-281446",
@@ -7105,6 +7105,7 @@
  "Wellbeing practitioner 40mi": {
   "seeded": true,
   "seen": [
+   "C0020-26-1728",
    "B0025-26-0066",
    "A2970-26-0038",
    "C9267-26-1321",
@@ -7703,8 +7704,7 @@
    "C9320-26-1072",
    "E0176-26-0079",
    "C9264-26-0630",
-   "E0358-26-0590",
-   "C9253-26-0528"
+   "E0358-26-0590"
   ]
  },
  "_alerted": [
@@ -8615,7 +8615,7 @@
  ],
  "_zero": {
   "AP / psychology 40mi": 1789625277.042531,
-  "Charities - Nacro (own site)": 1793917474.561755,
+  "Charities - Nacro (own site)": 1794003987.100799,
   "Forensic 40mi": 1789625277.7857332,
   "Psychology wide 40mi": 1789625277.2355425,
   "St Andrew's Healthcare (own site)": 1789658070.8698184,
