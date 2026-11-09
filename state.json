@@ -739,6 +739,7 @@
  "Councils - Track B income (wmjobs)": {
   "seeded": true,
   "seen": [
+   "wmjobs-281701",
    "wmjobs-281700",
    "wmjobs-281699",
    "wmjobs-281698",
@@ -758,7 +759,6 @@
    "wmjobs-281642",
    "wmjobs-281633",
    "wmjobs-281623",
-   "wmjobs-281622",
    "wmjobs-281692",
    "wmjobs-281620",
    "wmjobs-281619",
@@ -766,7 +766,6 @@
    "wmjobs-281594",
    "wmjobs-281591",
    "wmjobs-281587",
-   "wmjobs-280576",
    "wmjobs-281486",
    "wmjobs-281385",
    "wmjobs-281299",
@@ -802,9 +801,11 @@
    "wmjobs-281597",
    "wmjobs-281592",
    "wmjobs-281586",
+   "wmjobs-280576",
    "wmjobs-281577",
    "wmjobs-281576",
    "wmjobs-281562",
+   "wmjobs-281622",
    "wmjobs-281499",
    "wmjobs-281395",
    "wmjobs-281356",
@@ -1337,8 +1338,7 @@
    "wmjobs-280152",
    "wmjobs-280151",
    "wmjobs-279894",
-   "wmjobs-280140",
-   "wmjobs-280124"
+   "wmjobs-280140"
   ]
  },
  "Councils - psychology-track (wmjobs)": {
@@ -3419,9 +3419,9 @@
   "seen": [
    "moj:20591",
    "moj:23998",
-   "moj:20670",
    "moj:22973",
    "moj:23954",
+   "moj:20670",
    "moj:22342",
    "moj:20567",
    "moj:23969",
@@ -4726,9 +4726,9 @@
    "C9284-26-0511",
    "C0020-26-1716",
    "C0020-26-1717",
+   "C9820-26-0780",
    "C9820-26-0781",
    "C9218-26-1394",
-   "C9820-26-0780",
    "C9820-26-0779",
    "C9820-26-0778",
    "L0034-26-4715",
