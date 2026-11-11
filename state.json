@@ -2,6 +2,16 @@
  "AP / psychology 40mi": {
   "seeded": true,
   "seen": [
+   "C9285-26-0771",
+   "A1320-26-0010",
+   "U0080-2026-21890",
+   "A1320-26-0009",
+   "A2503-26-0005",
+   "A3718-26-0006",
+   "A4196-26-0004",
+   "C9320-26-1201",
+   "C9320-26-1202",
+   "C0020-26-1749",
    "L0034-26-4753",
    "L0034-26-4751",
    "L0034-26-4750",
@@ -27,6 +37,7 @@
    "C9313-26-0514",
    "C9313-26-0513",
    "C9436-26-0758",
+   "A2503-26-0004",
    "C9436-26-0759",
    "C9218-26-1402",
    "A4522-26-0003",
@@ -590,18 +601,7 @@
    "C9444-26-0647",
    "C9407-26-0415",
    "C9407-26-0418",
-   "L0014-26-2035",
-   "A2221-26-0000",
-   "C9407-26-0412",
-   "C9301-26-1542",
-   "C9203-26-0651",
-   "E0046-26-0053",
-   "C9203-26-0652",
-   "C9301-26-1541",
-   "A3182-26-0008",
-   "C9218-26-1327",
-   "C9218-26-1326",
-   "C9218-26-1325"
+   "L0014-26-2035"
   ]
  },
  "Charities - Catch22 (SmartRecruiters)": {
@@ -760,6 +760,8 @@
    "wmjobs-281747",
    "wmjobs-281772",
    "wmjobs-281768",
+   "wmjobs-281856",
+   "wmjobs-281854",
    "wmjobs-281843",
    "wmjobs-281834",
    "wmjobs-281832",
@@ -770,7 +772,6 @@
    "wmjobs-281803",
    "wmjobs-281802",
    "wmjobs-281798",
-   "wmjobs-281775",
    "wmjobs-281649",
    "wmjobs-281633",
    "wmjobs-281486",
@@ -846,6 +847,7 @@
    "wmjobs-278542",
    "wmjobs-267988",
    "wmjobs-261227",
+   "wmjobs-281775",
    "wmjobs-281473",
    "wmjobs-281741",
    "wmjobs-281759",
@@ -1337,9 +1339,7 @@
    "wmjobs-278775",
    "wmjobs-280344",
    "wmjobs-278829",
-   "wmjobs-278696",
-   "wmjobs-280143",
-   "wmjobs-280155"
+   "wmjobs-278696"
   ]
  },
  "Councils - psychology-track (wmjobs)": {
@@ -2808,6 +2808,9 @@
    "feed:https://careers.cygnetgroup.com/job/learning-and-development-trainer-north/",
    "feed:https://careers.cygnetgroup.com/job/support-worker-439/",
    "feed:https://careers.cygnetgroup.com/job/night-coordinator-rmn/",
+   "feed:https://careers.cygnetgroup.com/job/payroll-administrator-9/",
+   "feed:https://careers.cygnetgroup.com/job/ward-manager-4/",
+   "feed:https://careers.cygnetgroup.com/job/weekend-receptionist-6/",
    "feed:https://careers.cygnetgroup.com/job/learning-disabilities-support-worker-10/",
    "feed:https://careers.cygnetgroup.com/job/clinical-counselling-psychologist/",
    "feed:https://careers.cygnetgroup.com/job/hr-onboarding-assistant-12-month-ftc-4/",
@@ -2829,7 +2832,6 @@
    "feed:https://careers.cygnetgroup.com/job/housekeeper-222/",
    "feed:https://careers.cygnetgroup.com/job/acting-team-leader-3/",
    "feed:https://careers.cygnetgroup.com/job/consultant-neuropsychiatrist-11/",
-   "feed:https://careers.cygnetgroup.com/job/ward-manager-4/",
    "feed:https://careers.cygnetgroup.com/job/consultant-psychiatrist-female-pd/",
    "feed:https://careers.cygnetgroup.com/job/consultant-psychiatrist-male-picu-medical-director-option-available/",
    "feed:https://careers.cygnetgroup.com/job/occupational-therapist-band-5-38/",
@@ -3151,14 +3153,13 @@
    "feed:https://careers.cygnetgroup.com/job/bank-registered-nurse-rmn-rnld-8/",
    "feed:https://careers.cygnetgroup.com/job/support-worker-429/",
    "feed:https://careers.cygnetgroup.com/job/medical-secretaty/",
-   "feed:https://careers.cygnetgroup.com/job/lead-admin/",
-   "feed:https://careers.cygnetgroup.com/job/pt-hk/",
-   "feed:https://careers.cygnetgroup.com/job/registered-general-nurse/"
+   "feed:https://careers.cygnetgroup.com/job/lead-admin/"
   ]
  },
  "Forensic 40mi": {
   "seeded": true,
   "seen": [
+   "C9285-26-0770",
    "C9186-26-0835",
    "B0354-26-0064",
    "C9436-26-0754",
@@ -3750,7 +3751,7 @@
    "feed:https://ppghealthinjusticeweb.eploy.net/vacancies/15699/pharmacy-technician.html",
    "feed:https://ppghealthinjusticeweb.eploy.net/vacancies/15700/primary-care-nurse.html",
    "feed:https://ppghealthinjusticeweb.eploy.net/vacancies/15704/primary-care-nurse.html",
-   "feed:https://ppghealthinjusticeweb.eploy.net/vacancies/15724/preceptorship-psychologist-12-month-fixed-term-contract.html",
+   "feed:https://ppghealthinjusticeweb.eploy.net/vacancies/15724/senior-psychologist-12-month-fixed-term-contract.html",
    "feed:https://ppghealthinjusticeweb.eploy.net/vacancies/15727/general-practitioner--out-of-hours.html",
    "feed:https://ppghealthinjusticeweb.eploy.net/vacancies/15735/physiotherapist.html",
    "feed:https://ppghealthinjusticeweb.eploy.net/vacancies/15736/senior-substance-misuse-nurse.html",
@@ -3816,6 +3817,7 @@
    "feed:https://ppghealthinjusticeweb.eploy.net/vacancies/15894/senior-primary-care-nurse.html",
    "feed:https://ppghealthinjusticeweb.eploy.net/vacancies/15895/patient-engagement-lead.html",
    "feed:https://ppghealthinjusticeweb.eploy.net/vacancies/15896/primary-care-nurse.html",
+   "feed:https://ppghealthinjusticeweb.eploy.net/vacancies/15724/preceptorship-psychologist-12-month-fixed-term-contract.html",
    "feed:https://apply.practiceplushij.com/vacancies/14270/psychologist.html",
    "feed:https://apply.practiceplushij.com/vacancies/14413/healthcare-assistant--nights.html",
    "feed:https://apply.practiceplushij.com/vacancies/14443/psychologist.html",
@@ -4116,13 +4118,16 @@
    "feed:https://ppghealthinjusticeweb.eploy.net/vacancies/15710/senior-mental-health-nurse.html",
    "feed:https://apply.practiceplushij.com/vacancies/15254/bank-general-practitioner.html",
    "feed:https://ppghealthinjusticeweb.eploy.net/vacancies/15254/bank-general-practitioner.html",
-   "feed:https://apply.practiceplushij.com/vacancies/15052/night-nurse.html",
-   "feed:https://apply.practiceplushij.com/vacancies/15134/primary-care-clinical-lead.html"
+   "feed:https://apply.practiceplushij.com/vacancies/15052/night-nurse.html"
   ]
  },
  "Psychology wide 40mi": {
   "seeded": true,
   "seen": [
+   "C9285-26-0771",
+   "C9798-26-0186",
+   "A2503-26-0005",
+   "C9186-26-0837",
    "C9365-26-0471",
    "C9436-26-0758",
    "C9436-26-0759",
@@ -4153,6 +4158,7 @@
    "C9321-26-2093",
    "C0020-26-1712",
    "C9436-26-0748",
+   "A2503-26-0004",
    "C9267-26-1305",
    "C9285-26-0758",
    "B0475-26-0103",
@@ -4717,12 +4723,7 @@
    "C9333-26-1169",
    "C9285-26-0565",
    "C9436-26-0605",
-   "C9444-26-0531",
-   "C9798-2609",
-   "C9285-26-0559",
-   "C9285-26-0557",
-   "C9265-26-0609",
-   "C9798-2608Worcs"
+   "C9444-26-0531"
   ]
  },
  "St Andrew's Healthcare (own site)": {
@@ -4745,6 +4746,8 @@
  "Support worker / HCA 20mi": {
   "seeded": true,
   "seen": [
+   "C0020-26-1737",
+   "E0279-26-3097",
    "L0034-26-4747",
    "L0034-26-4744",
    "C9365-26-0884",
@@ -5342,9 +5345,7 @@
    "B0158-26-0133",
    "E0365-26-0446",
    "E0365-26-0422",
-   "C9308-26-0170",
-   "C9444-26-0624",
-   "E0302-26-1246"
+   "C9308-26-0170"
   ]
  },
  "TRAC discovery (all employers, newest pages)": {
@@ -7165,6 +7166,16 @@
  "Wellbeing practitioner 40mi": {
   "seeded": true,
   "seen": [
+   "C9285-26-0771",
+   "A1320-26-0010",
+   "C9798-26-0186",
+   "U0080-2026-21890",
+   "A1968-26-0020",
+   "A2503-26-0005",
+   "C9186-26-0837",
+   "C0020-26-1749",
+   "E0279-26-3102",
+   "E0279-26-3097",
    "L0034-26-4753",
    "L0034-26-4751",
    "L0034-26-4748",
@@ -7192,6 +7203,7 @@
    "A1764-26-0002",
    "C9267-26-1335",
    "C9267-26-1328",
+   "A2503-26-0004",
    "C9203-26-0684",
    "E0233-26-2419",
    "C9186-26-0834",
@@ -7753,18 +7765,7 @@
    "C9798-26-0128",
    "C9267-26-1258",
    "C9365-26-0843",
-   "C9381-26-0443",
-   "C9320-26-1082",
-   "C9267-26-1253",
-   "C9267-26-1254",
-   "C9313-26-0477",
-   "C9164-26-1003",
-   "C9270-26-0870",
-   "C9327-26-0904",
-   "C9218-26-1309",
-   "B0333-26-0118",
-   "C9218-26-1312",
-   "C9218-26-1314"
+   "C9381-26-0443"
   ]
  },
  "_alerted": [
