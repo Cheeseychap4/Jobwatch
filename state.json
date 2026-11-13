@@ -2,6 +2,9 @@
  "AP / psychology 40mi": {
   "seeded": true,
   "seen": [
+   "L0034-26-4828",
+   "L0034-26-4827",
+   "L0034-26-4826",
    "L0034-26-4823",
    "L0034-26-4821",
    "L0014-26-2214",
@@ -598,10 +601,7 @@
    "C9321-26-2021",
    "C9321-26-2020",
    "C9321-26-2019",
-   "C9267-26-1270",
-   "C9225-26-0784",
-   "C9320-26-1116",
-   "A0790-26-0019"
+   "C9267-26-1270"
   ]
  },
  "Charities - Catch22 (SmartRecruiters)": {
@@ -747,6 +747,8 @@
  "Councils - Track B income (wmjobs)": {
   "seeded": true,
   "seen": [
+   "wmjobs-282240",
+   "wmjobs-282239",
    "wmjobs-282229",
    "wmjobs-282223",
    "wmjobs-282219",
@@ -765,8 +767,8 @@
    "wmjobs-282185",
    "wmjobs-282180",
    "wmjobs-282178",
-   "wmjobs-282162",
-   "wmjobs-282149",
+   "wmjobs-282237",
+   "wmjobs-282236",
    "wmjobs-282231",
    "wmjobs-282215",
    "wmjobs-282177",
@@ -782,8 +784,6 @@
    "wmjobs-282053",
    "wmjobs-282036",
    "wmjobs-282034",
-   "wmjobs-282017",
-   "wmjobs-282014",
    "wmjobs-281907",
    "wmjobs-281649",
    "wmjobs-281633",
@@ -796,8 +796,10 @@
    "wmjobs-279970",
    "wmjobs-278797",
    "wmjobs-275582",
+   "wmjobs-282241",
    "wmjobs-282218",
    "wmjobs-282143",
+   "wmjobs-282140",
    "wmjobs-282072",
    "wmjobs-282049",
    "wmjobs-281924",
@@ -808,10 +810,6 @@
    "wmjobs-281850",
    "wmjobs-281849",
    "wmjobs-281820",
-   "wmjobs-281768",
-   "wmjobs-281712",
-   "wmjobs-281706",
-   "wmjobs-281699",
    "wmjobs-282224",
    "wmjobs-282220",
    "wmjobs-282217",
@@ -819,14 +817,14 @@
    "wmjobs-282182",
    "wmjobs-282104",
    "wmjobs-282052",
+   "wmjobs-282017",
    "wmjobs-282016",
    "wmjobs-282011",
    "wmjobs-281998",
    "wmjobs-281974",
-   "wmjobs-281935",
-   "wmjobs-281916",
    "wmjobs-282019",
    "wmjobs-281946",
+   "wmjobs-281916",
    "wmjobs-281887",
    "wmjobs-281881",
    "wmjobs-281869",
@@ -836,11 +834,11 @@
    "wmjobs-281766",
    "wmjobs-281739",
    "wmjobs-281723",
+   "wmjobs-281706",
    "wmjobs-281704",
    "wmjobs-281622",
    "wmjobs-281499",
    "wmjobs-281395",
-   "wmjobs-281356",
    "wmjobs-281926",
    "wmjobs-281885",
    "wmjobs-281833",
@@ -858,6 +856,14 @@
    "wmjobs-278542",
    "wmjobs-267988",
    "wmjobs-261227",
+   "wmjobs-282162",
+   "wmjobs-282149",
+   "wmjobs-282014",
+   "wmjobs-281768",
+   "wmjobs-281712",
+   "wmjobs-281699",
+   "wmjobs-281935",
+   "wmjobs-281356",
    "wmjobs-282107",
    "wmjobs-281858",
    "wmjobs-282103",
@@ -1340,13 +1346,7 @@
    "wmjobs-277852",
    "wmjobs-280739",
    "wmjobs-280643",
-   "wmjobs-280636",
-   "wmjobs-280616",
-   "wmjobs-280609",
-   "wmjobs-280589",
-   "wmjobs-280572",
-   "wmjobs-280626",
-   "wmjobs-280614"
+   "wmjobs-280636"
   ]
  },
  "Councils - psychology-track (wmjobs)": {
@@ -7219,6 +7219,8 @@
  "Wellbeing practitioner 40mi": {
   "seeded": true,
   "seen": [
+   "L0034-26-4828",
+   "L0034-26-4826",
    "C0020-26-1770",
    "M0042-26-0351",
    "C9203-26-0446",
@@ -7816,9 +7818,7 @@
    "A1968-26-0015",
    "E0302-26-1286",
    "E0302-26-1294",
-   "E0302-26-1293",
-   "C9301-26-1548",
-   "C9301-26-1549"
+   "E0302-26-1293"
   ]
  },
  "_alerted": [
@@ -8758,8 +8758,8 @@
   "Psychology wide 40mi": 1789625277.2355425,
   "St Andrew's Healthcare (own site)": 1789658070.8698184,
   "Support worker / HCA 20mi": 1789625277.9810328,
-  "TRAC employers (source of truth)": 1794516189.259271,
-  "TRAC support / HCA (source of truth)": 1794516192.186466,
+  "TRAC employers (source of truth)": 1794609620.0388355,
+  "TRAC support / HCA (source of truth)": 1794609622.5579505,
   "Wellbeing practitioner 40mi": 1789625277.5903056
  }
 }
